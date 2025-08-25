@@ -4,7 +4,7 @@ interface MermaidDiagramProps {
   code: string;
 }
 
-export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ code }) => {
+export const MermaidDiagramSudo: React.FC<MermaidDiagramProps> = ({ code }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ code }) => {
             <div class="text-sm text-blue-800 mb-2 font-medium">Mermaid Diagram:</div>
             <pre class="text-xs text-blue-700 whitespace-pre-wrap">${code}</pre>
             <div class="mt-3 text-xs text-blue-600">
-              💡 This diagram would render as a visual flowchart in a full implementation with the Mermaid library.
+              💡 This diagram would render as a visual flowchart in  full implementation below.
             </div>
           </div>
         `;

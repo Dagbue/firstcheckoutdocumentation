@@ -27,7 +27,7 @@ export const PrerequisitesSection: React.FC = () => {
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-700">Access to the merchant portal at <a href="https://paymentsolutionweb.azurewebsites.net" className="text-blue-600 hover:text-blue-700 underline">paymentsolutionweb.azurewebsites.net</a></span>
+                <span className="text-gray-700">Access to the merchant portal at <a href="https://www.firstchekout.com/" className="text-blue-600 hover:text-blue-700 underline">https://www.firstchekout.com</a></span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />

@@ -350,7 +350,7 @@ export const CdnScriptSection: React.FC = () => {
             <CodeBlock language="php" code={phpIntegrationCode} />
           </div>
 
-          <div>
+          <div style={{display: "none"}}>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Advanced E-commerce Example</h3>
             <p className="text-gray-600 mb-4">
               Complete e-commerce integration with product selection and payment method options:

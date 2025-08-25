@@ -1,17 +1,21 @@
 import React from 'react';
-import { Key, Shield, Eye, EyeOff, Copy, Check, AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
+import { Key, Shield,
+  // Eye, EyeOff, Copy, Check,
+  AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
+import {apiKeyDashImage} from "../../assets";
+
 
 export const ApiKeysSection: React.FC = () => {
-  const [showSecret, setShowSecret] = React.useState(false);
-  const [showClientSecret, setShowClientSecret] = React.useState(false);
-  const [copiedField, setCopiedField] = React.useState<string | null>(null);
+  // const [showSecret, setShowSecret] = React.useState(false);
+  // const [showClientSecret, setShowClientSecret] = React.useState(false);
+  // const [copiedField, setCopiedField] = React.useState<string | null>(null);
 
-  const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    setTimeout(() => setCopiedField(null), 2000);
-  };
+  // const copyToClipboard = (text: string, field: string) => {
+  //   navigator.clipboard.writeText(text);
+  //   setCopiedField(field);
+  //   setTimeout(() => setCopiedField(null), 2000);
+  // };
 
   const tokenGenerationCode = `curl --location 'https://payment-solution-identity.azurewebsites.net/api/v2/Authenticate/token' \\
 --header 'Content-Type: application/x-www-form-urlencoded' \\
@@ -25,12 +29,12 @@ export const ApiKeysSection: React.FC = () => {
   "expires_in": 36000
 }`;
 
-  const sampleCredentials = {
-    clientId: "cid-J1MWSNKBCG8ML6TE7VMB9SOMW17F3CHDBBIPY30",
-    clientSecret: "sb-bb7a2VHsXkaHiDe2vbXJDvFwtkRG6bh2k3l98Zho2f9bk2zpQ8nGdp2b829ov",
-    gatewayBaseUrl: "Note test details are different from production baseurl",
-    tokenBaseUrl: "Note test det"
-  };
+  // const sampleCredentials = {
+  //   clientId: "cid-J1MWSNKBCG8ML6TE7VMB9SOMW17F3CHDBBIPY30",
+  //   clientSecret: "sb-bb7a2VHsXkaHiDe2vbXJDvFwtkRG6bh2k3l98Zho2f9bk2zpQ8nGdp2b829ov",
+  //   gatewayBaseUrl: "Note test details are different from production baseurl",
+  //   tokenBaseUrl: "Note test det"
+  // };
 
   const envExample = `# Environment Variables (.env)
 # NEVER commit this file to version control!
@@ -73,7 +77,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
       title: "Access Merchant Dashboard",
       description: "Login to your merchant portal to access API credentials",
       details: [
-        "Visit the merchant portal at paymentsolutionweb.azurewebsites.net",
+        "Visit the merchant portal at www.firstchekout.com",
         "Login with your verified credentials",
         "Navigate to the API Keys section",
         "Ensure your account status shows as 'Active'",
@@ -113,18 +117,16 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
     <section id="api-keys" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {/* Header Section */}
-        <div className="text-center mb-8">
+        <div className="text-left mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            FirstCheckout Payment Gateway Job Card
+            API Integration for Merchant
           </h2>
-          <div className="bg-bank-blue text-white px-4 py-2 rounded-lg inline-block mb-4">
-            <h3 className="text-lg font-semibold">API Integration for Merchant</h3>
-          </div>
-          <p className="text-lg text-gray-600 max-w-4xl mx-auto">
-            This job card outlines how to provide a step-by-step integration to the FirstCheckout Platform via 
-            API for each of the available Payment Methods (Card, USSD, etc.). This API service can be used 
-            with any programming language and the encryption method to be used would be shared in the Appendix 
-            for Few Languages which can be reproduced in any language.
+          <p className="text-lg text-gray-600 max-w-4xl ">
+            This document provides a step-by-step guide to integrating with the FirstCheckout Platform via API across
+            all supported payment methods. The platform supports a wide range of channels including Card, USSD,
+            Bank Account, Virtual Account, Bank Transfer, e-Naira, SoftPOS, Wallet, QR,
+            and Buy Now Pay Later (BNPL). Integration can be implemented in any programming language, with
+            encryption guidelines provided in the Appendix for selected languages and reproducible in others.
           </p>
         </div>
 
@@ -150,117 +152,126 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
         {/* Dashboard Preview */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Merchant Dashboard Interface</h3>
-          <div className="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-              {/* Simulated Dashboard Header */}
-              <div className="flex items-center justify-between mb-6 pb-4 border-b">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-bank-blue rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm font-bold">FC</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">FirstCheckout Dashboard</h4>
-                    <p className="text-sm text-gray-500">Merchant Portal</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Active</span>
-                </div>
-              </div>
 
-              {/* API Keys Section */}
-              <div className="mb-6">
-                <h5 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <Key className="h-5 w-5 mr-2" />
-                  API Keys and Web hooks
-                </h5>
-                
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Public Key</label>
-                      <div className="flex items-center">
-                        <input 
-                          type="text" 
-                          value="pk_live_your_public_key_here"
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"
-                          readOnly
-                        />
-                        <button 
-                          onClick={() => copyToClipboard("pk_live_your_public_key_here", "public")}
-                          className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"
-                        >
-                          {copiedField === "public" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Secret Key</label>
-                      <div className="flex items-center">
-                        <input 
-                          type={showSecret ? "text" : "password"}
-                          value="sk_live_your_secret_key_here"
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"
-                          readOnly
-                        />
-                        <button 
-                          onClick={() => setShowSecret(!showSecret)}
-                          className="px-3 py-2 border-t border-b border-gray-300 bg-white hover:bg-gray-50"
-                        >
-                          {showSecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </button>
-                        <button 
-                          onClick={() => copyToClipboard("sk_live_your_secret_key_here", "secret")}
-                          className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"
-                        >
-                          {copiedField === "secret" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Encryption Key</label>
-                    <div className="flex items-center">
-                      <input 
-                        type="password"
-                        value="your_32_character_encryption_key_here"
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"
-                        readOnly
-                      />
-                      <button 
-                        onClick={() => copyToClipboard("your_32_character_encryption_key_here", "encryption")}
-                        className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"
-                      >
-                        {copiedField === "encryption" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Webhooks Section */}
-              <div>
-                <h5 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <Database className="h-5 w-5 mr-2" />
-                  Webhooks
-                </h5>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Callback URL</label>
-                  <input 
-                    type="url" 
-                    placeholder="https://your-domain.com/webhook/firstcheckout"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-sm"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    URL where FirstCheckout will send payment notifications
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div>
+            <img
+                src={apiKeyDashImage}
+                alt="FirstCheckout Registration Form"
+            />
           </div>
+
+
+          {/*<div className="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">*/}
+          {/*  <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">*/}
+          {/*    /!* Simulated Dashboard Header *!/*/}
+          {/*    <div className="flex items-center justify-between mb-6 pb-4 border-b">*/}
+          {/*      <div className="flex items-center">*/}
+          {/*        <div className="w-8 h-8 bg-bank-blue rounded-full flex items-center justify-center mr-3">*/}
+          {/*          <span className="text-white text-sm font-bold">FC</span>*/}
+          {/*        </div>*/}
+          {/*        <div>*/}
+          {/*          <h4 className="font-semibold text-gray-900">FirstCheckout Dashboard</h4>*/}
+          {/*          <p className="text-sm text-gray-500">Merchant Portal</p>*/}
+          {/*        </div>*/}
+          {/*      </div>*/}
+          {/*      <div className="flex items-center space-x-2">*/}
+          {/*        <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Live</span>*/}
+          {/*        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Active</span>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+
+          {/*    /!* API Keys Section *!/*/}
+          {/*    <div className="mb-6">*/}
+          {/*      <h5 className="font-semibold text-gray-900 mb-4 flex items-center">*/}
+          {/*        <Key className="h-5 w-5 mr-2" />*/}
+          {/*        API Keys and Web hooks*/}
+          {/*      </h5>*/}
+          {/*      */}
+          {/*      <div className="space-y-4">*/}
+          {/*        <div className="grid md:grid-cols-2 gap-4">*/}
+          {/*          <div className="bg-gray-50 p-4 rounded-lg">*/}
+          {/*            <label className="block text-sm font-medium text-gray-700 mb-2">Public Key</label>*/}
+          {/*            <div className="flex items-center">*/}
+          {/*              <input */}
+          {/*                type="text" */}
+          {/*                value="pk_live_your_public_key_here"*/}
+          {/*                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"*/}
+          {/*                readOnly*/}
+          {/*              />*/}
+          {/*              <button */}
+          {/*                onClick={() => copyToClipboard("pk_live_your_public_key_here", "public")}*/}
+          {/*                className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"*/}
+          {/*              >*/}
+          {/*                {copiedField === "public" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}*/}
+          {/*              </button>*/}
+          {/*            </div>*/}
+          {/*          </div>*/}
+
+          {/*          <div className="bg-gray-50 p-4 rounded-lg">*/}
+          {/*            <label className="block text-sm font-medium text-gray-700 mb-2">Secret Key</label>*/}
+          {/*            <div className="flex items-center">*/}
+          {/*              <input */}
+          {/*                type={showSecret ? "text" : "password"}*/}
+          {/*                value="sk_live_your_secret_key_here"*/}
+          {/*                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"*/}
+          {/*                readOnly*/}
+          {/*              />*/}
+          {/*              <button */}
+          {/*                onClick={() => setShowSecret(!showSecret)}*/}
+          {/*                className="px-3 py-2 border-t border-b border-gray-300 bg-white hover:bg-gray-50"*/}
+          {/*              >*/}
+          {/*                {showSecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}*/}
+          {/*              </button>*/}
+          {/*              <button */}
+          {/*                onClick={() => copyToClipboard("sk_live_your_secret_key_here", "secret")}*/}
+          {/*                className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"*/}
+          {/*              >*/}
+          {/*                {copiedField === "secret" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}*/}
+          {/*              </button>*/}
+          {/*            </div>*/}
+          {/*          </div>*/}
+          {/*        </div>*/}
+
+          {/*        <div className="bg-gray-50 p-4 rounded-lg">*/}
+          {/*          <label className="block text-sm font-medium text-gray-700 mb-2">Encryption Key</label>*/}
+          {/*          <div className="flex items-center">*/}
+          {/*            <input */}
+          {/*              type="password"*/}
+          {/*              value="your_32_character_encryption_key_here"*/}
+          {/*              className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-white text-sm"*/}
+          {/*              readOnly*/}
+          {/*            />*/}
+          {/*            <button */}
+          {/*              onClick={() => copyToClipboard("your_32_character_encryption_key_here", "encryption")}*/}
+          {/*              className="px-3 py-2 bg-bank-blue text-white rounded-r-md hover:bg-opacity-90 transition-colors"*/}
+          {/*            >*/}
+          {/*              {copiedField === "encryption" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}*/}
+          {/*            </button>*/}
+          {/*          </div>*/}
+          {/*        </div>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+
+          {/*    /!* Webhooks Section *!/*/}
+          {/*    <div>*/}
+          {/*      <h5 className="font-semibold text-gray-900 mb-4 flex items-center">*/}
+          {/*        <Database className="h-5 w-5 mr-2" />*/}
+          {/*        Webhooks*/}
+          {/*      </h5>*/}
+          {/*      <div className="bg-gray-50 p-4 rounded-lg">*/}
+          {/*        <label className="block text-sm font-medium text-gray-700 mb-2">Callback URL</label>*/}
+          {/*        <input */}
+          {/*          type="url" */}
+          {/*          placeholder="https://your-domain.com/webhook/firstcheckout"*/}
+          {/*          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-sm"*/}
+          {/*        />*/}
+          {/*        <p className="text-xs text-gray-500 mt-1">*/}
+          {/*          URL where FirstCheckout will send payment notifications*/}
+          {/*        </p>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
 
         {/* Step-by-Step Key Management */}
@@ -306,66 +317,66 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
         </div>
 
         {/* Sample Credentials from Document */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Sample API Credentials</h3>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-            <p className="text-blue-800 mb-4">
-              Below are sample credentials as referenced in the job card document. 
-              <strong>Note:</strong> Test details are different from production base URLs.
-            </p>
-            
-            <div className="space-y-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="font-semibold text-gray-900">Client ID</label>
-                  <button 
-                    onClick={() => copyToClipboard(sampleCredentials.clientId, "sample-client-id")}
-                    className="text-blue-600 hover:text-blue-700"
-                  >
-                    {copiedField === "sample-client-id" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </button>
-                </div>
-                <code className="text-sm bg-gray-100 p-2 rounded block break-all">
-                  {sampleCredentials.clientId}
-                </code>
-              </div>
+        {/*<div className="mb-8">*/}
+        {/*  <h3 className="text-xl font-semibold text-gray-900 mb-4">Sample API Credentials</h3>*/}
+        {/*  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">*/}
+        {/*    <p className="text-blue-800 mb-4">*/}
+        {/*      Below are sample credentials as referenced in the job card document. */}
+        {/*      <strong>Note:</strong> Test details are different from production base URLs.*/}
+        {/*    </p>*/}
+        {/*    */}
+        {/*    <div className="space-y-4">*/}
+        {/*      <div className="bg-white p-4 rounded-lg">*/}
+        {/*        <div className="flex items-center justify-between mb-2">*/}
+        {/*          <label className="font-semibold text-gray-900">Client ID</label>*/}
+        {/*          <button */}
+        {/*            onClick={() => copyToClipboard(sampleCredentials.clientId, "sample-client-id")}*/}
+        {/*            className="text-blue-600 hover:text-blue-700"*/}
+        {/*          >*/}
+        {/*            {copiedField === "sample-client-id" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}*/}
+        {/*          </button>*/}
+        {/*        </div>*/}
+        {/*        <code className="text-sm bg-gray-100 p-2 rounded block break-all">*/}
+        {/*          {sampleCredentials.clientId}*/}
+        {/*        </code>*/}
+        {/*      </div>*/}
 
-              <div className="bg-white p-4 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="font-semibold text-gray-900">Client Secret</label>
-                  <div className="flex items-center space-x-2">
-                    <button 
-                      onClick={() => setShowClientSecret(!showClientSecret)}
-                      className="text-gray-600 hover:text-gray-700"
-                    >
-                      {showClientSecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                    <button 
-                      onClick={() => copyToClipboard(sampleCredentials.clientSecret, "sample-client-secret")}
-                      className="text-blue-600 hover:text-blue-700"
-                    >
-                      {copiedField === "sample-client-secret" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
-                <code className="text-sm bg-gray-100 p-2 rounded block break-all">
-                  {showClientSecret ? sampleCredentials.clientSecret : '•'.repeat(sampleCredentials.clientSecret.length)}
-                </code>
-              </div>
+        {/*      <div className="bg-white p-4 rounded-lg">*/}
+        {/*        <div className="flex items-center justify-between mb-2">*/}
+        {/*          <label className="font-semibold text-gray-900">Client Secret</label>*/}
+        {/*          <div className="flex items-center space-x-2">*/}
+        {/*            <button */}
+        {/*              onClick={() => setShowClientSecret(!showClientSecret)}*/}
+        {/*              className="text-gray-600 hover:text-gray-700"*/}
+        {/*            >*/}
+        {/*              {showClientSecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}*/}
+        {/*            </button>*/}
+        {/*            <button */}
+        {/*              onClick={() => copyToClipboard(sampleCredentials.clientSecret, "sample-client-secret")}*/}
+        {/*              className="text-blue-600 hover:text-blue-700"*/}
+        {/*            >*/}
+        {/*              {copiedField === "sample-client-secret" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}*/}
+        {/*            </button>*/}
+        {/*          </div>*/}
+        {/*        </div>*/}
+        {/*        <code className="text-sm bg-gray-100 p-2 rounded block break-all">*/}
+        {/*          {showClientSecret ? sampleCredentials.clientSecret : '•'.repeat(sampleCredentials.clientSecret.length)}*/}
+        {/*        </code>*/}
+        {/*      </div>*/}
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-white p-4 rounded-lg">
-                  <label className="font-semibold text-gray-900 block mb-2">Gateway Base URL</label>
-                  <p className="text-sm text-gray-600">{sampleCredentials.gatewayBaseUrl}</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg">
-                  <label className="font-semibold text-gray-900 block mb-2">Token Base URL</label>
-                  <p className="text-sm text-gray-600">{sampleCredentials.tokenBaseUrl}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/*      <div className="grid md:grid-cols-2 gap-4">*/}
+        {/*        <div className="bg-white p-4 rounded-lg">*/}
+        {/*          <label className="font-semibold text-gray-900 block mb-2">Gateway Base URL</label>*/}
+        {/*          <p className="text-sm text-gray-600">{sampleCredentials.gatewayBaseUrl}</p>*/}
+        {/*        </div>*/}
+        {/*        <div className="bg-white p-4 rounded-lg">*/}
+        {/*          <label className="font-semibold text-gray-900 block mb-2">Token Base URL</label>*/}
+        {/*          <p className="text-sm text-gray-600">{sampleCredentials.tokenBaseUrl}</p>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         {/* Key Types & Usage */}
         <div className="grid md:grid-cols-2 gap-8 mb-8">
@@ -442,7 +453,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                 Token Management
               </h4>
               <ul className="text-sm text-amber-800 space-y-1">
-                <li>• Access tokens expire in 10 hours (36000 seconds)</li>
+                <li>• Access tokens expire in 30 minutes (1800 seconds)</li>
                 <li>• Cache tokens for reuse until expiry</li>
                 <li>• Implement automatic token refresh logic</li>
                 <li>• Validate tokens at <a href="https://jwt.io" className="underline">jwt.io</a></li>

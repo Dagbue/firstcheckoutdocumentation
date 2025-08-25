@@ -1,7 +1,9 @@
 import React from 'react';
 import { Code, Database, Webhook, Lock, CreditCard } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
-import { MermaidDiagram } from '../MermaidDiagram';
+import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
+import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
+
 
 export const ApiSdkSection: React.FC = () => {
   const apiFlowDiagram = `
@@ -134,7 +136,8 @@ public static string EncryptCardData(string cardData, string encryptionKey)
 
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Flow Diagram</h3>
-          <MermaidDiagram code={apiFlowDiagram} />
+          <MermaidDiagramSudo code={apiFlowDiagram}/>
+          <MermaidDiagram>{apiFlowDiagram}</MermaidDiagram>
         </div>
 
         <div className="space-y-8">
