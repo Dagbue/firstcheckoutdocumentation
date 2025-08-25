@@ -1,7 +1,6 @@
 import React from 'react';
 import { Shield, Zap, Globe, CheckCircle } from 'lucide-react';
 // import { CodeBlock } from '../CodeBlock';
-import { MermaidDiagram } from "@lightenna/react-mermaid-diagram";
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 
 export const OverviewSection: React.FC = () => {
@@ -126,7 +125,6 @@ graph TD
           This diagram outlines the complete merchant journey from registration to live payment processing.
         </p>
         <MermaidDiagramSudo code={mermaidCode}/>
-        <MermaidDiagram>{mermaidCode}</MermaidDiagram>
       </div>
     </section>
   );
