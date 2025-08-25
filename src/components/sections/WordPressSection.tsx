@@ -1,5 +1,7 @@
 import React from 'react';
-import { Download, Settings, ShoppingCart, CheckCircle, CreditCard, Upload, Search, Eye, EyeOff, Key, Monitor, AlertTriangle, FileText, Globe, Zap } from 'lucide-react';
+import { Download, Settings, ShoppingCart, CheckCircle, CreditCard, Upload,
+  // Search,
+  Eye, EyeOff, Key, Monitor, AlertTriangle, FileText, Globe, Zap } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const WordPressSection: React.FC = () => {
@@ -8,7 +10,7 @@ export const WordPressSection: React.FC = () => {
   const installationSteps = [
     {
       method: "WordPress Dashboard",
-      icon: Download,
+      icon: Upload,
       color: "blue",
       steps: [
         "Log in to your WordPress admin panel",
@@ -20,7 +22,7 @@ export const WordPressSection: React.FC = () => {
     },
     {
       method: "Manual Installation (ZIP Upload)",
-      icon: Upload,
+      icon: Download,
       color: "emerald",
       steps: [
         "Download the plugin ZIP file from the First Bank merchant portal or GitHub repository",

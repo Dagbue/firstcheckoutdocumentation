@@ -1,6 +1,6 @@
 import React from 'react';
 import { TestTube, Bug, CheckCircle, AlertCircle } from 'lucide-react';
-import { CodeBlock } from '../CodeBlock';
+// import { CodeBlock } from '../CodeBlock';
 
 export const TestingSection: React.FC = () => {
   const testScenarios = [
@@ -36,98 +36,98 @@ export const TestingSection: React.FC = () => {
     }
   ];
 
-  const debuggingCode = `// Enable detailed logging for debugging
-const config = {
-  live: false, // Always use sandbox for testing
-  ref: "test-" + Date.now(),
-  amount: 1000, // Test with small amounts
-  customer: {
-    firstname: "Test",
-    lastname: "User",
-    email: "test@example.com"
-  },
-  publicKey: "sb-pk-test-key", // Sandbox key
-  description: "Test Payment",
-  currency: "NGN",
-  callback: function(response) {
-    // Log complete response for debugging
-    console.log("Payment Response:", JSON.stringify(response, null, 2));
-    
-    // Check response structure
-    if (response.status === "successful") {
-      console.log("✅ Payment successful!");
-      console.log("Reference:", response.reference);
-      console.log("Amount:", response.amount);
-    } else {
-      console.log("❌ Payment failed!");
-      console.log("Error:", response.message);
-      console.log("Code:", response.code);
-    }
-  },
-  onClose: function() {
-    console.log("Payment modal closed");
-  }
-};`;
-
-  const webhookTestCode = `// Webhook testing endpoint (Node.js/Express example)
-app.post('/webhook/firstcheckout', (req, res) => {
-  console.log('Webhook received:', req.body);
-  
-  // Verify webhook signature
-  const signature = req.headers['x-firstcheckout-signature'];
-  const payload = JSON.stringify(req.body);
-  
-  // Log for debugging
-  console.log('Signature:', signature);
-  console.log('Payload:', payload);
-  
-  // Always respond with 200 to acknowledge receipt
-  res.status(200).send('OK');
-  
-  // Process payment update
-  const { eventType, data } = req.body;
-  
-  if (eventType === 'payment.success') {
-    console.log(\`Payment \${data.paymentReference} successful\`);
-    // Update your database
-  } else if (eventType === 'payment.failed') {
-    console.log(\`Payment \${data.paymentReference} failed\`);
-    // Handle failure
-  }
-});`;
-
-  const statusCheckCode = `// Check payment status programmatically
-async function checkPaymentStatus(paymentReference) {
-  try {
-    const response = await fetch(
-      \`https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/status/\${paymentReference}\`,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + accessToken,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    
-    const result = await response.json();
-    console.log('Payment Status:', result);
-    
-    return result;
-  } catch (error) {
-    console.error('Status check failed:', error);
-    throw error;
-  }
-}
-
-// Usage
-checkPaymentStatus('your-payment-reference')
-  .then(status => {
-    console.log('Current status:', status.data.status);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });`;
+//   const debuggingCode = `// Enable detailed logging for debugging
+// const config = {
+//   live: false, // Always use sandbox for testing
+//   ref: "test-" + Date.now(),
+//   amount: 1000, // Test with small amounts
+//   customer: {
+//     firstname: "Test",
+//     lastname: "User",
+//     email: "test@example.com"
+//   },
+//   publicKey: "sb-pk-test-key", // Sandbox key
+//   description: "Test Payment",
+//   currency: "NGN",
+//   callback: function(response) {
+//     // Log complete response for debugging
+//     console.log("Payment Response:", JSON.stringify(response, null, 2));
+//
+//     // Check response structure
+//     if (response.status === "successful") {
+//       console.log("✅ Payment successful!");
+//       console.log("Reference:", response.reference);
+//       console.log("Amount:", response.amount);
+//     } else {
+//       console.log("❌ Payment failed!");
+//       console.log("Error:", response.message);
+//       console.log("Code:", response.code);
+//     }
+//   },
+//   onClose: function() {
+//     console.log("Payment modal closed");
+//   }
+// };`;
+//
+//   const webhookTestCode = `// Webhook testing endpoint (Node.js/Express example)
+// app.post('/webhook/firstcheckout', (req, res) => {
+//   console.log('Webhook received:', req.body);
+//
+//   // Verify webhook signature
+//   const signature = req.headers['x-firstcheckout-signature'];
+//   const payload = JSON.stringify(req.body);
+//
+//   // Log for debugging
+//   console.log('Signature:', signature);
+//   console.log('Payload:', payload);
+//
+//   // Always respond with 200 to acknowledge receipt
+//   res.status(200).send('OK');
+//
+//   // Process payment update
+//   const { eventType, data } = req.body;
+//
+//   if (eventType === 'payment.success') {
+//     console.log(\`Payment \${data.paymentReference} successful\`);
+//     // Update your database
+//   } else if (eventType === 'payment.failed') {
+//     console.log(\`Payment \${data.paymentReference} failed\`);
+//     // Handle failure
+//   }
+// });`;
+//
+//   const statusCheckCode = `// Check payment status programmatically
+// async function checkPaymentStatus(paymentReference) {
+//   try {
+//     const response = await fetch(
+//       \`https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/status/\${paymentReference}\`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           'Authorization': 'Bearer ' + accessToken,
+//           'Content-Type': 'application/json'
+//         }
+//       }
+//     );
+//
+//     const result = await response.json();
+//     console.log('Payment Status:', result);
+//
+//     return result;
+//   } catch (error) {
+//     console.error('Status check failed:', error);
+//     throw error;
+//   }
+// }
+//
+// // Usage
+// checkPaymentStatus('your-payment-reference')
+//   .then(status => {
+//     console.log('Current status:', status.data.status);
+//   })
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });`;
 
   return (
     <section id="testing" className="mb-16">
@@ -240,33 +240,33 @@ checkPaymentStatus('your-payment-reference')
             </div>
           </div>
 
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Debugging Tools</h3>
-            
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">Console Logging</h4>
-              <p className="text-gray-600 mb-4">
-                Enable detailed logging to track payment flows and identify issues:
-              </p>
-              <CodeBlock language="javascript" code={debuggingCode} />
-            </div>
+          {/*<div>*/}
+          {/*  <h3 className="text-xl font-semibold text-gray-900 mb-4">Debugging Tools</h3>*/}
+          {/*  */}
+          {/*  <div className="mb-6">*/}
+          {/*    <h4 className="text-lg font-semibold text-gray-900 mb-3">Console Logging</h4>*/}
+          {/*    <p className="text-gray-600 mb-4">*/}
+          {/*      Enable detailed logging to track payment flows and identify issues:*/}
+          {/*    </p>*/}
+          {/*    <CodeBlock language="javascript" code={debuggingCode} />*/}
+          {/*  </div>*/}
 
-            <div className="mb-6">
-              <h4 className="text-lg font-semibent text-gray-900 mb-3">Webhook Testing</h4>
-              <p className="text-gray-600 mb-4">
-                Set up a webhook endpoint to receive and debug payment notifications:
-              </p>
-              <CodeBlock language="javascript" code={webhookTestCode} />
-            </div>
+          {/*  <div className="mb-6">*/}
+          {/*    <h4 className="text-lg font-semibent text-gray-900 mb-3">Webhook Testing</h4>*/}
+          {/*    <p className="text-gray-600 mb-4">*/}
+          {/*      Set up a webhook endpoint to receive and debug payment notifications:*/}
+          {/*    </p>*/}
+          {/*    <CodeBlock language="javascript" code={webhookTestCode} />*/}
+          {/*  </div>*/}
 
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">Payment Status Checking</h4>
-              <p className="text-gray-600 mb-4">
-                Programmatically check payment status for debugging:
-              </p>
-              <CodeBlock language="javascript" code={statusCheckCode} />
-            </div>
-          </div>
+          {/*  <div className="mb-6">*/}
+          {/*    <h4 className="text-lg font-semibold text-gray-900 mb-3">Payment Status Checking</h4>*/}
+          {/*    <p className="text-gray-600 mb-4">*/}
+          {/*      Programmatically check payment status for debugging:*/}
+          {/*    </p>*/}
+          {/*    <CodeBlock language="javascript" code={statusCheckCode} />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Common Issues & Solutions</h3>

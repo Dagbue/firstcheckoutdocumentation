@@ -3,34 +3,107 @@ import { Shield, Lock, Key, AlertTriangle } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const SecuritySection: React.FC = () => {
-  const encryptionExample = `// C# AES Encryption Example
-using System;
-using System.Security.Cryptography;
-using System.Text;
-
-public static string EncryptCardData(string cardData, string encryptionKey)
+  const encryptionExample = `/// <summary>
+/// Asynchronously encrypts the provided plaintext using AES-GCM with the given key,
+/// and includes optional merchant and tenant information as Additional Authenticated Data (AAD).
+/// </summary>
+/// <param name="plaintext">The plaintext string to encrypt.</param>
+/// <param name="keyBytes">The symmetric encryption key (must be 128, 192, or 256 bits).</param>
+/// <param name="merchantId">Optional merchant identifier used as part of the AAD.</param>
+/// <param name="transactionRef">Optional tenant identifier used as part of the AAD.</param>
+/// <returns>A task that resolves to the encrypted data in format [nonce || tag || ciphertext].</returns>
+/// <exception cref="ArgumentException">Thrown if plaintext is null or empty.</exception>
+/// <exception cref="CryptographicException">Thrown if encryption fails.</exception>
+private async Task<byte[]?> EncryptAsync(
+    string plaintext,
+    byte[] keyBytes,
+    string merchantId,
+    string transactionRef)
 {
-    using (Aes aesAlg = Aes.Create())
+    if (string.IsNullOrWhiteSpace(plaintext))
+        throw new ArgumentException("Plaintext must not be null or empty.", nameof(plaintext));
+
+    return await Task.Run(() =>
     {
-        // Use your 32-character encryption key
-        aesAlg.Key = Encoding.UTF8.GetBytes(encryptionKey.PadRight(32).Substring(0, 32));
-        aesAlg.IV = new byte[16]; // Zero IV for simplicity
-        
-        ICryptoTransform encryptor = aesAlg.CreateEncryptor();
-        
-        using (var msEncrypt = new MemoryStream())
-        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-        using (var swEncrypt = new StreamWriter(csEncrypt))
+        byte[] plaintextBytes = Encoding.UTF8.GetBytes(plaintext);
+        byte[] nonce = RandomNumberGenerator.GetBytes(NonceSize);
+        byte[] tag = new byte[TagSizeBytes];
+        byte[] ciphertext = new byte[plaintextBytes.Length];
+        byte[]? resolvedKey = null;
+        var versionBytes = Array.Empty<byte>();
+
+        try
         {
-            swEncrypt.Write(cardData);
-            return Convert.ToBase64String(msEncrypt.ToArray());
+            byte[] combinedAad = ComposeAad(versionBytes, merchantId, transactionRef);
+
+            using var aes = new AesGcm(keyBytes, TagSizeBytes);
+            aes.Encrypt(nonce, plaintextBytes, ciphertext, tag, combinedAad);
+
+            byte[]? result = new byte[NonceSize + TagSizeBytes + ciphertext.Length];
+            Buffer.BlockCopy(nonce, 0, result, 0, NonceSize);
+            Buffer.BlockCopy(tag, 0, result, NonceSize, TagSizeBytes);
+            Buffer.BlockCopy(ciphertext, 0, result, NonceSize + TagSizeBytes, ciphertext.Length);
+            return result;
         }
-    }
+        catch (Exception ex)
+        {
+            throw new CryptographicException("Encryption failed. See logs for details.", ex);
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(plaintextBytes);
+            CryptographicOperations.ZeroMemory(tag);
+            if (resolvedKey != null)
+            {
+                CryptographicOperations.ZeroMemory(resolvedKey);
+            }
+        }
+    });
 }
 
-// Usage
-string cardDetails = "4000000000000002|12|25|123"; // PAN|MM|YY|CVV
-string encryptedData = EncryptCardData(cardDetails, "your-32-char-encryption-key-here");`;
+/// <summary>
+/// Combines version bytes, merchant ID, and transaction Reference into a single authenticated data buffer.
+/// Optimized to minimize allocations and memory copies.
+/// </summary>
+/// <param name="versionBytes">Optional version bytes to prepend.</param>
+/// <param name="merchantId">Optional merchant identifier.</param>
+/// <param name="transactionRef">Optional tenant identifier.</param>
+/// <returns>Concatenated byte array of inputs.</returns>
+private static byte[] ComposeAad(byte[] versionBytes, string merchantId, string transactionRef)
+{
+    var utf8 = Encoding.UTF8;
+
+    int merchantLength = string.IsNullOrWhiteSpace(merchantId) ? 0 : utf8.GetByteCount(merchantId);
+    int transactionRefLength = string.IsNullOrWhiteSpace(transactionRef) ? 0 : utf8.GetByteCount(transactionRef);
+    int totalLength = versionBytes.Length + merchantLength + transactionRefLength;
+
+    if (totalLength == 0)
+        return [];
+
+    byte[] combined = new byte[totalLength];
+    int offset = 0;
+
+    Buffer.BlockCopy(versionBytes, 0, combined, offset, versionBytes.Length);
+    offset += versionBytes.Length;
+
+    if (merchantLength > 0)
+        offset += utf8.GetBytes(merchantId, 0, merchantId.Length, combined, offset);
+
+    if (transactionRefLength > 0)
+        offset += utf8.GetBytes(transactionRef, 0, transactionRef.Length, combined, offset);
+
+    return combined;
+}
+private bool IsBase64String(string input)
+{
+    if (string.IsNullOrWhiteSpace(input))
+        return false;
+
+    Span<byte> buffer = new Span<byte>(new byte[input.Length]);
+    return Convert.TryFromBase64String(input, buffer, out _);
+}
+public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);
+  `;
 
   const webhookVerification = `// Node.js Webhook Signature Verification
 const crypto = require('crypto');

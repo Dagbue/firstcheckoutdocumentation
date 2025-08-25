@@ -17,17 +17,17 @@ export const ApiKeysSection: React.FC = () => {
   //   setTimeout(() => setCopiedField(null), 2000);
   // };
 
-  const tokenGenerationCode = `curl --location 'https://payment-solution-identity.azurewebsites.net/api/v2/Authenticate/token' \\
---header 'Content-Type: application/x-www-form-urlencoded' \\
---data-urlencode 'client_Id=your-client-id' \\
---data-urlencode 'client_Secret=your-client-secret' \\
---data-urlencode 'grant_type=client_credentials'`;
-
-  const tokenResponse = `{
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "token_type": "Bearer",
-  "expires_in": 36000
-}`;
+//   const tokenGenerationCode = `curl --location 'https://payment-solution-identity.azurewebsites.net/api/v2/Authenticate/token' \\
+// --header 'Content-Type: application/x-www-form-urlencoded' \\
+// --data-urlencode 'client_Id=your-client-id' \\
+// --data-urlencode 'client_Secret=your-client-secret' \\
+// --data-urlencode 'grant_type=client_credentials'`;
+//
+//   const tokenResponse = `{
+//   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+//   "token_type": "Bearer",
+//   "expires_in": 36000
+// }`;
 
   // const sampleCredentials = {
   //   clientId: "cid-J1MWSNKBCG8ML6TE7VMB9SOMW17F3CHDBBIPY30",
@@ -98,19 +98,19 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
       ],
       status: "active"
     },
-    {
-      step: 4,
-      title: "Generate OAuth Credentials",
-      description: "Obtain Client ID and Client Secret for token generation",
-      details: [
-        "Access the OAuth credentials section",
-        "Copy your Client ID (public identifier)",
-        "Securely store your Client Secret",
-        "Test token generation with these credentials",
-        "Verify token expiration settings (10 hours default)"
-      ],
-      status: "active"
-    }
+    // {
+    //   step: 4,
+    //   title: "Generate OAuth Credentials",
+    //   description: "Obtain Client ID and Client Secret for token generation",
+    //   details: [
+    //     "Access the OAuth credentials section",
+    //     "Copy your Client ID (public identifier)",
+    //     "Securely store your Client Secret",
+    //     "Test token generation with these credentials",
+    //     "Verify token expiration settings (10 hours default)"
+    //   ],
+    //   status: "active"
+    // }
   ];
 
   return (
@@ -464,35 +464,35 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
         </div>
 
         {/* Token Generation */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">OAuth Token Generation</h3>
-          <p className="text-gray-600 mb-4">
-            Use your Client ID and Client Secret to generate OAuth2 access tokens for API authentication. 
-            The ClientId and ClientSecret are shared by the admin during onboarding - these credentials 
-            are needed to generate tokens for API access.
-          </p>
-          
-          <div className="mb-4">
-            <h4 className="font-medium text-gray-900 mb-2">Token Generation Request:</h4>
-            <CodeBlock language="bash" code={tokenGenerationCode} />
-          </div>
+        {/*<div className="mb-8">*/}
+        {/*  <h3 className="text-xl font-semibold text-gray-900 mb-4">OAuth Token Generation</h3>*/}
+        {/*  <p className="text-gray-600 mb-4">*/}
+        {/*    Use your Client ID and Client Secret to generate OAuth2 access tokens for API authentication. */}
+        {/*    The ClientId and ClientSecret are shared by the admin during onboarding - these credentials */}
+        {/*    are needed to generate tokens for API access.*/}
+        {/*  </p>*/}
+        {/*  */}
+        {/*  <div className="mb-4">*/}
+        {/*    <h4 className="font-medium text-gray-900 mb-2">Token Generation Request:</h4>*/}
+        {/*    <CodeBlock language="bash" code={tokenGenerationCode} />*/}
+        {/*  </div>*/}
 
-          <div className="mb-4">
-            <h4 className="font-medium text-gray-900 mb-2">Expected Response:</h4>
-            <CodeBlock language="json" code={tokenResponse} />
-          </div>
+        {/*  <div className="mb-4">*/}
+        {/*    <h4 className="font-medium text-gray-900 mb-2">Expected Response:</h4>*/}
+        {/*    <CodeBlock language="json" code={tokenResponse} />*/}
+        {/*  </div>*/}
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-900 mb-2">Token Usage Notes</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>• Include the access token in all API requests as a Bearer token</li>
-              <li>• Tokens are valid for 10 hours (36000 seconds)</li>
-              <li>• Generate new tokens before expiry to avoid authentication failures</li>
-              <li>• Store tokens securely and never expose them in client-side code</li>
-              <li>• Different tokens may be required for different environments (sandbox vs live)</li>
-            </ul>
-          </div>
-        </div>
+        {/*  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">*/}
+        {/*    <h4 className="font-semibold text-blue-900 mb-2">Token Usage Notes</h4>*/}
+        {/*    <ul className="text-sm text-blue-800 space-y-1">*/}
+        {/*      <li>• Include the access token in all API requests as a Bearer token</li>*/}
+        {/*      <li>• Tokens are valid for 10 hours (36000 seconds)</li>*/}
+        {/*      <li>• Generate new tokens before expiry to avoid authentication failures</li>*/}
+        {/*      <li>• Store tokens securely and never expose them in client-side code</li>*/}
+        {/*      <li>• Different tokens may be required for different environments (sandbox vs live)</li>*/}
+        {/*    </ul>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         {/* Environment Configuration */}
         <div className="mb-8">
