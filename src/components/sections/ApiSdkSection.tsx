@@ -1,7 +1,8 @@
 import React from 'react';
-import { Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, Zap, CheckCircle, AlertTriangle } from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
-import { MermaidDiagramSudo } from "../MermaidDiagramSudo.tsx";
+import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
+
 
 export const ApiSdkSection: React.FC = () => {
   const apiFlowDiagram = `
@@ -301,7 +302,7 @@ public static string EncryptCardData(string cardData, string encryptionKey)
                 <li>• <strong>Expiry:</strong> Tokens expire after 30 minutes (1800 seconds) - implement refresh logic</li>
                 <li>• <strong>Security:</strong> Store tokens securely, never expose in client-side code or logs</li>
                 <li>• <strong>Environment:</strong> Use different tokens for sandbox vs live environments</li>
-                <li>• <strong>Validation:</strong> Test token validity at <a href="https://jwt.io" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">jwt.io</a></li>
+                <li>• <strong>Validation:</strong> Test token validity at <a href="https://jwt.io" className=\"text-blue-600 underline" target=\"_blank" rel="noopener noreferrer">jwt.io</a></li>
               </ul>
             </div>
           </div>
