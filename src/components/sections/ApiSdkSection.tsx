@@ -29,7 +29,7 @@ graph LR
 
   const initiateTransactionCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {access_token}' \\
+--header 'Authorization: Bearer {{access_token}}' \\
 --data-raw '{
   "Amount": 1000,
   "PayerEmail": "customer@example.com",
@@ -52,7 +52,7 @@ graph LR
 
   const cardInitiateCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/cards/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {access_token}' \\
+--header 'Authorization: Bearer {{access_token}}' \\
 --data-raw '{
   "AuthData": "encrypted_card_data_here",
   "AccessCode": "TXN_ACCESS_CODE_123",
@@ -61,14 +61,14 @@ graph LR
 
   const cardConfirmCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/cards/complete' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {access_token}' \\
+--header 'Authorization: Bearer {{access_token}}' \\
 --data-raw '{
   "Otp": "123456",
   "PaymentReference": "unique-ref-12345"
 }'`;
 
   const statusCheckCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/status/{paymentReference}' \\
---header 'Authorization: Bearer {access_token}'`;
+--header 'Authorization: Bearer {{access_token}}'`;
 
   const encryptionCodeCSharp = `using System;
 using System.Security.Cryptography;
