@@ -51,7 +51,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             </button>
           </div>
           
-          <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+          <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto mt-11">
             <nav className="mt-5 px-2 space-y-1">
               {navigationItems.map((item) => (
                 <Link
@@ -60,7 +60,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                   onClick={handleLinkClick}
                   className={`w-full group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${
                     isActive(item.path)
-                      ? 'bg-bank-blue bg-opacity-10 text-bank-blue'
+                      ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-2 border-bank-gold'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >

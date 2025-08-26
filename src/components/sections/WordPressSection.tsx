@@ -1,14 +1,18 @@
 import React from 'react';
-import { Download, Settings, ShoppingCart, CheckCircle, CreditCard, Upload, Search, Eye, EyeOff, Key, Monitor, AlertTriangle, FileText, Globe, Zap } from 'lucide-react';
+import { Download, Settings, ShoppingCart, CheckCircle, CreditCard, Upload,
+  // Search,
+  // Eye, EyeOff,
+  Key, Monitor, AlertTriangle, FileText, Globe, Zap, QrCode } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
+import {figure1, figure2, figure3, figure4, figure5} from "../../assets";
 
 export const WordPressSection: React.FC = () => {
-  const [showSecretKey, setShowSecretKey] = React.useState(false);
+  // const [showSecretKey, setShowSecretKey] = React.useState(false);
 
   const installationSteps = [
     {
       method: "WordPress Dashboard",
-      icon: Download,
+      icon: Upload,
       color: "blue",
       steps: [
         "Log in to your WordPress admin panel",
@@ -20,7 +24,7 @@ export const WordPressSection: React.FC = () => {
     },
     {
       method: "Manual Installation (ZIP Upload)",
-      icon: Upload,
+      icon: Download,
       color: "emerald",
       steps: [
         "Download the plugin ZIP file from the First Bank merchant portal or GitHub repository",
@@ -115,7 +119,7 @@ export const WordPressSection: React.FC = () => {
     "Selects FirstChekOut as payment method",
     "Clicks 'Place Order' to initiate payment",
     "FirstChekOut payment modal opens with available payment options",
-    "Customer chooses preferred payment method (Card, USSD, Transfer)",
+    "Customer chooses preferred payment method (Card, USSD, Bank Transfer, QR Code, BNPL, Pay Attitude)",
     "Completes payment through secure FirstChekOut interface",
     "Returns to WooCommerce with payment confirmation",
     "Order status automatically updated based on payment result"
@@ -291,65 +295,65 @@ export const WordPressSection: React.FC = () => {
                 </div>
 
                 {/* Simulated Configuration Interface */}
-                <div className="bg-white rounded-lg p-4 border border-emerald-200">
-                  <h5 className="font-semibold text-emerald-900 mb-4">Configuration Interface Preview:</h5>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <input type="checkbox" id="enable" className="mr-3" defaultChecked />
-                      <label htmlFor="enable" className="font-medium text-gray-900">Enable FirstChekOut Payment</label>
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Merchant ID</label>
-                        <input 
-                          type="text" 
-                          placeholder="9546159989"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
-                          disabled
-                        />
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Public Key</label>
-                        <input 
-                          type="text" 
-                          placeholder="pk_live_your_public_key_here"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
-                          disabled
-                        />
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Secret Key</label>
-                      <div className="relative">
-                        <input 
-                          type={showSecretKey ? "text" : "password"}
-                          placeholder="sk_live_your_secret_key_here"
-                          className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md bg-gray-50"
-                          disabled
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowSecretKey(!showSecretKey)}
-                          className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        >
-                          {showSecretKey ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
-                        </button>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Environment</label>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50" disabled>
-                        <option>Test</option>
-                        <option>Live</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+                {/*<div className="bg-white rounded-lg p-4 border border-emerald-200">*/}
+                {/*  <h5 className="font-semibold text-emerald-900 mb-4">Configuration Interface Preview:</h5>*/}
+                {/*  */}
+                {/*  <div className="space-y-4">*/}
+                {/*    <div className="flex items-center">*/}
+                {/*      <input type="checkbox" id="enable" className="mr-3" defaultChecked />*/}
+                {/*      <label htmlFor="enable" className="font-medium text-gray-900">Enable FirstChekOut Payment</label>*/}
+                {/*    </div>*/}
+                {/*    */}
+                {/*    <div className="grid md:grid-cols-2 gap-4">*/}
+                {/*      <div>*/}
+                {/*        <label className="block text-sm font-medium text-gray-700 mb-1">Merchant ID</label>*/}
+                {/*        <input */}
+                {/*          type="text" */}
+                {/*          placeholder="9546159989"*/}
+                {/*          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"*/}
+                {/*          disabled*/}
+                {/*        />*/}
+                {/*      </div>*/}
+                {/*      */}
+                {/*      <div>*/}
+                {/*        <label className="block text-sm font-medium text-gray-700 mb-1">Public Key</label>*/}
+                {/*        <input */}
+                {/*          type="text" */}
+                {/*          placeholder="pk_live_your_public_key_here"*/}
+                {/*          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"*/}
+                {/*          disabled*/}
+                {/*        />*/}
+                {/*      </div>*/}
+                {/*    </div>*/}
+                {/*    */}
+                {/*    <div>*/}
+                {/*      <label className="block text-sm font-medium text-gray-700 mb-1">Secret Key</label>*/}
+                {/*      <div className="relative">*/}
+                {/*        <input */}
+                {/*          type={showSecretKey ? "text" : "password"}*/}
+                {/*          placeholder="sk_live_your_secret_key_here"*/}
+                {/*          className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md bg-gray-50"*/}
+                {/*          disabled*/}
+                {/*        />*/}
+                {/*        <button*/}
+                {/*          type="button"*/}
+                {/*          onClick={() => setShowSecretKey(!showSecretKey)}*/}
+                {/*          className="absolute inset-y-0 right-0 pr-3 flex items-center"*/}
+                {/*        >*/}
+                {/*          {showSecretKey ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}*/}
+                {/*        </button>*/}
+                {/*      </div>*/}
+                {/*    </div>*/}
+                {/*    */}
+                {/*    <div>*/}
+                {/*      <label className="block text-sm font-medium text-gray-700 mb-1">Environment</label>*/}
+                {/*      <select className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50" disabled>*/}
+                {/*        <option>Test</option>*/}
+                {/*        <option>Live</option>*/}
+                {/*      </select>*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>
@@ -390,14 +394,14 @@ export const WordPressSection: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                    <span className="text-emerald-600 font-bold text-sm">*</span>
+                    <QrCode className="h-6 w-6 text-emerald-600" />
                   </div>
                   <h5 className="font-semibold text-emerald-900">USSD</h5>
                   <p className="text-sm text-emerald-700">All major Nigerian banks</p>
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                    <span className="text-emerald-600 font-bold text-sm">₦</span>
+                    <span className="text-emerald-600 font-bold text-m">₦</span>
                   </div>
                   <h5 className="font-semibold text-emerald-900">Bank Transfer</h5>
                   <p className="text-sm text-emerald-700">Direct bank transfer</p>
@@ -524,6 +528,38 @@ export const WordPressSection: React.FC = () => {
                 </ul>
               </div>
             </div>
+          </div>
+
+          {/* Figures */}
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Figures</h3>
+
+            <div>
+              <img src={figure1} alt="Figure 1"/>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 1:</strong> Plugin activation interface</p>
+            </div>
+
+            <div className="mt-8">
+              <img src={figure2} alt="Figure 1"/>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 2:</strong> WooCommerce payment settings</p>
+            </div>
+
+            <div className="mt-8">
+              <img src={figure3} alt="Figure 1"/>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 3:</strong> FirstChekOut configuration panel
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <img src={figure4} alt="Figure 1"/>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 4:</strong> Customer checkout page</p>
+            </div>
+
+            <div className="mt-8">
+              <img src={figure5} alt="Figure 1"/>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 5:</strong> FirstChekOut payment frame</p>
+            </div>
+
           </div>
         </div>
       </div>

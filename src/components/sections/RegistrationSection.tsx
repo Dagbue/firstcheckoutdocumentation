@@ -16,15 +16,14 @@ sequenceDiagram
     P-->>M: Email Verification
     M->>P: Verify Email & Login
     M->>P: Complete Profile
-    M->>P: Add Business Details
-    M->>P: Upload KYC Documents
-    M->>P: Enter Bank Account Details
     P->>B: Validate Bank Account
     B-->>P: Account Verification
+    M->>P: Add Business Details
+    M->>P: Upload KYC Documents
     P->>A: Submit for Review
     A->>A: Review Application
     A->>A: Verify Documents
-    A-->>M: Approval Email with Keys
+    A-->>M: Receive Approval Email
     M->>P: Access Dashboard
     Note over M,P: Ready for Integration
   `;
@@ -68,12 +67,10 @@ sequenceDiagram
       description: "Complete your merchant profile with business information",
       details: [
         "Login to your verified account",
-        "Navigate to Profile Settings",
-        "Enter business name and description",
+        "Navigate to Settings",
+        "Enter business name, description and so on",
         "Add business address and contact details",
-        "Specify business category and industry",
         "Set your business website URL",
-        "Add business phone number"
       ],
       duration: "5-7 minutes",
       icon: Building,
@@ -87,7 +84,6 @@ sequenceDiagram
         "Navigate to Bank Account section",
         "Enter your First Bank account number",
         "Provide account holder name (must match business name)",
-        "Select account type (Current/Savings)",
         "System validates account with First Bank",
         "Account verification may take 1-2 business days"
       ],

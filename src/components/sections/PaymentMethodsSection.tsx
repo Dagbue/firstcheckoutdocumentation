@@ -55,16 +55,15 @@ graph TD
   const testCardsCode = `# Test Card Numbers (Sandbox Only)
 
 # Verve Cards
-5060990580000217499  # Expiry: 03/50, CVV: 111, PIN: 1111
-5061020000000000094  # Expiry: 03/50, CVV: 111, PIN: 1111
+  5061050254756707864  # Expiry: 06/26, CVV: 111, PIN: 1111
+  5060990580000217499  # Expiry: 03/50, CVV: 111, PIN: 1111
 
 # Mastercard
-5399838383838381     # Expiry: 03/50, CVV: 111, PIN: 1111
-5506900490000436     # Expiry: 03/50, CVV: 111, PIN: 1111
+  5123450000000008     # Expiry: 01/39, CVV: 100, PIN: 1111, OTP: 123456,
 
 # Visa
-4084084084084081     # Expiry: 03/50, CVV: 111, PIN: 1111
-4000000000000002     # Expiry: 03/50, CVV: 111, PIN: 1111`;
+  4000000000002503     # Expiry: 03/50, CVV: 11, PIN: 1111`;
+
 
   return (
     <section id="payment-methods" className="mb-16">
@@ -271,10 +270,10 @@ graph TD
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                 <h4 className="font-semibold text-red-900 mb-2">❌ Failed Transactions</h4>
                 <ul className="text-sm text-red-800 space-y-1">
-                  <li>• Use card: 4000000000000002</li>
-                  <li>• Enter wrong PIN (not 1111)</li>
-                  <li>• Use invalid OTP (not 123456)</li>
-                  <li>• Test timeout scenarios</li>
+                  <li>• Use card: 5061830100001895</li>
+                  <li>• Enter  PIN (1111)</li>
+                  <li>• Use OTP (123456)</li>
+                  <li>• Test scenarios</li>
                 </ul>
               </div>
             </div>

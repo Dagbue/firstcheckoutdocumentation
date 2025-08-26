@@ -1,129 +1,129 @@
 import React from 'react';
 import { AlertCircle, HelpCircle, PenTool as Tool, CheckCircle } from 'lucide-react';
-import { CodeBlock } from '../CodeBlock';
+// import { CodeBlock } from '../CodeBlock';
 
 export const TroubleshootingSection: React.FC = () => {
-  const diagnosticCode = `// Comprehensive payment diagnostics
-function diagnosePaymentIssue(config) {
-  console.log('🔍 Diagnosing Payment Configuration...');
-  
-  // Check required fields
-  const requiredFields = ['publicKey', 'amount', 'customer', 'ref'];
-  const missingFields = requiredFields.filter(field => !config[field]);
-  
-  if (missingFields.length > 0) {
-    console.error('❌ Missing required fields:', missingFields);
-    return false;
-  }
-  
-  // Validate public key format
-  if (!config.publicKey.startsWith('pk_') && !config.publicKey.startsWith('sb-pk-')) {
-    console.error('❌ Invalid public key format. Expected: pk_xxx or sb-pk-xxx');
-    return false;
-  }
-  
-  // Check environment consistency
-  const isTestKey = config.publicKey.startsWith('sb-pk-');
-  if (config.live && isTestKey) {
-    console.error('❌ Using test key with live=true');
-    return false;
-  }
-  
-  // Validate amount
-  if (typeof config.amount !== 'number' || config.amount <= 0) {
-    console.error('❌ Amount must be a positive number');
-    return false;
-  }
-  
-  // Check customer object
-  const customer = config.customer;
-  if (!customer.email || !customer.firstname || !customer.lastname) {
-    console.error('❌ Customer object missing required fields');
-    return false;
-  }
-  
-  console.log('✅ Configuration looks good!');
-  return true;
-}
-
-// Usage
-const paymentConfig = {
-  live: false,
-  ref: "test-" + Date.now(),
-  amount: 1000,
-  customer: {
-    firstname: "John",
-    lastname: "Doe",
-    email: "john@example.com"
-  },
-  publicKey: "sb-pk-your-key-here"
-};
-
-if (diagnosePaymentIssue(paymentConfig)) {
-  // Proceed with payment
-  FBNCheckout.initiateTransactionAsync(paymentConfig, addressURL);
-}`;
-
-  const networkDiagnostic = `// Network connectivity test
-async function testNetworkConnectivity() {
-  const endpoints = [
-    'https://payment-solution-gateway.azurewebsites.net/health',
-    'https://payment-solution-identity.azurewebsites.net/health',
-    'https://checkout.firstchekout.com/ping'
-  ];
-  
-  for (const endpoint of endpoints) {
-    try {
-      console.log(\`Testing \${endpoint}...\`);
-      const response = await fetch(endpoint, { method: 'GET' });
-      
-      if (response.ok) {
-        console.log(\`✅ \${endpoint} - OK\`);
-      } else {
-        console.log(\`⚠️ \${endpoint} - Status: \${response.status}\`);
-      }
-    } catch (error) {
-      console.error(\`❌ \${endpoint} - Error:\`, error.message);
-    }
-  }
-}
-
-// Run network test
-testNetworkConnectivity();`;
-
-  const tokenValidation = `// JWT token validation and debugging
-function validateAccessToken(token) {
-  try {
-    // Basic JWT structure check
-    const parts = token.split('.');
-    if (parts.length !== 3) {
-      console.error('❌ Invalid JWT structure');
-      return false;
-    }
-    
-    // Decode payload (without verification - for debugging only)
-    const payload = JSON.parse(atob(parts[1]));
-    console.log('Token payload:', payload);
-    
-    // Check expiration
-    const now = Math.floor(Date.now() / 1000);
-    if (payload.exp && payload.exp < now) {
-      console.error('❌ Token expired at:', new Date(payload.exp * 1000));
-      return false;
-    }
-    
-    console.log('✅ Token appears valid, expires at:', new Date(payload.exp * 1000));
-    return true;
-    
-  } catch (error) {
-    console.error('❌ Error validating token:', error);
-    return false;
-  }
-}
-
-// Usage
-const token = 'your_access_token_here';
-validateAccessToken(token);`;
+//   const diagnosticCode = `// Comprehensive payment diagnostics
+// function diagnosePaymentIssue(config) {
+//   console.log('🔍 Diagnosing Payment Configuration...');
+//
+//   // Check required fields
+//   const requiredFields = ['publicKey', 'amount', 'customer', 'ref'];
+//   const missingFields = requiredFields.filter(field => !config[field]);
+//
+//   if (missingFields.length > 0) {
+//     console.error('❌ Missing required fields:', missingFields);
+//     return false;
+//   }
+//
+//   // Validate public key format
+//   if (!config.publicKey.startsWith('pk_') && !config.publicKey.startsWith('sb-pk-')) {
+//     console.error('❌ Invalid public key format. Expected: pk_xxx or sb-pk-xxx');
+//     return false;
+//   }
+//
+//   // Check environment consistency
+//   const isTestKey = config.publicKey.startsWith('sb-pk-');
+//   if (config.live && isTestKey) {
+//     console.error('❌ Using test key with live=true');
+//     return false;
+//   }
+//
+//   // Validate amount
+//   if (typeof config.amount !== 'number' || config.amount <= 0) {
+//     console.error('❌ Amount must be a positive number');
+//     return false;
+//   }
+//
+//   // Check customer object
+//   const customer = config.customer;
+//   if (!customer.email || !customer.firstname || !customer.lastname) {
+//     console.error('❌ Customer object missing required fields');
+//     return false;
+//   }
+//
+//   console.log('✅ Configuration looks good!');
+//   return true;
+// }
+//
+// // Usage
+// const paymentConfig = {
+//   live: false,
+//   ref: "test-" + Date.now(),
+//   amount: 1000,
+//   customer: {
+//     firstname: "John",
+//     lastname: "Doe",
+//     email: "john@example.com"
+//   },
+//   publicKey: "sb-pk-your-key-here"
+// };
+//
+// if (diagnosePaymentIssue(paymentConfig)) {
+//   // Proceed with payment
+//   FBNCheckout.initiateTransactionAsync(paymentConfig, addressURL);
+// }`;
+//
+//   const networkDiagnostic = `// Network connectivity test
+// async function testNetworkConnectivity() {
+//   const endpoints = [
+//     'https://payment-solution-gateway.azurewebsites.net/health',
+//     'https://payment-solution-identity.azurewebsites.net/health',
+//     'https://checkout.firstchekout.com/ping'
+//   ];
+//
+//   for (const endpoint of endpoints) {
+//     try {
+//       console.log(\`Testing \${endpoint}...\`);
+//       const response = await fetch(endpoint, { method: 'GET' });
+//
+//       if (response.ok) {
+//         console.log(\`✅ \${endpoint} - OK\`);
+//       } else {
+//         console.log(\`⚠️ \${endpoint} - Status: \${response.status}\`);
+//       }
+//     } catch (error) {
+//       console.error(\`❌ \${endpoint} - Error:\`, error.message);
+//     }
+//   }
+// }
+//
+// // Run network test
+// testNetworkConnectivity();`;
+//
+//   const tokenValidation = `// JWT token validation and debugging
+// function validateAccessToken(token) {
+//   try {
+//     // Basic JWT structure check
+//     const parts = token.split('.');
+//     if (parts.length !== 3) {
+//       console.error('❌ Invalid JWT structure');
+//       return false;
+//     }
+//
+//     // Decode payload (without verification - for debugging only)
+//     const payload = JSON.parse(atob(parts[1]));
+//     console.log('Token payload:', payload);
+//
+//     // Check expiration
+//     const now = Math.floor(Date.now() / 1000);
+//     if (payload.exp && payload.exp < now) {
+//       console.error('❌ Token expired at:', new Date(payload.exp * 1000));
+//       return false;
+//     }
+//
+//     console.log('✅ Token appears valid, expires at:', new Date(payload.exp * 1000));
+//     return true;
+//
+//   } catch (error) {
+//     console.error('❌ Error validating token:', error);
+//     return false;
+//   }
+// }
+//
+// // Usage
+// const token = 'your_access_token_here';
+// validateAccessToken(token);`;
 
   const errorCodes = [
     {
@@ -238,35 +238,35 @@ validateAccessToken(token);`;
         </div>
 
         <div className="space-y-8">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Diagnostic Tools</h3>
-            
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-3">Configuration Validator</h4>
-                <p className="text-gray-600 mb-4">
-                  Use this diagnostic function to validate your payment configuration before initiating transactions:
-                </p>
-                <CodeBlock language="javascript" code={diagnosticCode} />
-              </div>
+          {/*<div>*/}
+          {/*  <h3 className="text-xl font-semibold text-gray-900 mb-4">Diagnostic Tools</h3>*/}
+          {/*  */}
+          {/*  <div className="space-y-6">*/}
+          {/*    <div>*/}
+          {/*      <h4 className="text-lg font-semibold text-gray-900 mb-3">Configuration Validator</h4>*/}
+          {/*      <p className="text-gray-600 mb-4">*/}
+          {/*        Use this diagnostic function to validate your payment configuration before initiating transactions:*/}
+          {/*      </p>*/}
+          {/*      <CodeBlock language="javascript" code={diagnosticCode} />*/}
+          {/*    </div>*/}
 
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-3">Network Connectivity Test</h4>
-                <p className="text-gray-600 mb-4">
-                  Test connectivity to FirstCheckout endpoints to ensure network access:
-                </p>
-                <CodeBlock language="javascript" code={networkDiagnostic} />
-              </div>
+          {/*    <div>*/}
+          {/*      <h4 className="text-lg font-semibold text-gray-900 mb-3">Network Connectivity Test</h4>*/}
+          {/*      <p className="text-gray-600 mb-4">*/}
+          {/*        Test connectivity to FirstCheckout endpoints to ensure network access:*/}
+          {/*      </p>*/}
+          {/*      <CodeBlock language="javascript" code={networkDiagnostic} />*/}
+          {/*    </div>*/}
 
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-3">Token Validation</h4>
-                <p className="text-gray-600 mb-4">
-                  Debug OAuth token issues with this validation function:
-                </p>
-                <CodeBlock language="javascript" code={tokenValidation} />
-              </div>
-            </div>
-          </div>
+          {/*    <div>*/}
+          {/*      <h4 className="text-lg font-semibold text-gray-900 mb-3">Token Validation</h4>*/}
+          {/*      <p className="text-gray-600 mb-4">*/}
+          {/*        Debug OAuth token issues with this validation function:*/}
+          {/*      </p>*/}
+          {/*      <CodeBlock language="javascript" code={tokenValidation} />*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Common Error Codes</h3>
