@@ -1,5 +1,5 @@
 import React from 'react';
-import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, AlertTriangle, ExternalLink, BookOpen, Shield} from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 
@@ -127,103 +127,13 @@ public static string EncryptCardData(string cardData, string encryptionKey)
   return (
     <section id="api-sdk" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        {/* Enhanced Header Section */}
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">API/SDK Integration</h2>
-          <div className="max-w-4xl mx-auto">
-            <p className="text-xl text-gray-600 mb-6">
-              Direct API integration for custom applications. This method provides full control and flexibility,
-              supporting any programming language with HTTP client capabilities.
-            </p>
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
-              <div className="flex items-center justify-center mb-4">
-                <div className="bg-blue-100 p-3 rounded-full mr-4">
-                  <Code className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-blue-900">Professional API Integration</h3>
-              </div>
-              <p className="text-blue-800 text-lg">
-                Build robust payment solutions with enterprise-grade APIs supporting all major payment methods
-              </p>
-            </div>
-          </div>
-        </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">API/SDK Integration</h2>
+        <p className="text-lg text-gray-600 mb-8">
+          Direct API integration for custom applications. This method provides full control and flexibility,
+          supporting any programming language with HTTP client capabilities.
+        </p>
 
-        {/* CRITICAL API Documentation Notice - Enhanced */}
-        <div className="relative mb-8">
-          {/* Animated border effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-red-400 via-yellow-400 to-red-400 rounded-xl p-1 animate-pulse">
-            <div className="bg-white rounded-lg h-full w-full"></div>
-          </div>
-          
-          <div className="relative bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 border-4 border-red-300 rounded-xl p-8 shadow-2xl">
-            {/* Warning Icon and Header */}
-            <div className="flex items-center justify-center mb-6">
-              <div className="bg-red-100 p-4 rounded-full mr-4 animate-bounce">
-                <AlertTriangle className="h-12 w-12 text-red-600" />
-              </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-red-900 mb-2">🚨 CRITICAL REQUIREMENT 🚨</h3>
-                <p className="text-xl font-semibold text-red-800">API Documentation Access Required</p>
-              </div>
-            </div>
-
-            {/* Main Content */}
-            <div className="bg-white rounded-lg p-6 border-2 border-red-200 mb-6">
-              <div className="flex items-start mb-4">
-                <Shield className="h-8 w-8 text-red-600 mr-4 mt-1 flex-shrink-0" />
-                <div>
-                  <h4 className="text-2xl font-bold text-red-900 mb-3">Merchant Verification Required</h4>
-                  <p className="text-lg text-red-800 mb-4 leading-relaxed">
-                    <strong className="text-red-900">IMPORTANT:</strong> Only fully onboarded and live merchants can utilize this service. 
-                    To gain a comprehensive understanding of the API, including sample data and testing capabilities, 
-                    you must access the official API documentation.
-                  </p>
-                </div>
-              </div>
-              
-              {/* Documentation Link - Prominent */}
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-6 text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <BookOpen className="h-8 w-8 text-white mr-3" />
-                  <h5 className="text-2xl font-bold text-white">Official API Documentation</h5>
-                </div>
-                <a 
-                  href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-                  className="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg text-xl font-bold"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="mr-3 h-6 w-6" />
-                  Access Complete API Documentation
-                </a>
-                <p className="text-blue-100 mt-4 text-lg">
-                  Click above to view detailed endpoints, sample requests, and testing tools
-                </p>
-              </div>
-            </div>
-
-            {/* Next Steps */}
-            <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-6">
-              <h4 className="text-xl font-bold text-yellow-900 mb-3 flex items-center">
-                <span className="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-yellow-800 font-bold">!</span>
-                Next Steps After Documentation Review
-              </h4>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <h5 className="font-bold text-yellow-900 mb-2">1. Get Your API Keys</h5>
-                  <p className="text-yellow-800 text-sm">Navigate to the API Key Section to obtain necessary integration credentials</p>
-                </div>
-                <div>
-                  <h5 className="font-bold text-yellow-900 mb-2">2. Test Integration</h5>
-                  <p className="text-yellow-800 text-sm">Use the sandbox environment to test your implementation before going live</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Enhanced Feature Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
             <Code className="h-8 w-8 text-blue-600 mx-auto mb-3"/>
             <h3 className="font-semibold text-blue-900">Any Language</h3>
@@ -241,15 +151,26 @@ public static string EncryptCardData(string cardData, string encryptionKey)
           </div>
         </div>
 
-        {/* Payment Flow Diagram */}
-        <div className="mb-12">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Complete Payment Flow</h3>
-            <p className="text-gray-600">Visual representation of the entire payment process from initiation to completion</p>
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Flow Diagram</h3>
+          <MermaidDiagramSudo code={apiFlowDiagram}/>
+        </div>
+
+
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center mb-2">
+            <Lock className="h-5 w-5 text-amber-600 mr-2"/>
+            <h4 className="font-semibold text-amber-900">API Documentation</h4>
           </div>
-          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-            <MermaidDiagramSudo code={apiFlowDiagram}/>
-          </div>
+          <p className="text-sm text-amber-800 pl-2">
+            <strong>Important:</strong> Only fully onboarded and live merchants can utilize this service. To gain a
+            comprehensive understanding of the API, including sample data and testing capabilities, refer to the
+            official API documentation at
+            <a href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
+               className="text-amber-900 underline" target="_blank"
+               rel="noopener noreferrer">https://documenter.getpostman.com/view/30508792/2sB3BLi6vb</a>.
+            Proceed to the API Key Section to obtain the necessary keys for integration.
+          </p>
         </div>
 
         <div className="space-y-8">
