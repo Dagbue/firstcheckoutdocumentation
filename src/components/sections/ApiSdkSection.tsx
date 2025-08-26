@@ -2,7 +2,6 @@ import React from 'react';
 import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
-import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 
 
 export const ApiSdkSection: React.FC = () => {
@@ -155,24 +154,50 @@ public static string EncryptCardData(string cardData, string encryptionKey)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Flow Diagram</h3>
           <MermaidDiagramSudo code={apiFlowDiagram}/>
-          <MermaidDiagram>{apiFlowDiagram}</MermaidDiagram>
         </div>
 
 
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
           <div className="flex items-center mb-2">
             <Lock className="h-5 w-5 text-amber-600 mr-2"/>
-            <h4 className="font-semibold text-amber-900">API Documentation</h4>
+            <h4 className="font-semibold text-amber-900">📚 Comprehensive API Documentation</h4>
           </div>
-          <p className="text-sm text-amber-800 pl-2">
-            <strong>Important:</strong> Only fully onboarded and live merchants can utilize this service. To gain a
-            comprehensive understanding of the API, including sample data and testing capabilities, refer to the
-            official API documentation at
-            <a href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-               className="text-amber-900 underline" target="_blank"
-               rel="noopener noreferrer">https://documenter.getpostman.com/view/30508792/2sB3BLi6vb</a>.
-            Proceed to the API Key Section to obtain the necessary keys for integration.
-          </p>
+          <div className="space-y-4">
+            <div className="bg-amber-100 border border-amber-300 rounded-lg p-4">
+              <h5 className="font-semibold text-amber-900 mb-2">🔐 Merchant Requirements</h5>
+              <p className="text-sm text-amber-800">
+                <strong>Critical:</strong> Only fully onboarded and live merchants can utilize this service. 
+                Your merchant account must be approved and activated before accessing production APIs.
+              </p>
+            </div>
+            
+            <div className="bg-white border border-amber-200 rounded-lg p-4">
+              <h5 className="font-semibold text-amber-900 mb-3">📖 Official API Documentation</h5>
+              <p className="text-sm text-amber-800 mb-3">
+                Access our comprehensive Postman documentation for complete API reference, sample requests, 
+                response examples, and interactive testing capabilities:
+              </p>
+              <a 
+                href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
+                className="inline-flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📋 View Complete API Documentation
+                <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h5 className="font-semibold text-blue-900 mb-2">🔑 Next Steps</h5>
+              <p className="text-sm text-blue-800">
+                After reviewing the documentation, proceed to the <strong>API Keys & Credentials</strong> section 
+                to obtain your integration keys and begin implementation.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-8">
@@ -288,53 +313,106 @@ public static string EncryptCardData(string cardData, string encryptionKey)
         </div>
 
         <div className="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Supported Payment Methods</h3>
-          <div className="grid md:grid-cols-3 gap-4">
+          <h3 className="text-xl font-semibold text-gray-900 mb-6">💳 Supported Payment Methods</h3>
+          <p className="text-gray-600 mb-6">
+            FirstCheckout supports multiple payment channels to provide your customers with flexible payment options. 
+            Each method is optimized for the Nigerian market with high success rates.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-blue-100">
                 <CreditCard className="h-6 w-6 text-blue-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">Card Payments</h4>
-              {/*<p className="text-sm text-gray-600">Visa, Mastercard, Verve</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">Card Payments</h4>
+              <p className="text-sm text-gray-600 mb-2">Secure card processing with 3D authentication</p>
+              <div className="text-xs text-blue-600 space-y-1">
+                <div>• Visa & Mastercard</div>
+                <div>• Verve (Local cards)</div>
+                <div>• International cards</div>
+                <div>• OTP verification</div>
+              </div>
             </div>
+            
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-emerald-100">
                 <Code className="h-6 w-6 text-emerald-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">USSD</h4>
-              {/*<p className="text-sm text-gray-600">All major Nigerian banks</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">USSD Payments</h4>
+              <p className="text-sm text-gray-600 mb-2">Phone-based payments via USSD codes</p>
+              <div className="text-xs text-emerald-600 space-y-1">
+                <div>• All major Nigerian banks</div>
+                <div>• No internet required</div>
+                <div>• High success rates</div>
+                <div>• Mobile banking integration</div>
+              </div>
             </div>
+            
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-purple-100">
                 <Database className="h-6 w-6 text-purple-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">Bank Transfer</h4>
-              {/*<p className="text-sm text-gray-600">Virtual account generation</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">Bank Transfer</h4>
+              <p className="text-sm text-gray-600 mb-2">Direct bank transfers via virtual accounts</p>
+              <div className="text-xs text-purple-600 space-y-1">
+                <div>• Virtual account generation</div>
+                <div>• Automatic reconciliation</div>
+                <div>• 30-minute expiry</div>
+                <div>• Real-time confirmation</div>
+              </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 mt-6">
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-amber-100">
                 <QrCode className="h-6 w-6 text-blue-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">QR</h4>
-              {/*<p className="text-sm text-gray-600">Visa, Mastercard, Verve</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">QR Code Payments</h4>
+              <p className="text-sm text-gray-600 mb-2">Scan-to-pay with mobile banking apps</p>
+              <div className="text-xs text-blue-600 space-y-1">
+                <div>• Mobile-first experience</div>
+                <div>• Contactless payments</div>
+                <div>• Quick checkout</div>
+                <div>• Bank app integration</div>
+              </div>
             </div>
+            
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-green-100">
                 <BriefcaseIcon className="h-6 w-6 text-emerald-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">Buy Now Pay Later</h4>
-              {/*<p className="text-sm text-gray-600">All major Nigerian banks</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">Buy Now Pay Later</h4>
+              <p className="text-sm text-gray-600 mb-2">Flexible payment plans for customers</p>
+              <div className="text-xs text-emerald-600 space-y-1">
+                <div>• Installment payments</div>
+                <div>• Credit assessment</div>
+                <div>• Flexible terms</div>
+                <div>• Instant approval</div>
+              </div>
             </div>
+            
             <div className="text-center">
-              <div className="bg-white p-3 rounded-lg shadow-sm mb-2">
+              <div className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-indigo-100">
                 <ScanBarcode className="h-6 w-6 text-purple-600 mx-auto"/>
               </div>
-              <h4 className="font-medium">Pay Attitude</h4>
-              {/*<p className="text-sm text-gray-600">Virtual account generation</p>*/}
+              <h4 className="font-semibold text-gray-900 mb-2">Pay Attitude</h4>
+              <p className="text-sm text-gray-600 mb-2">Advanced payment processing solution</p>
+              <div className="text-xs text-purple-600 space-y-1">
+                <div>• Enhanced security</div>
+                <div>• Multi-channel support</div>
+                <div>• Smart routing</div>
+                <div>• Optimized success rates</div>
+              </div>
             </div>
+          </div>
+          
+          <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-900 mb-2">🎯 Payment Method Selection</h4>
+            <p className="text-sm text-blue-800">
+              You can configure which payment methods to display to your customers using the <code className="bg-blue-100 px-1 rounded">options</code> 
+              parameter in your integration. This allows you to customize the checkout experience based on your business needs.
+            </p>
           </div>
         </div>
       </div>
