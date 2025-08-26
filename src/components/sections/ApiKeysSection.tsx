@@ -608,10 +608,6 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                 </li>
                 <li className="flex items-start">
                   <input type="checkbox" className="mt-1 mr-2" />
-                  <span>Encryption Key retrieved and stored securely</span>
-                </li>
-                <li className="flex items-start">
-                  <input type="checkbox" className="mt-1 mr-2" />
                   <span>Client ID and Client Secret obtained</span>
                 </li>
                 <li className="flex items-start">

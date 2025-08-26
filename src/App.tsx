@@ -1,6 +1,6 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { MobileMenu } from './components/MobileMenu';
@@ -24,7 +24,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
-    <Router>
+    <Router basename="/onlinedoc">
       <div className="min-h-screen bg-gray-50">
         <Header onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         
