@@ -2,6 +2,7 @@ import React from 'react';
 import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
+import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 
 
 export const ApiSdkSection: React.FC = () => {
@@ -154,6 +155,7 @@ public static string EncryptCardData(string cardData, string encryptionKey)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Flow Diagram</h3>
           <MermaidDiagramSudo code={apiFlowDiagram}/>
+          <MermaidDiagram>{apiFlowDiagram}</MermaidDiagram>
         </div>
 
 
@@ -163,16 +165,16 @@ public static string EncryptCardData(string cardData, string encryptionKey)
             <h4 className="font-semibold text-amber-900">📚 Comprehensive API Documentation</h4>
           </div>
           <div className="space-y-4">
-            <div className="bg-amber-100 border border-amber-300 rounded-lg p-4">
-              <h5 className="font-semibold text-amber-900 mb-2">🔐 Merchant Requirements</h5>
-              <p className="text-sm text-amber-800">
-                <strong>Critical:</strong> Only fully onboarded and live merchants can utilize this service. 
-                Your merchant account must be approved and activated before accessing production APIs.
-              </p>
-            </div>
+            {/*<div className="bg-amber-100 border border-amber-300 rounded-lg p-4">*/}
+            {/*  <h5 className="font-semibold text-amber-900 mb-2">🔐 Merchant Requirements</h5>*/}
+            {/*  <p className="text-sm text-amber-800">*/}
+            {/*    <strong>Critical:</strong> Only fully onboarded and live merchants can utilize this service. */}
+            {/*    Your merchant account must be approved and activated before accessing production APIs.*/}
+            {/*  </p>*/}
+            {/*</div>*/}
             
-            <div className="bg-white border border-amber-200 rounded-lg p-4">
-              <h5 className="font-semibold text-amber-900 mb-3">📖 Official API Documentation</h5>
+            <div className="bg-amber-100 border border-amber-300 rounded-lg p-4">
+              <h5 className="font-semibold text-amber-900 mb-2">📖 Official API Documentation</h5>
               <p className="text-sm text-amber-800 mb-3">
                 Access our comprehensive Postman documentation for complete API reference, sample requests, 
                 response examples, and interactive testing capabilities:

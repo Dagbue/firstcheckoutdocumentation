@@ -3,6 +3,7 @@ import { UserPlus, FileCheck, Clock, CheckCircle, AlertTriangle, Shield, CreditC
   // Download
 } from 'lucide-react';
 import { MermaidDiagramSudo } from '../MermaidDiagramSudo.tsx';
+import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 import registrationImage from '../../assets/registrationImage.png';
 
 export const RegistrationSection: React.FC = () => {
@@ -360,6 +361,7 @@ sequenceDiagram
               This sequence diagram shows the complete registration and approval process with all stakeholders.
             </p>
             <MermaidDiagramSudo code={registrationFlow} />
+            <MermaidDiagram>{registrationFlow}</MermaidDiagram>
           </div>
 
           {/* Required Documents Section */}

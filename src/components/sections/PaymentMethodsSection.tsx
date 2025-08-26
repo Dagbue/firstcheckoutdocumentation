@@ -2,6 +2,7 @@ import React from 'react';
 import { CreditCard, Smartphone, Ban as Bank, QrCode } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
+import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 
 
 export const PaymentMethodsSection: React.FC = () => {
@@ -105,6 +106,7 @@ graph TD
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Process Overview</h4>
                 <MermaidDiagramSudo code={cardFlowDiagram}/>
+                <MermaidDiagram>{cardFlowDiagram}</MermaidDiagram>
               </div>
               
               <div>
@@ -151,6 +153,7 @@ graph TD
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Process Overview</h4>
                 <MermaidDiagramSudo code={ussdFlowDiagram}/>
+                <MermaidDiagram>{ussdFlowDiagram}</MermaidDiagram>
               </div>
               
               <div>
