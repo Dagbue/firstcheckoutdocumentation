@@ -1,5 +1,5 @@
 import React from 'react';
-import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, Zap, CheckCircle, AlertTriangle} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 
