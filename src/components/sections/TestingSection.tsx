@@ -17,8 +17,9 @@ export const TestingSection: React.FC = () => {
     {
       scenario: "Failed Card Payment",
       steps: [
-        "Use test card: 4000000000000002",
-        "Enter any PIN",
+        "Use test card: 5061830100001895",
+        "Enter PIN: 1111 when prompted",
+        "Use OTP: 123456 for verification",
         "Transaction should fail",
         "Verify error handling"
       ],
@@ -134,7 +135,7 @@ export const TestingSection: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Testing & Debugging</h2>
         <p className="text-lg text-gray-600 mb-8">
-          Comprehensive testing is crucial for successful payment integration. FirstCheckout provides 
+          Comprehensive testing is crucial for successful payment integration. FirstChekout provides
           robust sandbox environment and debugging tools to ensure your integration works perfectly.
         </p>
 
@@ -178,16 +179,16 @@ export const TestingSection: React.FC = () => {
                 <div className="space-y-2 text-sm">
                   <div className="bg-gray-50 p-3 rounded">
                     <strong>Payment Gateway:</strong><br />
-                    <code className="text-blue-600">https://payment-solution-gateway.azurewebsites.net</code>
+                    <code className="text-blue-600">https://www.firstchekoutdev.com/apigateway/</code>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
                     <strong>Identity Service:</strong><br />
-                    <code className="text-blue-600">https://payment-solution-identity.azurewebsites.net</code>
+                    <code className="text-blue-600">https://www.firstchekoutdev.com/identityserver/</code>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded">
-                    <strong>Checkout Frame:</strong><br />
-                    <code className="text-blue-600">https://checkout.firstchekout.com</code>
-                  </div>
+                  {/*<div className="bg-gray-50 p-3 rounded">*/}
+                  {/*  <strong>Checkout Frame:</strong><br />*/}
+                  {/*  <code className="text-blue-600">https://checkout.firstchekout.com</code>*/}
+                  {/*</div>*/}
                 </div>
               </div>
 
@@ -305,7 +306,7 @@ export const TestingSection: React.FC = () => {
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                 <h4 className="font-semibold text-emerald-900 mb-2">✅ API Authentication Issues</h4>
                 <ul className="text-sm text-emerald-800 space-y-1">
-                  <li>• Generate fresh access token if expired (10-hour expiry)</li>
+                  <li>• Generate fresh access token if expired (30-minutes expiry)</li>
                   <li>• Check Client ID and Client Secret are correct</li>
                   <li>• Verify Bearer token format in Authorization header</li>
                   <li>• Test token validity at jwt.io</li>

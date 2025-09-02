@@ -2,6 +2,7 @@ import React from 'react';
 import { CreditCard, Smartphone, Ban as Bank, QrCode } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
+import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 
 
 export const PaymentMethodsSection: React.FC = () => {
@@ -25,7 +26,7 @@ graph TD
     F --> G[Query Transaction Status]
   `;
 
-  const cardInitiateCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/cards/initiate' \\
+  const cardInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/cards/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -34,7 +35,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const ussdInitiateCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/ussd/initiate' \\
+  const ussdInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/ussd/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -43,7 +44,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const transferInitiateCode = `curl --location 'https://payment-solution-gateway.azurewebsites.net/api/v1/paywithtransfer/initiate' \\
+  const transferInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/paywithtransfer/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -52,7 +53,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const testCardsCode = `# Test Card Numbers (Sandbox Only)
+  const testCardsCode = `# Test Card Numbers
 
 # Verve Cards
   5061050254756707864  # Expiry: 06/26, CVV: 111, PIN: 1111
@@ -70,7 +71,7 @@ graph TD
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Payment Methods & Flows</h2>
         <p className="text-lg text-gray-600 mb-8">
-          FirstCheckout supports multiple payment methods to give your customers flexibility. 
+          FirstChekout supports multiple payment methods to give your customers flexibility.
           Each method has specific initiation and confirmation steps optimized for the Nigerian market.
         </p>
 
@@ -105,6 +106,7 @@ graph TD
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Process Overview</h4>
                 <MermaidDiagramSudo code={cardFlowDiagram}/>
+                <MermaidDiagram>{cardFlowDiagram}</MermaidDiagram>
               </div>
               
               <div>
@@ -151,6 +153,7 @@ graph TD
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Process Overview</h4>
                 <MermaidDiagramSudo code={ussdFlowDiagram}/>
+                <MermaidDiagram>{ussdFlowDiagram}</MermaidDiagram>
               </div>
               
               <div>
@@ -246,7 +249,7 @@ graph TD
           </div>
 
           <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Testing & Sandbox</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Sample Cards</h3>
             
             <div className="bg-gray-50 rounded-lg p-6 mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Test Card Numbers</h4>

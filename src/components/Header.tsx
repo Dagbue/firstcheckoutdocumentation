@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Search, ExternalLink } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import {Logo} from "../assets";
 
 interface HeaderProps {
@@ -40,20 +40,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 />
               </div>
 
-              <div
-                  className="hidden md:block"
+              <a
+                  href="https://www.firstchekout.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden md:block inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bank-blue hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-blue transition-colors"
               >
-                <a
-                    href="https://www.firstchekout.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bank-blue hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-blue transition-colors"
-                >
-                  Merchant Portal
-                  <ExternalLink className="ml-2 h-4 w-4"/>
-                </a>
-              </div>
-
+                Merchant Portal
+                {/*<ExternalLink className="ml-2 h-4 w-4"/>*/}
+              </a>
             </div>
           </div>
         </div>

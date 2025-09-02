@@ -8,13 +8,13 @@ export const CdnScriptSection: React.FC = () => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FirstChekOut Payment</title>
+  <title>FirstChekout Payment</title>
 
   <meta http-equiv="Content-Security-Policy"
   content="
     default-src 'self';
-    script-src 'self' https://cdn.jsdelivr.net 'nonce-ZzH3rPzP8XzP5+v/EGVjNA==';
-    style-src 'self' 'nonce-ZzH3rPzP8XzP5+v/EGVjNA==';
+    script-src 'self' https://cdn.jsdelivr.net 'your_nonce_here';
+    style-src 'self' 'your_nonce_here';
     img-src 'self' data: https://www.firstchekout.com/bankslogo/loader_ring.gif;
     connect-src https://paymentcheckoutui.azurewebsites.net https://payment-checkout-dev.azurewebsites.net;
     frame-src https://paymentcheckoutui.azurewebsites.net;
@@ -25,7 +25,7 @@ export const CdnScriptSection: React.FC = () => {
     block-all-mixed-content;
   ">
 
-  <style nonce="ZzH3rPzP8XzP5+v/EGVjNA==">
+  <style nonce="your_nonce_here">
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -63,12 +63,12 @@ export const CdnScriptSection: React.FC = () => {
   <div id="errorContainer"></div>
 
   <!-- ✅ Load SDK securely with SRI and crossorigin -->
-  <script src="https://cdn.jsdelivr.net/npm/firstchekout@1.5.41/dist/fbncheckout.js"
-    integrity="sha384-ejTDG9NwYhQnHG5ibsV9qfRGNpgzA3OeH92BMVL/RqD1Gxv2PLo3QJl9uAeXRZn6"
-    crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/firstchekout@1.5.41/dist/fbncheckout.js"
+   integrity="sha384-ejTDG9NwYhQnHG5ibsV9qfRGNpgzA3OeH92BMVL/RqD1Gxv2PLo3QJl9uAeXRZn6"
+   crossorigin="anonymous"></script>
 
   <!-- ✅ Inline script secured with nonce -->
-  <script nonce="ZzH3rPzP8XzP5+v/EGVjNA==">
+  <script nonce="your_nonce_here">
     function sendError(message) {
       console.error(message);
       document.getElementById('errorContainer').innerHTML = \`<h3>\${escapeHtml(message)}</h3>\`;
@@ -91,7 +91,7 @@ export const CdnScriptSection: React.FC = () => {
       const customerId = params.get('customerId') || 'cust_default';
       const ref = params.get('ref') || 'txn_' + Date.now();
       const live = params.get('live') === 'true';
-      const publicKey = params.get('publicKey') || 'sb-pk-tuAuFE1z761dj3kJ3GwLUbqIkIeI7fpXBOP';
+      const publicKey = params.get('publicKey') || 'sb-pk-your_public_key_here';
       const currency = params.get('currency') || 'NGN';
       const description = params.get('description') || 'Default Transaction';
 
@@ -158,12 +158,12 @@ export const CdnScriptSection: React.FC = () => {
           onClose: () => {
             window.ReactNativeWebView?.postMessage(JSON.stringify({ status: 'cancelled' }));
           },
-          options: ["QR", "CARD", "WALLET", "PAYATTITUE"]
+          options: ["QR", "CARD", "WALLET", "PAYATTITUE", "QR", "BNPL"]
         };
 
         const addressUrl = {
-          BaseFrame: 'https://paymentcheckoutui.azurewebsites.net',
-          InitiatePaymentURI: 'https://payment-checkout-dev.azurewebsites.net/api/v1/transactions/initiate'
+        BaseFrame: "base_frame",
+        InitiatePaymentURI: "initiate_payment_URI"
         };
 
         try {
@@ -185,7 +185,7 @@ $nonce = base64_encode(random_bytes(16));
 
 // Get environment variables
 $environment = getenv('ENVIRONMENT') === 'production' ? 'true' : 'false';
-$publicKey = getenv('FIRSTCHECKOUT_PUBLIC_KEY') ?: 'sb-pk-tuAuFE1z761dj3kJ3GwLUbqIkIeI7fpXBOP';
+$publicKey = getenv('FIRSTCHEKOUT_PUBLIC_KEY') ?: 'sb-pk-your_public_key_here';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -388,12 +388,12 @@ $publicKey = getenv('FIRSTCHECKOUT_PUBLIC_KEY') ?: 'sb-pk-tuAuFE1z761dj3kJ3GwLUb
                 onClose: () => {
                     window.ReactNativeWebView?.postMessage(JSON.stringify({ status: 'cancelled' }));
                 },
-                options: ["QR", "CARD", "WALLET", "PAYATTITUE"]
+                options: ["QR", "CARD", "WALLET", "PAYATTITUE", "QR", "BNPL"]
             };
 
             const addressUrl = {
-                BaseFrame: 'https://paymentcheckoutui.azurewebsites.net',
-                InitiatePaymentURI: 'https://payment-checkout-dev.azurewebsites.net/api/v1/transactions/initiate'
+            BaseFrame: "base_frame",
+            InitiatePaymentURI: "initiate_payment_URI"
             };
 
             try {
@@ -412,7 +412,7 @@ $publicKey = getenv('FIRSTCHECKOUT_PUBLIC_KEY') ?: 'sb-pk-tuAuFE1z761dj3kJ3GwLUb
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced FirstCheckout Integration</title>
+    <title>Advanced FirstChekout Integration</title>
     <style>
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         .product-card { border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; }
@@ -592,7 +592,7 @@ $publicKey = getenv('FIRSTCHECKOUT_PUBLIC_KEY') ?: 'sb-pk-tuAuFE1z761dj3kJ3GwLUb
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Basic HTML Integration</h3>
               <p className="text-gray-600 mb-4">
-                Complete HTML page with FirstCheckout integration - no frameworks required:
+                Complete HTML page with FirstChekout integration - no frameworks required:
               </p>
               <CodeBlock language="html" code={basicHtmlCode} />
             </div>
@@ -666,16 +666,16 @@ $publicKey = getenv('FIRSTCHECKOUT_PUBLIC_KEY') ?: 'sb-pk-tuAuFE1z761dj3kJ3GwLUb
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-900 mb-4">Content Security Policy (CSP)</h3>
-              <p className="text-blue-800 mb-3">
-                If your site uses CSP headers, add these domains to allow FirstCheckout to load:
-              </p>
-              <CodeBlock
-                  language="text"
-                  code={`Content-Security-Policy: script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://paymentcheckoutui.azurewebsites.net https://payment-checkout-dev.azurewebsites.net; frame-src https://paymentcheckoutui.azurewebsites.net;`}
-              />
-            </div>
+            {/*<div className="bg-blue-50 border border-blue-200 rounded-lg p-6">*/}
+            {/*  <h3 className="text-lg font-semibold text-blue-900 mb-4">Content Security Policy (CSP)</h3>*/}
+            {/*  <p className="text-blue-800 mb-3">*/}
+            {/*    If your site uses CSP headers, add these domains to allow FirstChekout to load:*/}
+            {/*  </p>*/}
+            {/*  <CodeBlock*/}
+            {/*      language="text"*/}
+            {/*      code={`Content-Security-Policy: script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://paymentcheckoutui.azurewebsites.net https://payment-checkout-dev.azurewebsites.net; frame-src https://paymentcheckoutui.azurewebsites.net;`}*/}
+            {/*  />*/}
+            {/*</div>*/}
           </div>
         </div>
       </section>
