@@ -7,6 +7,12 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
+
+  // const openMerchantPortal = () => {
+  //   window.open('https://www.firstchekout.com/', '_blank', 'noopener,noreferrer');
+  // };
+
+
   return (
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="px-4 sm:px-6 lg:px-8">

@@ -23,7 +23,7 @@ graph TD
   return (
     <section id="overview" className="mb-16">
       <div className="bg-bank-blue rounded-xl p-8 text-white mb-8">
-        <h1 className="text-3xl font-bold mb-4">FirstCheckout Payment Gateway</h1>
+        <h1 className="text-3xl font-bold mb-4">FirstChekout Payment Gateway</h1>
         <p className="text-l text-white/80 mb-6">
           The official payment gateway by First Bank of Nigeria, designed for merchants to receive payments 
           seamlessly via multiple payment methods including cards, USSD, and bank transfers.

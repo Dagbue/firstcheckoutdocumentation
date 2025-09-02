@@ -39,20 +39,20 @@ export const ApiKeysSection: React.FC = () => {
   const envExample = `# Environment Variables (.env)
 # NEVER commit this file to version control!
 
-# FirstCheckout API Credentials
-FIRSTCHECKOUT_PUBLIC_KEY=pk_live_your_public_key_here
-FIRSTCHECKOUT_SECRET_KEY=sk_live_your_secret_key_here
-FIRSTCHECKOUT_ENCRYPTION_KEY=your_32_character_encryption_key_here
-FIRSTCHECKOUT_CLIENT_ID=cid-J1MWSNKBCG8ML6TE7VMB9SOMW17F3CHDBBIPY30
-FIRSTCHECKOUT_CLIENT_SECRET=sb-bb7a2VHsXkaHiDe2vbXJDvFwtkRG6bh2k3l98Zho2f9bk2zpQ8nGdp2b829ov
+# FirstChekout API Credentials
+FIRSTCHEKOUT_PUBLIC_KEY=pk_live_your_public_key_here
+FIRSTCHEKOUT_SECRET_KEY=sk_live_your_secret_key_here
+FIRSTCHEKOUT_ENCRYPTION_KEY=your_32_character_encryption_key_here
+FIRSTCHEKOUT_CLIENT_ID=cid_your_client_id_here
+FIRSTCHEKOUT_CLIENT_SECRET=sb_your_client_secret_here
 
 # Webhook Security
 WEBHOOK_SECRET=your_webhook_secret_for_signature_verification
 
 # Environment Configuration
-FIRSTCHECKOUT_ENVIRONMENT=sandbox # or 'live' for production
-FIRSTCHECKOUT_GATEWAY_BASE_URL=https://payment-solution-gateway.azurewebsites.net
-FIRSTCHECKOUT_TOKEN_BASE_URL=https://payment-solution-identity.azurewebsites.net
+FIRSTCHEKOUT_ENVIRONMENT=sandbox # or 'live' for production
+FIRSTCHEKOUT_GATEWAY_BASE_URL=https://www.firstchekoutdev.com/apigateway/
+FIRSTCHEKOUT_TOKEN_BASE_URL=https://www.firstchekoutdev.com/identityserver/
 
 # Database (if storing transaction data)
 DATABASE_URL=postgresql://encrypted_connection_string
@@ -62,7 +62,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
     {
       step: 1,
       title: "Complete Merchant Onboarding",
-      description: "Fully onboard on the FirstCheckout platform and ensure your account is live",
+      description: "Fully onboard on the FirstChekout platform and ensure your account is live",
       details: [
         "Complete KYC verification process",
         "Submit all required business documents",
@@ -122,7 +122,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
             API Integration for Merchant
           </h2>
           <p className="text-lg text-gray-600 max-w-4xl ">
-            This document provides a step-by-step guide to integrating with the FirstCheckout Platform via API across
+            This document provides a step-by-step guide to integrating with the FirstChekout Platform via API across
             all supported payment methods. The platform supports a wide range of channels including Card, USSD,
             Bank Account, Virtual Account, Bank Transfer, e-Naira, SoftPOS, Wallet, QR,
             and Buy Now Pay Later (BNPL). Integration can be implemented in any programming language, with
@@ -156,7 +156,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
           <div>
             <img
                 src={apiKeyDashImage}
-                alt="FirstCheckout Registration Form"
+                alt="FirstChekout Registration Form"
             />
           </div>
 
@@ -170,7 +170,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
           {/*          <span className="text-white text-sm font-bold">FC</span>*/}
           {/*        </div>*/}
           {/*        <div>*/}
-          {/*          <h4 className="font-semibold text-gray-900">FirstCheckout Dashboard</h4>*/}
+          {/*          <h4 className="font-semibold text-gray-900">FirstChekout Dashboard</h4>*/}
           {/*          <p className="text-sm text-gray-500">Merchant Portal</p>*/}
           {/*        </div>*/}
           {/*      </div>*/}
@@ -266,7 +266,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
           {/*          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-sm"*/}
           {/*        />*/}
           {/*        <p className="text-xs text-gray-500 mt-1">*/}
-          {/*          URL where FirstCheckout will send payment notifications*/}
+          {/*          URL where FirstChekout will send payment notifications*/}
           {/*        </p>*/}
           {/*      </div>*/}
           {/*    </div>*/}

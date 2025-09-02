@@ -204,7 +204,7 @@ export const TroubleshootingSection: React.FC = () => {
         "Test webhook URL with tools like Postman",
         "Ensure endpoint returns HTTP 200 status",
         "Use valid SSL certificate",
-        "Configure firewall to allow FirstCheckout IPs"
+        "Configure firewall to allow FirstChekout IPs"
       ]
     }
   ];
@@ -253,7 +253,7 @@ export const TroubleshootingSection: React.FC = () => {
           {/*    <div>*/}
           {/*      <h4 className="text-lg font-semibold text-gray-900 mb-3">Network Connectivity Test</h4>*/}
           {/*      <p className="text-gray-600 mb-4">*/}
-          {/*        Test connectivity to FirstCheckout endpoints to ensure network access:*/}
+          {/*        Test connectivity to FirstChekout endpoints to ensure network access:*/}
           {/*      </p>*/}
           {/*      <CodeBlock language="javascript" code={networkDiagnostic} />*/}
           {/*    </div>*/}
@@ -360,7 +360,7 @@ export const TroubleshootingSection: React.FC = () => {
                   Q: How long do access tokens last?
                 </h4>
                 <p className="text-gray-600 text-sm">
-                  <strong>A:</strong> OAuth access tokens expire after 10 hours. Implement token refresh logic 
+                  <strong>A:</strong> OAuth access tokens expire after 30 Minutes. Implement token refresh logic
                   or generate new tokens when you receive 401 Unauthorized responses.
                 </p>
               </div>
@@ -371,7 +371,7 @@ export const TroubleshootingSection: React.FC = () => {
                 </h4>
                 <p className="text-gray-600 text-sm">
                   <strong>A:</strong> Yes, use tools like ngrok to expose your local development server to the internet. 
-                  FirstCheckout webhooks require publicly accessible HTTPS URLs.
+                  FirstChekout webhooks require publicly accessible HTTPS URLs.
                 </p>
               </div>
 
@@ -400,7 +400,7 @@ export const TroubleshootingSection: React.FC = () => {
                   Q: Can customers use international cards?
                 </h4>
                 <p className="text-gray-600 text-sm">
-                  <strong>A:</strong> Yes, FirstCheckout supports international Visa and Mastercard. However, some 
+                  <strong>A:</strong> Yes, FirstChekout supports international Visa and Mastercard. However, some
                   foreign cards may be declined by issuing banks for online Nigerian transactions.
                 </p>
               </div>

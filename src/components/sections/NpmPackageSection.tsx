@@ -5,7 +5,7 @@ import { CodeBlock } from '../CodeBlock';
 export const NpmPackageSection: React.FC = () => {
   const installationCode = `npm install firstchekout`;
 
-  const basicUsageCode = `import firstchekout from "firstchekout";
+  const basicUsageCode = `import FirstChekout from "firstchekout";
 
 async function makePayment() {
   const txn = {
@@ -38,23 +38,23 @@ async function makePayment() {
     onClose: () => {
       console.log("Payment modal closed");
     },
-    options: ["CARD", "USSD", "PAYATTITUDE", "QR"]
+    options: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]
   };
 
   const addressURL = {
-    BaseFrame: "https://checkout-frame-url.com",
-    InitiatePaymentURI: "https://gateway-url.com/api/v1/transactions/initiate"
+    BaseFrame: "base_frame",
+    InitiatePaymentURI: "initiate_payment_URI"
   };
 
   try {
-    await firstchekout.initiateTransactionAsync(txn, addressURL);
+    await FirstChekout.initiateTransactionAsync(txn, addressURL);
   } catch (error) {
     console.error("Payment initiation failed:", error);
   }
 }`;
 
   const reactExampleCode = `import React, { useState } from 'react';
-import firstchekout from "firstchekout";
+import FirstChekout from "FirstChekout";
 
 const PaymentButton = () => {
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ const PaymentButton = () => {
     setLoading(true);
     
     const config = {
-      live: process.env.NODE_ENV === 'production',
+        live: 'false, // Set to true for production',
       ref: \`payment-\${Date.now()}\`,
       amount: 10000, // NGN 100.00
       customer,
@@ -88,16 +88,16 @@ const PaymentButton = () => {
       onClose: () => {
         setLoading(false);
       },
-      options: ["CARD", "USSD", "PAYATTITUDE"]
+      options: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]
     };
 
     const urls = {
-      BaseFrame: "https://checkout.firstchekout.com",
-      InitiatePaymentURI: "https://api.firstchekout.com/v1/transactions/initiate"
+    BaseFrame: "base_frame",
+    InitiatePaymentURI: "initiate_payment_URI"
     };
 
     try {
-      await firstchekout.initiateTransactionAsync(config, urls);
+      await FirstChekout.initiateTransactionAsync(config, urls);
     } catch (error) {
       setLoading(false);
       console.error("Payment error:", error);
@@ -130,7 +130,7 @@ export default PaymentButton;`;
 </template>
 
 <script>
-import firstchekout from "firstchekout";
+import FirstChekout from "FirstChekout";
 
 export default {
   name: "PaymentComponent",
@@ -144,7 +144,8 @@ export default {
       this.loading = true;
       
       const config = {
-        live: process.env.NODE_ENV === 'production',
+        // live: process.env.NODE_ENV === 'production',
+        live: 'false, // Set to true for production',
         ref: \`vue-payment-\${Date.now()}\`,
         amount: 7500,
         customer: {
@@ -162,13 +163,13 @@ export default {
         onClose: () => {
           this.loading = false;
         },
-        options: ["CARD", "USSD"]
+        options: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]
       };
 
       try {
-        await firstchekout.initiateTransactionAsync(config, {
-          BaseFrame: "https://checkout.firstchekout.com",
-          InitiatePaymentURI: "https://api.firstchekout.com/v1/transactions/initiate"
+        await FirstChekout.initiateTransactionAsync(config, {
+        BaseFrame: "base_frame",
+        InitiatePaymentURI: "initiate_payment_URI"
         });
       } catch (error) {
         this.loading = false;
@@ -211,7 +212,7 @@ export default {
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Installation</h3>
             <p className="text-gray-600 mb-4">
-              Install the FirstCheckout NPM package using npm or yarn:
+              Install the FirstChekout NPM package using npm or yarn:
             </p>
             <CodeBlock language="bash" code={installationCode} />
           </div>
@@ -219,7 +220,7 @@ export default {
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Basic Usage</h3>
             <p className="text-gray-600 mb-4">
-              Import and configure FirstCheckout with your payment details:
+              Import and configure FirstChekout with your payment details:
             </p>
             <CodeBlock language="javascript" code={basicUsageCode} />
           </div>
@@ -285,13 +286,13 @@ export default {
                       <td className="py-2 px-3 font-mono text-blue-600">publicKey</td>
                       <td className="py-2 px-3">string</td>
                       <td className="py-2 px-3">Yes</td>
-                      <td className="py-2 px-3">Your FirstCheckout public key</td>
+                      <td className="py-2 px-3">Your FirstChekout public key</td>
                     </tr>
                     <tr className="border-b border-gray-100">
                       <td className="py-2 px-3 font-mono text-blue-600">options</td>
                       <td className="py-2 px-3">array</td>
                       <td className="py-2 px-3">No</td>
-                      <td className="py-2 px-3">Payment methods: ["CARD", "USSD", "PAYATTITUDE", "QR"]</td>
+                      <td className="py-2 px-3">Payment methods: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]</td>
                     </tr>
                     <tr>
                       <td className="py-2 px-3 font-mono text-blue-600">callback</td>

@@ -7,6 +7,10 @@ import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
 import registrationImage from '../../assets/registrationImage.png';
 
 export const RegistrationSection: React.FC = () => {
+  // const openSignUpPage = () => {
+  //   window.open('https://www.firstchekout.com/auth/signup', '_blank', 'noopener,noreferrer');
+  // };
+
   const registrationFlow = `
 sequenceDiagram
     participant M as Merchant
@@ -33,9 +37,9 @@ sequenceDiagram
     {
       number: 1,
       title: "Account Creation",
-      description: "Start your FirstCheckout journey by creating your merchant account",
+      description: "Start your FirstChekout journey by creating your merchant account",
       details: [
-        `Visit the <a href="https://www.firstchekout.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">FirstCheckout</a> merchant portal`,
+        `Visit the <a href="https://www.firstchekout.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">FirstChekout</a> merchant portal`,
         "Click 'Sign Up' to begin registration",
         "Enter your personal information (First Name, Last Name)",
         "Provide a valid business email address",
@@ -238,7 +242,7 @@ sequenceDiagram
           <div className="text-left mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Merchant Registration & Onboarding</h2>
             <p className="text-lg text-gray-600 max-w-3xl text-left">
-              Welcome to FirstCheckout! Follow our comprehensive step-by-step guide to create and activate your merchant account.
+              Welcome to FirstChekout! Follow our comprehensive step-by-step guide to create and activate your merchant account.
               Our streamlined onboarding process ensures you're ready to accept payments quickly and securely.
             </p>
           </div>
@@ -247,9 +251,9 @@ sequenceDiagram
           <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white mb-8">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-2">Welcome onboard FirstCheckout</h3>
+                <h3 className="text-2xl font-bold mb-2">Welcome onboard FirstChekout</h3>
                 <p className="text-blue-100 mb-4">
-                  Enhance your payment experience with FirstCheckout, the seamless payment solution that enables
+                  Enhance your payment experience with FirstChekout, the seamless payment solution that enables
                   you to offer your customers convenient and stress-free transactions.
                 </p>
                 <div className="flex items-center space-x-4">
@@ -293,7 +297,7 @@ sequenceDiagram
             <div>
               <img
                   src={registrationImage}
-                  alt="FirstCheckout Registration Form"
+                  alt="FirstChekout Registration Form"
               />
             </div>
 
@@ -304,7 +308,7 @@ sequenceDiagram
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 bg-bank-blue text-white rounded-lg hover:bg-opacity-90 transition-colors"
               >
-                <UserPlus className="mr-2 h-5 w-5" />
+                <UserPlus className="mr-2 h-5 w-5"/>
                 Start Registration Now
               </a>
             </div>
@@ -513,7 +517,7 @@ sequenceDiagram
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
               >
-                <UserPlus className="mr-2 h-5 w-5" />
+                <UserPlus className="mr-2 h-5 w-5"/>
                 Start Your Registration
               </a>
               {/*<button className="inline-flex items-center px-6 py-3 border border-emerald-600 text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors">*/}

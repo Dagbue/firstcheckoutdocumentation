@@ -141,52 +141,31 @@ app.post('/webhook/firstcheckout', express.raw({type: 'application/json'}), (req
   const secureConfigExample = `# Secure Environment Variables (.env)
 # NEVER commit this file to version control!
 
-# FirstCheckout API Credentials
-FIRSTCHECKOUT_PUBLIC_KEY=pk_live_your_public_key_here
-FIRSTCHECKOUT_SECRET_KEY=sk_live_your_secret_key_here
-FIRSTCHECKOUT_ENCRYPTION_KEY=your_32_character_encryption_key_here
-FIRSTCHECKOUT_CLIENT_ID=your_client_id_here
-FIRSTCHECKOUT_CLIENT_SECRET=your_client_secret_here
+# FirstChekout API Credentials
+FIRSTCHEKOUT_PUBLIC_KEY=pk_live_your_public_key_here
+FIRSTCHEKOUT_SECRET_KEY=sk_live_your_secret_key_here
+FIRSTCHEKOUT_ENCRYPTION_KEY=your_32_character_encryption_key_here
+FIRSTCHEKOUT_CLIENT_ID=your_client_id_here
+FIRSTCHEKOUT_CLIENT_SECRET=your_client_secret_here
 
 # Webhook Security
 WEBHOOK_SECRET=your_webhook_secret_for_signature_verification
 
 # Environment
-FIRSTCHECKOUT_ENVIRONMENT=live
+FIRSTCHEKOUT_ENVIRONMENT=live
 
 # Database (if storing transaction data)
 DATABASE_URL=postgresql://encrypted_connection_string
 DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
 
-  const rateLimitingExample = `// Rate limiting for payment endpoints
-const rateLimit = require('express-rate-limit');
 
-const paymentLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 payment requests per windowMs
-  message: 'Too many payment attempts, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// Apply to payment routes
-app.use('/api/payments', paymentLimiter);
-
-// Additional protection for sensitive operations
-const cardLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 3, // Max 3 card attempts per minute
-  skipSuccessfulRequests: true
-});
-
-app.use('/api/payments/card', cardLimiter);`;
 
   return (
     <section id="security" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Security & Compliance</h2>
         <p className="text-lg text-gray-600 mb-8">
-          FirstCheckout implements industry-leading security measures to protect payment data and ensure compliance 
+          FirstChekout implements industry-leading security measures to protect payment data and ensure compliance
           with international standards. Understanding and implementing these security practices is crucial for 
           protecting your customers and business.
         </p>
@@ -224,7 +203,7 @@ app.use('/api/payments/card', cardLimiter);`;
                 <h4 className="text-lg font-semibold text-red-900">Critical Requirement</h4>
               </div>
               <p className="text-red-800 mb-4">
-                All card data MUST be encrypted using AES-256 encryption before transmission to FirstCheckout APIs. 
+                All card data MUST be encrypted using AES-256 encryption before transmission to FirstChekout APIs.
                 Never send plain card details over the network.
               </p>
               <div className="bg-red-100 p-3 rounded">
@@ -330,46 +309,7 @@ app.use('/api/payments/card', cardLimiter);`;
             </div>
           </div>
 
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Rate Limiting & Protection</h3>
-            
-            <p className="text-gray-600 mb-4">
-              Implement rate limiting to protect against abuse and ensure system stability:
-            </p>
 
-            <div className="mb-6">
-              <CodeBlock language="javascript" code={rateLimitingExample} />
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="font-semibold text-blue-900 mb-2">API Rate Limits</h4>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• 100 requests/minute per IP</li>
-                  <li>• 500 requests/hour per merchant</li>
-                  <li>• Burst protection enabled</li>
-                </ul>
-              </div>
-              
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                <h4 className="font-semibold text-purple-900 mb-2">Payment Limits</h4>
-                <ul className="text-sm text-purple-800 space-y-1">
-                  <li>• 5 payments/15min per IP</li>
-                  <li>• 3 card attempts/minute</li>
-                  <li>• Automatic fraud detection</li>
-                </ul>
-              </div>
-              
-              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-                <h4 className="font-semibold text-emerald-900 mb-2">Protection Features</h4>
-                <ul className="text-sm text-emerald-800 space-y-1">
-                  <li>• DDoS protection</li>
-                  <li>• IP whitelisting available</li>
-                  <li>• Automated threat detection</li>
-                </ul>
-              </div>
-            </div>
-          </div>
 
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Compliance Requirements</h3>
@@ -394,7 +334,7 @@ app.use('/api/payments/card', cardLimiter);`;
                   </div>
                   
                   <div>
-                    <h5 className="font-semibold text-gray-900 mb-2">FirstCheckout Handles</h5>
+                    <h5 className="font-semibold text-gray-900 mb-2">FirstChekout Handles</h5>
                     <ul className="text-sm text-gray-600 space-y-1">
                       <li>• Secure payment processing</li>
                       <li>• Card data encryption and tokenization</li>
@@ -447,7 +387,7 @@ app.use('/api/payments/card', cardLimiter);`;
                   </li>
                   <li className="flex">
                     <span className="flex-shrink-0 w-5 h-5 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xs font-semibold mr-2 mt-0.5">2</span>
-                    <span>Contact FirstCheckout support immediately</span>
+                    <span>Contact FirstChekout support immediately</span>
                   </li>
                   <li className="flex">
                     <span className="flex-shrink-0 w-5 h-5 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xs font-semibold mr-2 mt-0.5">3</span>

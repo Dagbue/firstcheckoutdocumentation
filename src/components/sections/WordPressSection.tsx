@@ -17,7 +17,7 @@ export const WordPressSection: React.FC = () => {
       steps: [
         "Log in to your WordPress admin panel",
         "Navigate to Plugins > Add New",
-        "Search for FirstChekOut",
+        "Search for FirstChekout",
         "Click Install Now, then click Activate (see Figure 1 below)"
       ],
       note: "Automatic installation from WordPress repository"
@@ -40,7 +40,7 @@ export const WordPressSection: React.FC = () => {
     {
       step: 1,
       title: "Ensure WooCommerce is installed",
-      description: "WooCommerce must be active before configuring FirstChekOut",
+      description: "WooCommerce must be active before configuring FirstChekout",
       icon: ShoppingCart
     },
     {
@@ -51,7 +51,7 @@ export const WordPressSection: React.FC = () => {
     },
     {
       step: 3,
-      title: "Enable FirstChekOut and click Manage",
+      title: "Enable FirstChekout and click Manage",
       description: "Activate the payment method and access configuration (see Figure 2 below)",
       icon: CheckCircle
     },
@@ -72,37 +72,37 @@ export const WordPressSection: React.FC = () => {
   const configurationFields = [
     {
       field: "Enable/Disable",
-      description: "Toggle FirstChekOut payment method on/off",
+      description: "Toggle FirstChekout payment method on/off",
       type: "checkbox",
-      example: "☑️ Enable FirstChekOut Payment"
+      example: "☑️ Enable FirstChekout Payment"
     },
     {
       field: "Title",
       description: "Payment method name displayed to customers",
       type: "text",
-      example: "FirstChekOut Payment Gateway"
+      example: "FirstChekout Payment Gateway"
     },
     {
       field: "Description",
       description: "Additional information shown at checkout",
       type: "textarea",
-      example: "Pay securely with cards, USSD, or bank transfer via FirstChekOut"
+      example: "Pay securely with cards, USSD, QR code, BNPL, Pay Attitude or bank transfer via FirstChekout"
     },
     {
       field: "Merchant ID",
       description: "Your unique merchant identifier",
       type: "text",
-      example: "9546159989"
+      example: "your_merchant_id_here"
     },
     {
       field: "Public Key",
-      description: "Your FirstChekOut public key for client-side integration",
+      description: "Your FirstChekout public key for client-side integration",
       type: "text",
       example: "pk_live_your_public_key_here"
     },
     {
       field: "Secret Key",
-      description: "Your FirstChekOut secret key for server-side authentication",
+      description: "Your FirstChekout secret key for server-side authentication",
       type: "password",
       example: "sk_live_your_secret_key_here"
     },
@@ -116,11 +116,11 @@ export const WordPressSection: React.FC = () => {
 
   const customerExperienceSteps = [
     "Customer adds products to cart and proceeds to checkout",
-    "Selects FirstChekOut as payment method",
+    "Selects FirstChekout as payment method",
     "Clicks 'Place Order' to initiate payment",
-    "FirstChekOut payment modal opens with available payment options",
+    "FirstChekout payment modal opens with available payment options",
     "Customer chooses preferred payment method (Card, USSD, Bank Transfer, QR Code, BNPL, Pay Attitude)",
-    "Completes payment through secure FirstChekOut interface",
+    "Completes payment through secure FirstChekout interface",
     "Returns to WooCommerce with payment confirmation",
     "Order status automatically updated based on payment result"
   ];
@@ -128,7 +128,7 @@ export const WordPressSection: React.FC = () => {
   const gettingStartedCode = `// Getting Started Configuration Steps
 
 1. Set Up API Credentials
-   - At the WooCommerce payment tab, toggle FirstChekOut payment and click on manage
+   - At the WooCommerce payment tab, toggle FirstChekout payment and click on manage
    - (see Figure 2 below)
 
 2. Make plugin enabled by checking the Enable/Disable checkbox 
@@ -151,10 +151,10 @@ export const WordPressSection: React.FC = () => {
 
           
           <p className="text-lg text-gray-600 mb-8">
-            FirstChekOut is the official payment solution by First Bank of Nigeria for WordPress. It enables 
+            FirstChekout is the official payment solution by First Bank of Nigeria for WordPress. It enables
             merchants to seamlessly receive payments for goods and services via dynamic or static 
             payment links. Whether you're running a WooCommerce store, service-based website, 
-            FirstChekOut provides a simple and secure checkout experience for your customers.
+            FirstChekout provides a simple and secure checkout experience for your customers.
           </p>
         </div>
 
@@ -301,7 +301,7 @@ export const WordPressSection: React.FC = () => {
                 {/*  <div className="space-y-4">*/}
                 {/*    <div className="flex items-center">*/}
                 {/*      <input type="checkbox" id="enable" className="mr-3" defaultChecked />*/}
-                {/*      <label htmlFor="enable" className="font-medium text-gray-900">Enable FirstChekOut Payment</label>*/}
+                {/*      <label htmlFor="enable" className="font-medium text-gray-900">Enable FirstChekout Payment</label>*/}
                 {/*    </div>*/}
                 {/*    */}
                 {/*    <div className="grid md:grid-cols-2 gap-4">*/}
@@ -365,8 +365,8 @@ export const WordPressSection: React.FC = () => {
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
               <h4 className="text-lg font-semibold text-blue-900 mb-4">Checkout Process Flow</h4>
               <p className="text-blue-800 mb-4">
-                Customers will now see FirstChekOut as a payment option at checkout (Figure 4). On clicking 
-                "place order" button load the FirstChekOut payment frame (Figure 5).
+                Customers will now see FirstChekout as a payment option at checkout (Figure 4). On clicking
+                "place order" button load the FirstChekout payment frame (Figure 5).
               </p>
               
               <div className="space-y-3">
@@ -485,7 +485,7 @@ export const WordPressSection: React.FC = () => {
                 <ul className="text-sm text-yellow-800 space-y-1">
                   <li>• WordPress 5.5 or higher</li>
                   <li>• PHP 7.2 or higher</li>
-                  <li>• Active FirstChekOut merchant account</li>
+                  <li>• Active FirstChekout merchant account</li>
                   <li>• SSL certificate (recommended)</li>
                   <li>• Valid API credentials from First Bank</li>
                 </ul>
@@ -512,9 +512,9 @@ export const WordPressSection: React.FC = () => {
                 <ul className="text-gray-600 space-y-1">
                   <li>• <strong>Figure 1:</strong> Plugin activation interface</li>
                   <li>• <strong>Figure 2:</strong> WooCommerce payment settings</li>
-                  <li>• <strong>Figure 3:</strong> FirstChekOut configuration panel</li>
+                  <li>• <strong>Figure 3:</strong> FirstChekout configuration panel</li>
                   <li>• <strong>Figure 4:</strong> Customer checkout page</li>
-                  <li>• <strong>Figure 5:</strong> FirstChekOut payment frame</li>
+                  <li>• <strong>Figure 5:</strong> FirstChekout payment frame</li>
                 </ul>
               </div>
               <div>
@@ -524,7 +524,7 @@ export const WordPressSection: React.FC = () => {
                   <li>• GitHub repository (if available)</li>
                   <li>• WordPress plugin directory</li>
                   <li>• WooCommerce documentation</li>
-                  <li>• FirstChekOut API documentation</li>
+                  <li>• FirstChekout API documentation</li>
                 </ul>
               </div>
             </div>
@@ -546,7 +546,7 @@ export const WordPressSection: React.FC = () => {
 
             <div className="mt-8">
               <img src={figure3} alt="Figure 1"/>
-              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 3:</strong> FirstChekOut configuration panel
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 3:</strong> FirstChekout configuration panel
               </p>
             </div>
 
@@ -557,7 +557,7 @@ export const WordPressSection: React.FC = () => {
 
             <div className="mt-8">
               <img src={figure5} alt="Figure 1"/>
-              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 5:</strong> FirstChekOut payment frame</p>
+              <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 5:</strong> FirstChekout payment frame</p>
             </div>
 
           </div>

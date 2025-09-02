@@ -134,7 +134,7 @@ export const TestingSection: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Testing & Debugging</h2>
         <p className="text-lg text-gray-600 mb-8">
-          Comprehensive testing is crucial for successful payment integration. FirstCheckout provides 
+          Comprehensive testing is crucial for successful payment integration. FirstChekout provides
           robust sandbox environment and debugging tools to ensure your integration works perfectly.
         </p>
 
@@ -178,16 +178,16 @@ export const TestingSection: React.FC = () => {
                 <div className="space-y-2 text-sm">
                   <div className="bg-gray-50 p-3 rounded">
                     <strong>Payment Gateway:</strong><br />
-                    <code className="text-blue-600">https://payment-solution-gateway.azurewebsites.net</code>
+                    <code className="text-blue-600">https://www.firstchekoutdev.com/apigateway/</code>
                   </div>
                   <div className="bg-gray-50 p-3 rounded">
                     <strong>Identity Service:</strong><br />
-                    <code className="text-blue-600">https://payment-solution-identity.azurewebsites.net</code>
+                    <code className="text-blue-600">https://www.firstchekoutdev.com/identityserver/</code>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded">
-                    <strong>Checkout Frame:</strong><br />
-                    <code className="text-blue-600">https://checkout.firstchekout.com</code>
-                  </div>
+                  {/*<div className="bg-gray-50 p-3 rounded">*/}
+                  {/*  <strong>Checkout Frame:</strong><br />*/}
+                  {/*  <code className="text-blue-600">https://checkout.firstchekout.com</code>*/}
+                  {/*</div>*/}
                 </div>
               </div>
 
