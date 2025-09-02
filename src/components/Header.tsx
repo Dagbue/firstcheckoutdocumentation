@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Search, ExternalLink } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import {Logo} from "../assets";
 
 interface HeaderProps {
@@ -7,12 +7,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
-
-  // const openMerchantPortal = () => {
-  //   window.open('https://www.firstchekout.com/', '_blank', 'noopener,noreferrer');
-  // };
-
-
   return (
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -46,18 +40,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 />
               </div>
 
-
-                <a
-                    href="https://www.firstchekout.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bank-blue hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-blue transition-colors"
-                >
-                  Merchant Portal
-                  <ExternalLink className="ml-2 h-4 w-4"/>
-                </a>
-
-
+              <a
+                  href="https://www.firstchekout.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden md:block inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bank-blue hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-blue transition-colors"
+              >
+                Merchant Portal
+                {/*<ExternalLink className="ml-2 h-4 w-4"/>*/}
+              </a>
             </div>
           </div>
         </div>

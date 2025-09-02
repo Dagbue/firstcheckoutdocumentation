@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MessageCircle, ExternalLink, Book } from 'lucide-react';
+import {Mail, MessageCircle, ExternalLink, Book } from 'lucide-react';
 
 export const SupportSection: React.FC = () => {
   const openResource = (url: string) => {
@@ -11,18 +11,18 @@ export const SupportSection: React.FC = () => {
       icon: Mail,
       title: "Email Support",
       description: "General inquiries and non-urgent technical support",
-      contact: "support@firstchekout.ng",
+      contact: "firstcontactcomplaints@firstbankgroup.com",
       responseTime: "Within 24 hours",
       availability: "Monday - Friday, 9 AM - 5 PM WAT"
     },
-    {
-      icon: Phone,
-      title: "Phone Support",
-      description: "Urgent technical issues and account problems",
-      contact: "+234 (0) 1 234 5678",
-      responseTime: "Immediate",
-      availability: "Monday - Friday, 8 AM - 6 PM WAT"
-    },
+    // {
+    //   icon: Phone,
+    //   title: "Phone Support",
+    //   description: "Urgent technical issues and account problems",
+    //   contact: "+234 (0) 1 234 5678",
+    //   responseTime: "Immediate",
+    //   availability: "Monday - Friday, 8 AM - 6 PM WAT"
+    // },
     {
       icon: MessageCircle,
       title: "Live Chat",
@@ -60,26 +60,26 @@ export const SupportSection: React.FC = () => {
     // }
   ];
 
-  const emergencyContacts = [
-    {
-      type: "Security Incidents",
-      contact: "security@firstchekout.ng",
-      phone: "+234 (0) 1 234 5678 ext. 911",
-      description: "Report security vulnerabilities or suspected breaches"
-    },
-    {
-      type: "Critical System Issues",
-      contact: "ops@firstchekout.ng",
-      phone: "+234 (0) 1 234 5678 ext. 999",
-      description: "Production system failures affecting multiple merchants"
-    },
-    {
-      type: "Account Suspension",
-      contact: "accounts@firstchekout.ng",
-      phone: "+234 (0) 1 234 5678 ext. 100",
-      description: "Urgent account access and suspension issues"
-    }
-  ];
+  // const emergencyContacts = [
+  //   {
+  //     type: "Security Incidents",
+  //     contact: "security@firstchekout.ng",
+  //     phone: "+234 (0) 1 234 5678 ext. 911",
+  //     description: "Report security vulnerabilities or suspected breaches"
+  //   },
+  //   {
+  //     type: "Critical System Issues",
+  //     contact: "ops@firstchekout.ng",
+  //     phone: "+234 (0) 1 234 5678 ext. 999",
+  //     description: "Production system failures affecting multiple merchants"
+  //   },
+  //   {
+  //     type: "Account Suspension",
+  //     contact: "accounts@firstchekout.ng",
+  //     phone: "+234 (0) 1 234 5678 ext. 100",
+  //     description: "Urgent account access and suspension issues"
+  //   }
+  // ];
 
   return (
       <section id="support" className="mb-16">
@@ -161,51 +161,51 @@ export const SupportSection: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Emergency Contacts</h3>
+            {/*<div>*/}
+            {/*  <h3 className="text-xl font-semibold text-gray-900 mb-6">Emergency Contacts</h3>*/}
 
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
-                <div className="flex items-center mb-4">
-                  <Phone className="h-6 w-6 text-red-600 mr-3" />
-                  <h4 className="text-lg font-semibold text-red-900">24/7 Emergency Hotline</h4>
-                </div>
-                <p className="text-red-800 mb-4">
-                  For critical issues that affect your ability to process payments, call our emergency hotline:
-                </p>
-                <a
-                    href="tel:+2341234567890"
-                    className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                >
-                  <Phone className="mr-2 h-4 w-4" />
-                  +234 (0) 1 234 5678
-                </a>
-              </div>
+            {/*  <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">*/}
+            {/*    <div className="flex items-center mb-4">*/}
+            {/*      <Phone className="h-6 w-6 text-red-600 mr-3" />*/}
+            {/*      <h4 className="text-lg font-semibold text-red-900">24/7 Emergency Hotline</h4>*/}
+            {/*    </div>*/}
+            {/*    <p className="text-red-800 mb-4">*/}
+            {/*      For critical issues that affect your ability to process payments, call our emergency hotline:*/}
+            {/*    </p>*/}
+            {/*    <a*/}
+            {/*        href="tel:+2341234567890"*/}
+            {/*        className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"*/}
+            {/*    >*/}
+            {/*      <Phone className="mr-2 h-4 w-4" />*/}
+            {/*      +234 (0) 1 234 5678*/}
+            {/*    </a>*/}
+            {/*  </div>*/}
 
-              <div className="space-y-4">
-                {emergencyContacts.map((contact, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{contact.type}</h4>
-                        <div className="flex space-x-3">
-                          <a
-                              href={`mailto:${contact.contact}`}
-                              className="text-blue-600 hover:text-blue-700 text-sm"
-                          >
-                            {contact.contact}
-                          </a>
-                          <a
-                              href={`tel:${contact.phone}`}
-                              className="text-blue-600 hover:text-blue-700 text-sm"
-                          >
-                            {contact.phone}
-                          </a>
-                        </div>
-                      </div>
-                      <p className="text-gray-600 text-sm">{contact.description}</p>
-                    </div>
-                ))}
-              </div>
-            </div>
+            {/*  <div className="space-y-4">*/}
+            {/*    {emergencyContacts.map((contact, index) => (*/}
+            {/*        <div key={index} className="border border-gray-200 rounded-lg p-4">*/}
+            {/*          <div className="flex items-start justify-between mb-2">*/}
+            {/*            <h4 className="font-semibold text-gray-900">{contact.type}</h4>*/}
+            {/*            <div className="flex space-x-3">*/}
+            {/*              <a*/}
+            {/*                  href={`mailto:${contact.contact}`}*/}
+            {/*                  className="text-blue-600 hover:text-blue-700 text-sm"*/}
+            {/*              >*/}
+            {/*                {contact.contact}*/}
+            {/*              </a>*/}
+            {/*              <a*/}
+            {/*                  href={`tel:${contact.phone}`}*/}
+            {/*                  className="text-blue-600 hover:text-blue-700 text-sm"*/}
+            {/*              >*/}
+            {/*                {contact.phone}*/}
+            {/*              </a>*/}
+            {/*            </div>*/}
+            {/*          </div>*/}
+            {/*          <p className="text-gray-600 text-sm">{contact.description}</p>*/}
+            {/*        </div>*/}
+            {/*    ))}*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-6">SLA & Service Commitments</h3>
@@ -276,7 +276,7 @@ export const SupportSection: React.FC = () => {
                   <div>
                     <h5 className="font-semibold text-emerald-900 mb-2">How to Request</h5>
                     <ul className="text-sm text-emerald-800 space-y-1">
-                      <li>• Email integration@firstchekout.ng</li>
+                      <li>• Email firstcontactcomplaints@firstbankgroup.com</li>
                       <li>• Include your merchant ID</li>
                       <li>• Specify your integration method</li>
                       <li>• Describe your use case</li>

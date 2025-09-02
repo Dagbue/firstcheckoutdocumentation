@@ -510,7 +510,7 @@ sequenceDiagram
               </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-4">
+            <div className="mt-6 flex flex-wrap gap-4 w-full">
               <a
                   href="https://www.firstchekout.com/auth/signup"
                   target="_blank"

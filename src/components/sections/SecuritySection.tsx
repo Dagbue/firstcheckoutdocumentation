@@ -105,38 +105,40 @@ private bool IsBase64String(string input)
 public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);
   `;
 
-  const webhookVerification = `// Node.js Webhook Signature Verification
-const crypto = require('crypto');
+  const webhookVerification = `public async Task<WebhookResponse> AcceptWebhook(ChekoutWebhookData data, string ip)
+{
+    var response = new WebhookResponse();
+        var error = new Error();
+    if (data == null)
+    {
+        error.Code = WebhookErrorCodes.INVALID_REQUEST_FORMAT;
+        error.Message = WebhookErrorMessages.INVALID_REQUEST_FORMAT;
+        response.PrepareFailureResponse(data, _paymentSettings.MerchantId, error);
+        _logger.LogError("================= ERROR VALIDATING WEBHOOK DATA ================ {0}", response.ToJSON());
+        return response;
+    }
+    try
+    {
+        data.Amount = Math.Round(data.Amount, 2);
+        var dataString = JsonSerializer.Serialize(data);
+        _logger.LogInformation("================= WEBHOOK DATA  ACCEPTED ================");
+        var result = await CompleteTransactionWebHook(data, ip);
+        response = result;
+        var resultString = JsonSerializer.Serialize(result);
+        _logger.LogInformation("=========== COMPLETE TRANSACTION WEBHOOK RESPONSE ============= {Response}", resultString);
+    }
+    catch (Exception ex)
+    {
+        error.Code = WebhookErrorCodes.MERCHANT_SERVICE_UNAVAILABLE;
+        error.Message = WebhookErrorMessages.MERCHANT_SERVICE_UNAVAILABLE;
+        response.PrepareFailureResponse(data, _paymentSettings.MerchantId, error);
+        _logger.LogError(ex, "====== PaymentService.AcceptWebhook {0} ======", ex.Message);
+        _logger.LogInformation("================= RESPONSE BACK TO FIRSTCHEKOUT =============== {RESPONSE}", response.ToJSON());
+        return response;
+    }
+    return response;
+}`;
 
-function verifyWebhookSignature(payload, signature, secret) {
-  // Generate expected signature
-  const expectedSignature = crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
-    
-  // Compare signatures using timing-safe comparison
-  return crypto.timingSafeEqual(
-    Buffer.from(signature, 'hex'),
-    Buffer.from(expectedSignature, 'hex')
-  );
-}
-
-// Express.js webhook endpoint
-app.post('/webhook/firstcheckout', express.raw({type: 'application/json'}), (req, res) => {
-  const signature = req.headers['x-firstcheckout-signature'];
-  const payload = req.body;
-  
-  if (!verifyWebhookSignature(payload, signature, process.env.WEBHOOK_SECRET)) {
-    return res.status(401).send('Invalid signature');
-  }
-  
-  // Process verified webhook
-  const event = JSON.parse(payload);
-  console.log('Verified webhook:', event);
-  
-  res.status(200).send('OK');
-});`;
 
   const secureConfigExample = `# Secure Environment Variables (.env)
 # NEVER commit this file to version control!
@@ -256,7 +258,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
 
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-3">Signature Verification</h4>
-              <CodeBlock language="javascript" code={webhookVerification} />
+              <CodeBlock language="c#" code={webhookVerification} />
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -405,12 +407,12 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                 <div className="space-y-2 text-sm">
                   <div className="bg-white p-3 rounded border">
                     <strong>Security Team:</strong><br />
-                    <a href="mailto:security@firstchekout.ng" className="text-blue-600">security@firstchekout.ng</a>
+                    <a href="mailto:firstcontactcomplaints@firstbankgroup.com" className="text-blue-600">firstcontactcomplaints@firstbankgroup.com</a>
                   </div>
-                  <div className="bg-white p-3 rounded border">
-                    <strong>24/7 Support:</strong><br />
-                    <a href="tel:+2341234567890" className="text-blue-600">+234 (0) 123 456 7890</a>
-                  </div>
+                  {/*<div className="bg-white p-3 rounded border">*/}
+                  {/*  <strong>24/7 Support:</strong><br />*/}
+                  {/*  <a href="tel:+2341234567890" className="text-blue-600">+234 (0) 123 456 7890</a>*/}
+                  {/*</div>*/}
                 </div>
               </div>
             </div>

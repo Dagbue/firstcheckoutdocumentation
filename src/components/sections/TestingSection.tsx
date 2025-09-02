@@ -17,8 +17,9 @@ export const TestingSection: React.FC = () => {
     {
       scenario: "Failed Card Payment",
       steps: [
-        "Use test card: 4000000000000002",
-        "Enter any PIN",
+        "Use test card: 5061830100001895",
+        "Enter PIN: 1111 when prompted",
+        "Use OTP: 123456 for verification",
         "Transaction should fail",
         "Verify error handling"
       ],
