@@ -26,7 +26,7 @@ graph TD
     F --> G[Query Transaction Status]
   `;
 
-  const cardInitiateCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/cards/initiate' \\
+  const cardInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/cards/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -35,7 +35,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const ussdInitiateCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/ussd/initiate' \\
+  const ussdInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/ussd/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -44,7 +44,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const transferInitiateCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/paywithtransfer/initiate' \\
+  const transferInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/paywithtransfer/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{

@@ -30,7 +30,7 @@ graph LR
     F --> G[Webhook Notification]
   `;
 
-  const initiateTransactionCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/transactions/initiate' \\
+  const initiateTransactionCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/transactions/initiate' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -53,7 +53,7 @@ graph LR
   }
 }`;
 
-  const cardInitiateCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/cards/initiate' \\
+  const cardInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/cards/initiate' \\  // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -62,7 +62,7 @@ graph LR
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const cardConfirmCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/cards/complete' \\
+  const cardConfirmCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/cards/complete' \\ // reference testing and debugging section
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -70,7 +70,7 @@ graph LR
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const statusCheckCode = `curl --location 'https://www.firstchekoutdev.com/apigateway/api/v1/transactions/status/{paymentReference}' \\
+  const statusCheckCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/transactions/status/{paymentReference}' \\ // reference testing and debugging section
 --header 'Authorization: Bearer {access_token}'`;
 
   const encryptionCodeCSharp = `/// <summary>
@@ -190,7 +190,7 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
   "signature": "webhook_signature_for_verification"
 }`;
 
-  const tokenGenerationCode = `curl --location 'https://www.firstchekoutdev.com/identityserver/api/v2/Authenticate/token' \\
+  const tokenGenerationCode = `curl --location '{{ identity_Service_Url }}/api/v2/Authenticate/token' \\ // reference testing and debugging section
 --header 'Content-Type: application/x-www-form-urlencoded' \\
 --data-urlencode 'client_Id=your-client-id' \\
 --data-urlencode 'client_Secret=your-client-secret' \\

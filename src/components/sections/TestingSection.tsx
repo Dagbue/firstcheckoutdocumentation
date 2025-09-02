@@ -305,7 +305,7 @@ export const TestingSection: React.FC = () => {
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                 <h4 className="font-semibold text-emerald-900 mb-2">✅ API Authentication Issues</h4>
                 <ul className="text-sm text-emerald-800 space-y-1">
-                  <li>• Generate fresh access token if expired (10-hour expiry)</li>
+                  <li>• Generate fresh access token if expired (30-minutes expiry)</li>
                   <li>• Check Client ID and Client Secret are correct</li>
                   <li>• Verify Bearer token format in Authorization header</li>
                   <li>• Test token validity at jwt.io</li>

@@ -301,7 +301,7 @@ sequenceDiagram
               />
             </div>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center w-full">
               <a
                   href="https://www.firstchekout.com/auth/signup"
                   target="_blank"

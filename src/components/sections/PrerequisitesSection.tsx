@@ -40,11 +40,13 @@ export const PrerequisitesSection: React.FC = () => {
                   {/*    https://www.firstchekout.com*/}
                   {/*  </button>*/}
                   {/*</span>*/}
-                  <span className="text-gray-700">Access to the merchant portal at <a
+                  <span className="text-gray-700">Access to the merchant portal at
+                    <a
                       href="https://www.firstchekout.com/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 underline">https://www.firstchekout.com</a></span>
+                      className="text-blue-600 hover:text-blue-700 underline">https://www.firstchekout.com</a>
+                  </span>
 
                 </li>
                 <li className="flex items-start">

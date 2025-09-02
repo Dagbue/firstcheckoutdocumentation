@@ -51,8 +51,8 @@ WEBHOOK_SECRET=your_webhook_secret_for_signature_verification
 
 # Environment Configuration
 FIRSTCHEKOUT_ENVIRONMENT=sandbox # or 'live' for production
-FIRSTCHEKOUT_GATEWAY_BASE_URL=https://www.firstchekoutdev.com/apigateway/
-FIRSTCHEKOUT_TOKEN_BASE_URL=https://www.firstchekoutdev.com/identityserver/
+FIRSTCHEKOUT_GATEWAY_BASE_URL={{ payment_Gateway_Url }} // reference testing and debugging section
+FIRSTCHEKOUT_TOKEN_BASE_URL={{ identity_Service_Url }}  // reference testing and debugging section
 
 # Database (if storing transaction data)
 DATABASE_URL=postgresql://encrypted_connection_string

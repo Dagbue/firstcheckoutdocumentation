@@ -46,9 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 />
               </div>
 
-              <div
-                  className="hidden md:block"
-              >
+
                 <a
                     href="https://www.firstchekout.com/"
                     target="_blank"
@@ -58,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                   Merchant Portal
                   <ExternalLink className="ml-2 h-4 w-4"/>
                 </a>
-              </div>
+
 
             </div>
           </div>

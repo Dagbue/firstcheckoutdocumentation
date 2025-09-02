@@ -3,9 +3,9 @@ import { Package, Zap, Code, CheckCircle } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const NpmPackageSection: React.FC = () => {
-  const installationCode = `npm install firstchekout`;
+  const installationCode = `npm install firstchekout@^1.5.4-9.15`;
 
-  const basicUsageCode = `import FirstChekout from "firstchekout";
+  const basicUsageCode = `import FBNCheckout from "firstchekout";
 
 async function makePayment() {
   const txn = {
@@ -47,14 +47,14 @@ async function makePayment() {
   };
 
   try {
-    await FirstChekout.initiateTransactionAsync(txn, addressURL);
+    await FBNCheckout.initiateTransactionAsync(txn, addressURL);
   } catch (error) {
     console.error("Payment initiation failed:", error);
   }
 }`;
 
   const reactExampleCode = `import React, { useState } from 'react';
-import FirstChekout from "FirstChekout";
+import FBNCheckout from "firstchekout";
 
 const PaymentButton = () => {
   const [loading, setLoading] = useState(false);
@@ -97,7 +97,7 @@ const PaymentButton = () => {
     };
 
     try {
-      await FirstChekout.initiateTransactionAsync(config, urls);
+    await FBNCheckout.initiateTransactionAsync(txn, addressURL);
     } catch (error) {
       setLoading(false);
       console.error("Payment error:", error);
@@ -130,7 +130,7 @@ export default PaymentButton;`;
 </template>
 
 <script>
-import FirstChekout from "FirstChekout";
+import FBNCheckout from "firstchekout";
 
 export default {
   name: "PaymentComponent",
@@ -167,7 +167,7 @@ export default {
       };
 
       try {
-        await FirstChekout.initiateTransactionAsync(config, {
+        await FBNCheckout.initiateTransactionAsync(config, {
         BaseFrame: "base_frame",
         InitiatePaymentURI: "initiate_payment_URI"
         });
