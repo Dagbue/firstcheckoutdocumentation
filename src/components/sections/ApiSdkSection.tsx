@@ -174,21 +174,31 @@ private bool IsBase64String(string input)
 }
 public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`;
 
-  const webhookCode = `// Webhook payload structure
-{
-  "eventType": "payment.success",
-  "data": {
-    "paymentReference": "unique-ref-12345",
-    "amount": 1000,
-    "currency": "NGN",
-    "status": "successful",
-    "customerEmail": "customer@example.com",
-    "paymentMethod": "card",
-    "transactionDate": "2025-01-20T10:30:00Z"
-  },
-  "timestamp": "2025-01-20T10:30:00Z",
-  "signature": "webhook_signature_for_verification"
-}`;
+  const webhookCode = ` public class TransactionResponseHashDataDto
+ {
+     public TransactionResponseHashDataDto(Transaction transaction)
+     {
+         TransactionReference = transaction.TransactionReference;
+         PaymentReference = transaction.PaymentReference;
+         PayerEmail = transaction.PayerEmail;
+         CollectionMethod = transaction.CollectionMethod.ToString();
+         Status = transaction.Status.ToString();
+         CreatedAt = transaction.CreatedAt;
+         ItemQuantity = transaction.ItemQuantity;
+         Purpose = transaction.Purpose;
+         PayerName = transaction.PayerName;
+     }
+
+     public string TransactionReference { get; set; }
+     public string PaymentReference { get; set; }
+     public string PayerEmail { get; set; }
+     public string CollectionMethod { get; set; }
+     public string Status { get; set; }
+     public DateTime CreatedAt { get; set; }
+     public string PayerName { get; set; }
+     public string Purpose { get; set; }
+     public int ItemQuantity { get; set; }
+ }`;
 
   const tokenGenerationCode = `curl --location '{{ identity_Service_Url }}/api/v2/Authenticate/token' \\ // reference testing and debugging section
 --header 'Content-Type: application/x-www-form-urlencoded' \\
@@ -368,7 +378,7 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
 
               <div className="mb-4">
                 <h4 className="font-medium text-gray-900 mb-2">Webhook Payload Structure:</h4>
-                <CodeBlock language="json" code={webhookCode}/>
+                <CodeBlock language="c#" code={webhookCode}/>
               </div>
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
