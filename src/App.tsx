@@ -1,6 +1,8 @@
 import React from 'react';
 // import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { MobileMenu } from './components/MobileMenu';
@@ -14,18 +16,34 @@ import { ApiSdkPage } from './pages/ApiSdkPage';
 import { NpmPackagePage } from './pages/NpmPackagePage';
 import { CdnScriptPage } from './pages/CdnScriptPage';
 import { WordPressPage } from './pages/WordPressPage';
+import { PaymentLinksPage } from './pages/PaymentLinksPage';
 import { PaymentMethodsPage } from './pages/PaymentMethodsPage';
 import { TestingPage } from './pages/TestingPage';
 import { SecurityPage } from './pages/SecurityPage';
 import { TroubleshootingPage } from './pages/TroubleshootingPage';
 import { SupportPage } from './pages/SupportPage';
 
+// Scroll to top component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [pathname]);
+
+  return null;
+}
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
     <Router basename="/onlinedoc">
       <div className="min-h-screen bg-gray-50">
+        <ScrollToTop />
         <Header onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         
         <div className="flex">
@@ -49,6 +67,7 @@ function App() {
                   <Route path="/npm-package" element={<NpmPackagePage />} />
                   <Route path="/cdn-script" element={<CdnScriptPage />} />
                   <Route path="/wordpress" element={<WordPressPage />} />
+                  <Route path="/payment-links" element={<PaymentLinksPage />} />
                   <Route path="/payment-methods" element={<PaymentMethodsPage />} />
                   <Route path="/testing" element={<TestingPage />} />
                   <Route path="/security" element={<SecurityPage />} />

@@ -16,6 +16,7 @@ const navigationItems = [
   { id: 'npm-package', label: 'NPM Package', icon: Code, path: '/npm-package' },
   { id: 'cdn-script', label: 'CDN Script', icon: Code, path: '/cdn-script' },
   { id: 'wordpress', label: 'WordPress Plugin', icon: Code, path: '/wordpress' },
+  { id: 'payment-links', label: 'Payment Links (No-Code)', icon: Code, path: '/payment-links' },
   { id: 'payment-methods', label: 'Payment Methods', icon: CreditCard, path: '/payment-methods' },
   { id: 'testing', label: 'Testing & Debugging', icon: Code, path: '/testing' },
   { id: 'security', label: 'Security & Compliance', icon: Shield, path: '/security' },

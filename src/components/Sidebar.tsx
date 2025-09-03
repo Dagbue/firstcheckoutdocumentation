@@ -15,7 +15,8 @@ const navigationItems = [
       { id: 'api-sdk', label: 'API/SDK Integration', path: '/api-sdk' },
       { id: 'npm-package', label: 'NPM Package', path: '/npm-package' },
       { id: 'cdn-script', label: 'CDN Script', path: '/cdn-script' },
-      { id: 'wordpress', label: 'WordPress Plugin', path: '/wordpress' }
+      { id: 'wordpress', label: 'WordPress Plugin', path: '/wordpress' },
+      { id: 'payment-links', label: 'Payment Links (No-Code)', path: '/payment-links' }
     ]
   },
   { id: 'payment-methods', label: 'Payment Methods', icon: CreditCard, path: '/payment-methods' },
