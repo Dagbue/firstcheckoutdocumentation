@@ -329,10 +329,40 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, initi
     // Payment Links
     {
       id: 'payment-links-overview',
-      title: 'Payment Links (No-Code) Overview',
-      section: 'Payment Links',
-      content: 'payment links no-code solution merchant portal generate links share customers email SMS social media quick payments',
+      title: 'Payment Links Overview',
+      section: 'Payment Links (No-Code)',
+      content: 'payment links no-code dashboard QR code copy link static hybrid dynamic reusable personalized invoicing',
       path: '/payment-links',
+      category: 'Integration',
+      icon: Code
+    },
+    {
+      id: 'static-payment-links',
+      title: 'Static Payment Links',
+      section: 'Payment Links (No-Code)',
+      content: 'static payment links reusable fixed purpose permanent pay now button standard products donations subscriptions',
+      path: '/payment-links',
+      anchor: 'static-links',
+      category: 'Integration',
+      icon: Code
+    },
+    {
+      id: 'hybrid-payment-links',
+      title: 'Hybrid Payment Links',
+      section: 'Payment Links (No-Code)',
+      content: 'hybrid payment links custom alias campaign tracking event registrations marketing campaigns A/B testing',
+      path: '/payment-links',
+      anchor: 'hybrid-links',
+      category: 'Integration',
+      icon: Code
+    },
+    {
+      id: 'dynamic-payment-links',
+      title: 'Dynamic Payment Links',
+      section: 'Payment Links (No-Code)',
+      content: 'dynamic payment links personalized invoicing customer details B2B payments one-time links status tracking',
+      path: '/payment-links',
+      anchor: 'dynamic-links',
       category: 'Integration',
       icon: Code
     },
