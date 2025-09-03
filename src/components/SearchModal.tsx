@@ -326,6 +326,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, initi
       icon: Code
     },
 
+    // Payment Links
+    {
+      id: 'payment-links-overview',
+      title: 'Payment Links (No-Code) Overview',
+      section: 'Payment Links',
+      content: 'payment links no-code solution merchant portal generate links share customers email SMS social media quick payments',
+      path: '/payment-links',
+      category: 'Integration',
+      icon: Code
+    },
+
     // Payment Methods
     {
       id: 'payment-methods-overview',
