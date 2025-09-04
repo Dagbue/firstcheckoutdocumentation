@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link2, QrCode, Copy, Download, Users, Target, User, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const PaymentLinksSection: React.FC = () => {
@@ -32,14 +32,14 @@ export const PaymentLinksSection: React.FC = () => {
       feature: 'Tracking',
       static: 'Basic',
       hybrid: 'Alias-based',
-      dynamic: 'Status (PENDING/SUCCESS)'
+      dynamic: 'Status (Pending/Success)'
     }
   ];
 
   const staticLinkExample = `# Static Payment Link Example
 # Perfect for: Standard products, donations, subscriptions
 
-Link: https://paymentsolutiononeweb.azurewebsites.net/static-payme
+Link: {{ static_payment_link }}/static-payme
 Product: Italian Shoes
 Amount: ₦10,000.00
 Usage: Unlimited customers can use the same link`;
@@ -50,14 +50,14 @@ Usage: Unlimited customers can use the same link`;
 Alias: testLink
 Amount: ₦20,000.00
 Purpose: for testing
-Link: https://paymentsolutiononeweb.azurewebsites.net/testLink
+Link: {{ hybrid_payment_link }}/testLink
 Usage: Reusable with campaign tracking`;
 
   const dynamicLinkExample = `# Dynamic Payment Link Example
 # Perfect for: Personalized invoicing, B2B payments
 
 Customer: Sandra Ihekire
-Email: sandraihekire@gmail.com
+Email: sandraihekire@yopmail.com
 Product: barella tact
 Amount: ₦400.00
 Status: PENDING → SUCCESS
@@ -89,7 +89,7 @@ Usage: One-time personalized payment`;
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
-                  <span><strong>Tracking:</strong> Links appear in dashboard with status updates (PENDING/SUCCESS)</span>
+                  <span><strong>Tracking:</strong> Links appear in dashboard with status updates (Pending/Success)</span>
                 </li>
               </ul>
             </div>
