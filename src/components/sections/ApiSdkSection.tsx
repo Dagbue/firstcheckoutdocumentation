@@ -1,5 +1,5 @@
 import React from 'react';
-import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode} from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, AlertTriangle, CheckCircle, Info, BookOpen, Shield, Zap} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
@@ -209,8 +209,104 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
   const tokenResponse = `{
   "access_token": "TXN_ACCESS_TOKEN_123",
   "token_type": "Bearer",
-  "expires_in": 36000
+  "expires_in": 1800
 }`;
+
+  const authHeaderExample = `Authorization: Bearer YOUR_SECRET_KEY
+Content-Type: application/json`;
+
+  const pythonAuthExample = `import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_SECRET_KEY',
+    'Content-Type': 'application/json',
+}
+
+response = requests.get('{{ payment_Gateway_Url }}/api/v1/transactions', headers=headers)
+print(response.json())`;
+
+  const metadataExample = `{
+  "Amount": 10000,
+  "PayerEmail": "customer@example.com",
+  "PayerName": "John Doe",
+  "Purpose": "Product Purchase",
+  "PublicKey": "your-public-key",
+  "PaymentReference": "unique-ref-12345",
+  "metadata": {
+    "cart_id": "abc123",
+    "items": ["shoe", "bag"],
+    "user_preference": "express_shipping",
+    "order_source": "mobile_app"
+  }
+}`;
+
+  const paginationExample = `curl --location '{{ payment_Gateway_Url }}/api/v1/transactions?page=1&per_page=50&status=success&from=2025-01-01&to=2025-09-04' \\
+--header 'Authorization: Bearer {access_token}'`;
+
+  const paginationResponse = `{
+  "responseCode": "00",
+  "responseMessage": "Success",
+  "data": [
+    {
+      "transactionReference": "TXN_123",
+      "amount": 10000,
+      "status": "success"
+    }
+  ],
+  "meta": {
+    "total": 100,
+    "page": 1,
+    "per_page": 50,
+    "total_pages": 2
+  }
+}`;
+
+  const standardErrorResponse = `{
+  "status": false,
+  "message": "Invalid token",
+  "data": null,
+  "code": "AUTH_001",
+  "details": {
+    "field": "authorization",
+    "issue": "Token expired or malformed"
+  }
+}`;
+
+  const webhookPayload = `{
+  "event": "payment.success",
+  "data": {
+    "transactionReference": "TXN_123456",
+    "paymentReference": "unique-ref-12345",
+    "amount": 10000,
+    "currency": "NGN",
+    "status": "successful",
+    "payerEmail": "customer@example.com",
+    "payerName": "John Doe",
+    "createdAt": "2025-01-15T10:30:00Z",
+    "metadata": {
+      "cart_id": "abc123",
+      "order_source": "website"
+    }
+  },
+  "timestamp": "2025-01-15T10:30:00Z",
+  "signature": "sha256=abc123def456..."
+}`;
+
+  const currencyExample = `// Amount Handling Examples
+
+// NGN 100.00 = 10000 kobo (multiply by 100)
+{
+  "amount": 10000,  // ₦100.00
+  "currency": "NGN"
+}
+
+// NGN 1,500.50 = 150050 kobo
+{
+  "amount": 150050,  // ₦1,500.50
+  "currency": "NGN"
+}
+
+// Always use integers for amounts to avoid floating point issues`;
 
   return (
       <section id="api-sdk" className="mb-16">
@@ -283,6 +379,55 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
           </div>
 
           <div className="space-y-8">
+            {/* Enhanced Authentication Section */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <Shield className="h-6 w-6 text-blue-600 mr-3" />
+                Authentication & Security
+              </h3>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-blue-900 mb-4">🔐 Bearer Token Authentication</h4>
+                <p className="text-blue-800 mb-4">
+                  FirstChekout uses Bearer tokens for API authentication. All API requests must include your secret key 
+                  in the Authorization header. Never expose secret keys in client-side code.
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h5 className="font-semibold text-blue-900 mb-2">Key Types:</h5>
+                    <ul className="text-sm text-blue-800 space-y-1">
+                      <li>• <strong>Secret Key:</strong> Server-side authentication (sk_live_xxx)</li>
+                      <li>• <strong>Public Key:</strong> Client-side integration (pk_live_xxx)</li>
+                      <li>• <strong>Sandbox Keys:</strong> Testing environment (sb-sk_xxx, sb-pk_xxx)</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h5 className="font-semibold text-blue-900 mb-2">Security Best Practices:</h5>
+                    <ul className="text-sm text-blue-800 space-y-1">
+                      <li>• Store keys in environment variables</li>
+                      <li>• Rotate keys regularly</li>
+                      <li>• Use HTTPS for all requests</li>
+                      <li>• Never log sensitive data</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">HTTP Header Format:</h4>
+                  <CodeBlock language="http" code={authHeaderExample} />
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Python Example:</h4>
+                  <CodeBlock language="python" code={pythonAuthExample} />
+                </div>
+              </div>
+            </div>
+
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Step 1: OAuth Token Generation</h3>
               <p className="text-gray-600 mb-4">
@@ -327,6 +472,147 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
               <div>
                 <h4 className="font-medium text-gray-900 mb-2">Response:</h4>
                 <CodeBlock language="json" code={initiateResponse}/>
+              </div>
+            </div>
+
+            {/* Enhanced Metadata Support */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <Database className="h-6 w-6 text-purple-600 mr-3" />
+                Metadata & Custom Fields
+              </h3>
+              
+              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-purple-900 mb-4">📋 Rich Metadata Support</h4>
+                <p className="text-purple-800 mb-4">
+                  FirstChekout supports rich metadata to help you store additional information with transactions. 
+                  This is perfect for e-commerce integrations, order tracking, and custom business logic.
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="font-semibold text-purple-900 mb-2">Features:</h5>
+                    <ul className="text-sm text-purple-800 space-y-1">
+                      <li>• Up to 10 key-value pairs per transaction</li>
+                      <li>• Supports strings, numbers, and arrays</li>
+                      <li>• Returned in webhooks and status queries</li>
+                      <li>• Perfect for cart details and user preferences</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h5 className="font-semibold text-purple-900 mb-2">Use Cases:</h5>
+                    <ul className="text-sm text-purple-800 space-y-1">
+                      <li>• Shopping cart reconciliation</li>
+                      <li>• Customer preference tracking</li>
+                      <li>• Order source attribution</li>
+                      <li>• Custom business data</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Transaction with Metadata Example:</h4>
+                <CodeBlock language="json" code={metadataExample} />
+              </div>
+            </div>
+
+            {/* Pagination & Filtering */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <BookOpen className="h-6 w-6 text-emerald-600 mr-3" />
+                Pagination & Filtering
+              </h3>
+              
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-emerald-900 mb-4">📄 Standardized Pagination</h4>
+                <p className="text-emerald-800 mb-4">
+                  All list endpoints support pagination and filtering to help you efficiently manage large datasets. 
+                  Use query parameters to control the results returned.
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="font-semibold text-emerald-900 mb-2">Query Parameters:</h5>
+                    <ul className="text-sm text-emerald-800 space-y-1">
+                      <li>• <code>page</code>: Page number (default: 1)</li>
+                      <li>• <code>per_page</code>: Items per page (default: 20, max: 100)</li>
+                      <li>• <code>status</code>: Filter by status (success, pending, failed)</li>
+                      <li>• <code>from</code> & <code>to</code>: Date range filtering</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h5 className="font-semibold text-emerald-900 mb-2">Advanced Filters:</h5>
+                    <ul className="text-sm text-emerald-800 space-y-1">
+                      <li>• <code>amount_min</code> & <code>amount_max</code>: Amount range</li>
+                      <li>• <code>sort</code>: Sort order (amount_desc, date_asc)</li>
+                      <li>• <code>email</code>: Filter by customer email</li>
+                      <li>• <code>reference</code>: Search by reference</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Paginated Request Example:</h4>
+                  <CodeBlock language="bash" code={paginationExample} />
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">Paginated Response Format:</h4>
+                  <CodeBlock language="json" code={paginationResponse} />
+                </div>
+              </div>
+            </div>
+
+            {/* Standardized Error Handling */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <AlertTriangle className="h-6 w-6 text-red-600 mr-3" />
+                Error Handling & Status Codes
+              </h3>
+              
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-red-900 mb-4">🚨 Standardized Error Responses</h4>
+                <p className="text-red-800 mb-4">
+                  FirstChekout uses consistent error response formats across all endpoints. All errors include 
+                  structured information to help you handle them programmatically.
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="font-semibold text-red-900 mb-2">HTTP Status Codes:</h5>
+                    <ul className="text-sm text-red-800 space-y-1">
+                      <li>• <code>200</code>: Success</li>
+                      <li>• <code>400</code>: Bad Request (validation errors)</li>
+                      <li>• <code>401</code>: Unauthorized (invalid/expired token)</li>
+                      <li>• <code>403</code>: Forbidden (insufficient permissions)</li>
+                      <li>• <code>404</code>: Not Found</li>
+                      <li>• <code>429</code>: Rate Limited</li>
+                      <li>• <code>500</code>: Internal Server Error</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h5 className="font-semibold text-red-900 mb-2">Common Error Codes:</h5>
+                    <ul className="text-sm text-red-800 space-y-1">
+                      <li>• <code>AUTH_001</code>: Invalid token</li>
+                      <li>• <code>AUTH_002</code>: Token expired</li>
+                      <li>• <code>VAL_001</code>: Validation error</li>
+                      <li>• <code>PAY_001</code>: Payment failed</li>
+                      <li>• <code>PAY_002</code>: Insufficient funds</li>
+                      <li>• <code>REF_001</code>: Duplicate reference</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Standard Error Response Format:</h4>
+                <CodeBlock language="json" code={standardErrorResponse} />
               </div>
             </div>
 
@@ -390,6 +676,64 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
                   <li>• Handle webhook failures with proper retry logic</li>
                   <li>• Log all webhook events for debugging</li>
                 </ul>
+              </div>
+              
+              <div className="mt-6">
+                <h4 className="font-medium text-gray-900 mb-2">Enhanced Webhook Payload Example:</h4>
+                <CodeBlock language="json" code={webhookPayload} />
+              </div>
+              
+              <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="font-semibold text-amber-900 mb-2">🔐 Webhook Security</h4>
+                <ul className="text-sm text-amber-800 space-y-1">
+                  <li>• Verify HMAC signatures using your webhook secret</li>
+                  <li>• Use HTTPS endpoints only</li>
+                  <li>• Implement proper authentication on your webhook endpoints</li>
+                  <li>• Log webhook attempts for security monitoring</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Currency & Amount Handling */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <Zap className="h-6 w-6 text-amber-600 mr-3" />
+                Currency & Amount Handling
+              </h3>
+              
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-amber-900 mb-4">💰 Subunit Currency Format</h4>
+                <p className="text-amber-800 mb-4">
+                  FirstChekout uses subunits for all amount values to avoid floating-point precision issues. 
+                  For Nigerian Naira (NGN), amounts are specified in kobo (1 NGN = 100 kobo).
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h5 className="font-semibold text-amber-900 mb-2">Supported Currencies:</h5>
+                    <ul className="text-sm text-amber-800 space-y-1">
+                      <li>• <strong>NGN</strong> (Nigerian Naira) - Primary</li>
+                      <li>• <strong>USD</strong> (US Dollar) - International</li>
+                      <li>• <strong>EUR</strong> (Euro) - International</li>
+                      <li>• <strong>GBP</strong> (British Pound) - International</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h5 className="font-semibold text-amber-900 mb-2">Conversion Examples:</h5>
+                    <ul className="text-sm text-amber-800 space-y-1">
+                      <li>• ₦1.00 = 100 kobo</li>
+                      <li>• ₦10.50 = 1,050 kobo</li>
+                      <li>• ₦1,000.00 = 100,000 kobo</li>
+                      <li>• Always multiply by 100 for NGN</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Amount Handling Examples:</h4>
+                <CodeBlock language="javascript" code={currencyExample} />
               </div>
             </div>
           </div>
@@ -495,6 +839,54 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
                 You can configure which payment methods to display to your customers using the <code className="bg-blue-100 px-1 rounded">options</code>
                 parameter in your integration. This allows you to customize the checkout experience based on your business needs.
               </p>
+            </div>
+          </div>
+          
+          {/* API Reference Quick Links */}
+          <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center">
+              <BookOpen className="h-6 w-6 mr-2" />
+              📚 Complete API Reference
+            </h3>
+            <p className="text-blue-800 mb-4">
+              For comprehensive endpoint documentation, interactive examples, and testing capabilities, 
+              visit our complete API reference documentation.
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-semibold text-blue-900 mb-2">What You'll Find:</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Complete endpoint reference</li>
+                  <li>• Interactive request/response examples</li>
+                  <li>• Parameter validation details</li>
+                  <li>• Status code explanations</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-blue-900 mb-2">Testing Features:</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Live API testing environment</li>
+                  <li>• Sample data and responses</li>
+                  <li>• Code generation for multiple languages</li>
+                  <li>• Postman collection export</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="mt-4">
+              <a
+                href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📖 Access Complete API Documentation
+                <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
