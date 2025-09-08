@@ -1,5 +1,5 @@
 import React from 'react';
-import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, AlertTriangle, CheckCircle, Info, BookOpen, Shield, Zap} from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, AlertTriangle, BookOpen, Shield, Zap} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
@@ -215,15 +215,7 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
   const authHeaderExample = `Authorization: Bearer YOUR_SECRET_KEY
 Content-Type: application/json`;
 
-  const pythonAuthExample = `import requests
 
-headers = {
-    'Authorization': 'Bearer YOUR_SECRET_KEY',
-    'Content-Type': 'application/json',
-}
-
-response = requests.get('{{ payment_Gateway_Url }}/api/v1/transactions', headers=headers)
-print(response.json())`;
 
   const metadataExample = `{
   "Amount": 10000,
@@ -292,21 +284,7 @@ print(response.json())`;
   "signature": "sha256=abc123def456..."
 }`;
 
-  const currencyExample = `// Amount Handling Examples
 
-// NGN 100.00 = 10000 kobo (multiply by 100)
-{
-  "amount": 10000,  // ₦100.00
-  "currency": "NGN"
-}
-
-// NGN 1,500.50 = 150050 kobo
-{
-  "amount": 150050,  // ₦1,500.50
-  "currency": "NGN"
-}
-
-// Always use integers for amounts to avoid floating point issues`;
 
   return (
       <section id="api-sdk" className="mb-16">
@@ -421,10 +399,10 @@ print(response.json())`;
                   <CodeBlock language="http" code={authHeaderExample} />
                 </div>
 
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Python Example:</h4>
-                  <CodeBlock language="python" code={pythonAuthExample} />
-                </div>
+                {/*<div>*/}
+                {/*  <h4 className="font-medium text-gray-900 mb-2">Python Example:</h4>*/}
+                {/*  <CodeBlock language="python" code={pythonAuthExample} />*/}
+                {/*</div>*/}
               </div>
             </div>
 
@@ -713,9 +691,9 @@ print(response.json())`;
                     <h5 className="font-semibold text-amber-900 mb-2">Supported Currencies:</h5>
                     <ul className="text-sm text-amber-800 space-y-1">
                       <li>• <strong>NGN</strong> (Nigerian Naira) - Primary</li>
-                      <li>• <strong>USD</strong> (US Dollar) - International</li>
-                      <li>• <strong>EUR</strong> (Euro) - International</li>
-                      <li>• <strong>GBP</strong> (British Pound) - International</li>
+                      {/*<li>• <strong>USD</strong> (US Dollar) - International</li>*/}
+                      {/*<li>• <strong>EUR</strong> (Euro) - International</li>*/}
+                      {/*<li>• <strong>GBP</strong> (British Pound) - International</li>*/}
                     </ul>
                   </div>
                   
@@ -731,10 +709,10 @@ print(response.json())`;
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-medium text-gray-900 mb-2">Amount Handling Examples:</h4>
-                <CodeBlock language="javascript" code={currencyExample} />
-              </div>
+              {/*<div>*/}
+              {/*  <h4 className="font-medium text-gray-900 mb-2">Amount Handling Examples:</h4>*/}
+              {/*  <CodeBlock language="javascript" code={currencyExample} />*/}
+              {/*</div>*/}
             </div>
           </div>
 
