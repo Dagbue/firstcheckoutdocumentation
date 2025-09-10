@@ -140,9 +140,15 @@ graph TD
                   <div className="flex flex-wrap gap-2">
                     {item.features.map((feature, idx) => (
                       <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+
+
                         {feature}
                       </span>
-                    ))}
+                        ))}
+                      </div>
+                    </div>
+                    <ArrowRight
+                        className="h-5 w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
                   </div>
                 </div>
                 <ArrowRight className="h-4 w-4 md:h-5 md:w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
@@ -226,7 +232,7 @@ graph TD
             <p className="text-xs md:text-sm text-gray-600">
               Reliable infrastructure with comprehensive monitoring
             </p>
-          </div>
+
 
           <div className="text-center">
             <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
@@ -237,7 +243,8 @@ graph TD
               Sub-second response times for all API calls
             </p>
           </div>
-
+        </div>
+        
           <div className="text-center">
             <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
               <Users className="h-6 w-6 md:h-8 md:w-8 text-purple-600"/>
