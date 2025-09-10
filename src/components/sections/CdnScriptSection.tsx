@@ -563,8 +563,8 @@ $publicKey = getenv('FIRSTCHEKOUT_PUBLIC_KEY') ?: 'sb-pk-your_public_key_here';
   return (
       <section id="cdn-script" className="mb-16">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">CDN Script Integration</h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">CDN Script Integration</h2>
+          <p className="text-l text-gray-600 mb-4">
             Perfect for static websites, legacy applications, and quick integrations without framework dependencies.
             Simply include the CDN script and start accepting payments immediately.
           </p>

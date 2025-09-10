@@ -212,8 +212,8 @@ export const TroubleshootingSection: React.FC = () => {
   return (
     <section id="troubleshooting" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Troubleshooting & FAQs</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Troubleshooting & FAQs</h2>
+        <p className="text-l text-gray-600 mb-4">
           Comprehensive troubleshooting guide to help you quickly identify and resolve common integration issues. 
           Use the diagnostic tools and step-by-step solutions to get your payment system working smoothly.
         </p>

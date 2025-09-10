@@ -289,8 +289,8 @@ Content-Type: application/json`;
   return (
       <section id="api-sdk" className="mb-16">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">API/SDK Integration</h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">API/SDK Integration</h2>
+          <p className="text-l text-gray-600 mb-4">
             Direct API integration for custom applications. This method provides full control and flexibility,
             supporting any programming language with HTTP client capabilities.
           </p>
@@ -856,7 +856,7 @@ Content-Type: application/json`;
             <div className="mt-4">
               <a
                 href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                className="inline-flex items-center px-6 py-3 bg-bank-blue text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -9,8 +9,8 @@ export const PrerequisitesSection: React.FC = () => {
   return (
       <section id="prerequisites" className="mb-16">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Prerequisites</h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Prerequisites</h2>
+          <p className="text-l text-gray-600 mb-4">
             Before integrating FirstChekout, ensure you meet the following requirements based on your chosen integration method.
           </p>
 
