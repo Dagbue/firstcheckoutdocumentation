@@ -244,32 +244,32 @@ export const WordPressSection: React.FC = () => {
             </div>
 
             {/* Configuration Fields Table */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden responsive-table">
-              <div className="bg-gray-50 px-3 sm:px-6 py-2 sm:py-3 border-b border-gray-200">
-                <h4 className="text-base sm:text-lg font-semibold text-gray-900">Configuration Fields Reference</h4>
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
+                <h4 className="text-lg font-semibold text-gray-900">Configuration Fields Reference</h4>
               </div>
               
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field</th>
-                      <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                      <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Description</th>
-                      <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Example</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Example</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {configurationFields.map((field, index) => (
                       <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                        <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900 text-xs sm:text-sm" data-label="Field">{field.field}</td>
-                        <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap" data-label="Type">
+                        <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{field.field}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                             {field.type}
                           </span>
                         </td>
-                        <td className="px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm text-gray-500 hidden sm:table-cell" data-label="Description">{field.description}</td>
-                        <td className="px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm text-gray-900 font-mono" data-label="Example">{field.example}</td>
+                        <td className="px-6 py-4 text-sm text-gray-500">{field.description}</td>
+                        <td className="px-6 py-4 text-sm text-gray-900 font-mono">{field.example}</td>
                       </tr>
                     ))}
                   </tbody>

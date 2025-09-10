@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
-import Sidebar from './components/Sidebar';
+import { Sidebar } from './components/Sidebar';
 import { MobileMenu } from './components/MobileMenu';
 
 // Import all page components

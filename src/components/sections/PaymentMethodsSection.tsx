@@ -285,45 +285,45 @@ graph TD
           <div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">Payment Method Comparison</h3>
             
-            <div className="responsive-table">
+            <div className="overflow-x-auto">
               <table className="min-w-full border border-gray-200 rounded-lg">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Setup Time</th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Success Rate</th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">User Experience</th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Best For</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Setup Time</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Success Rate</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Experience</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Best For</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 text-xs sm:text-sm">
+                <tbody className="bg-white divide-y divide-gray-200 text-sm">
                   <tr>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900" data-label="Method">Card</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500" data-label="Setup Time">~2-3 min</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-green-600" data-label="Success Rate">85-90%</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500 hidden sm:table-cell" data-label="User Experience">Familiar, fast</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-gray-500" data-label="Best For">Quick purchases</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Card</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">~2-3 minutes</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-600">85-90%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">Familiar, fast</td>
+                    <td className="px-6 py-4 text-gray-500">Quick purchases, returning customers</td>
                   </tr>
                   <tr>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900" data-label="Method">USSD</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500" data-label="Setup Time">~3-5 min</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-green-600" data-label="Success Rate">90-95%</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500 hidden sm:table-cell" data-label="User Experience">Phone required</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-gray-500" data-label="Best For">No cards needed</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">USSD</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">~3-5 minutes</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-600">90-95%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">Phone required</td>
+                    <td className="px-6 py-4 text-gray-500">Users without cards, high security</td>
                   </tr>
                   <tr>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900" data-label="Method">Transfer</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500" data-label="Setup Time">~5-10 min</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-green-600" data-label="Success Rate">95-98%</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500 hidden sm:table-cell" data-label="User Experience">Banking app required</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-gray-500" data-label="Best For">Large amounts</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Transfer</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">~5-10 minutes</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-600">95-98%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">Banking app required</td>
+                    <td className="px-6 py-4 text-gray-500">Large amounts, business payments</td>
                   </tr>
                   <tr>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900" data-label="Method">QR Code</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500" data-label="Setup Time">~1-2 min</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-green-600" data-label="Success Rate">88-92%</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-500 hidden sm:table-cell" data-label="User Experience">Mobile-first</td>
-                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-gray-500" data-label="Best For">Contactless</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">QR Code</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">~1-2 minutes</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-600">88-92%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">Mobile-first</td>
+                    <td className="px-6 py-4 text-gray-500">Mobile users, contactless payments</td>
                   </tr>
                 </tbody>
               </table>

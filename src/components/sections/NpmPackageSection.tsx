@@ -246,59 +246,59 @@ export default {
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Configuration Options</h3>
             
-            <div className="bg-gray-50 rounded-lg p-3 sm:p-6">
-              <div className="responsive-table">
+            <div className="bg-gray-50 rounded-lg p-6">
+              <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-2 px-2 sm:px-3 font-semibold text-gray-900 text-xs sm:text-sm">Property</th>
-                      <th className="text-left py-2 px-2 sm:px-3 font-semibold text-gray-900 text-xs sm:text-sm">Type</th>
-                      <th className="text-left py-2 px-2 sm:px-3 font-semibold text-gray-900 text-xs sm:text-sm">Required</th>
-                      <th className="text-left py-2 px-2 sm:px-3 font-semibold text-gray-900 text-xs sm:text-sm hidden sm:table-cell">Description</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-900">Property</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-900">Type</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-900">Required</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-900">Description</th>
                     </tr>
                   </thead>
-                  <tbody className="text-xs sm:text-sm">
+                  <tbody className="text-sm">
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">live</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">boolean</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Toggle between sandbox (false) and production (true)</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">live</td>
+                      <td className="py-2 px-3">boolean</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Toggle between sandbox (false) and production (true)</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">ref</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">string</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Unique transaction reference</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">ref</td>
+                      <td className="py-2 px-3">string</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Unique transaction reference</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">amount</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">number</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Amount in kobo (multiply naira by 100)</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">amount</td>
+                      <td className="py-2 px-3">number</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Amount in kobo (multiply naira by 100)</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">customer</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">object</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Customer details (firstname, lastname, email)</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">customer</td>
+                      <td className="py-2 px-3">object</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Customer details (firstname, lastname, email)</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">publicKey</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">string</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Your FirstChekout public key</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">publicKey</td>
+                      <td className="py-2 px-3">string</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Your FirstChekout public key</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">options</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">array</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">No</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Payment methods: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">options</td>
+                      <td className="py-2 px-3">array</td>
+                      <td className="py-2 px-3">No</td>
+                      <td className="py-2 px-3">Payment methods: ["CARD", "USSD", "Bank Transfer", "PAYATTITUDE", "QR", "BNPL"]</td>
                     </tr>
                     <tr>
-                      <td className="py-2 px-2 sm:px-3 font-mono text-blue-600" data-label="Property">callback</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Type">function</td>
-                      <td className="py-2 px-2 sm:px-3" data-label="Required">Yes</td>
-                      <td className="py-2 px-2 sm:px-3 hidden sm:table-cell" data-label="Description">Function called when payment completes</td>
+                      <td className="py-2 px-3 font-mono text-blue-600">callback</td>
+                      <td className="py-2 px-3">function</td>
+                      <td className="py-2 px-3">Yes</td>
+                      <td className="py-2 px-3">Function called when payment completes</td>
                     </tr>
                   </tbody>
                 </table>

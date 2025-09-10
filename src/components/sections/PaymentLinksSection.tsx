@@ -397,23 +397,23 @@ Usage: One-time personalized payment`;
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">📊 Payment Link Types Comparison</h3>
             
             <div className="overflow-x-auto">
-              <table className="min-w-full border border-gray-200 rounded-lg responsive-table">
+              <table className="min-w-full border border-gray-200 rounded-lg">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       <div className="flex items-center">
                         <Link2 className="h-4 w-4 mr-1 text-blue-500" />
                         Static
                       </div>
                     </th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       <div className="flex items-center">
                         <Target className="h-4 w-4 mr-1 text-purple-500" />
                         Hybrid
                       </div>
                     </th>
-                    <th className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       <div className="flex items-center">
                         <User className="h-4 w-4 mr-1 text-amber-500" />
                         Dynamic
@@ -421,13 +421,13 @@ Usage: One-time personalized payment`;
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 text-xs sm:text-sm">
+                <tbody className="bg-white divide-y divide-gray-200">
                   {comparisonData.map((row, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                      <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap font-medium text-gray-900" data-label="Feature">{row.feature}</td>
-                      <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-600" data-label="Static">{row.static}</td>
-                      <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-600" data-label="Hybrid">{row.hybrid}</td>
-                      <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-gray-600" data-label="Dynamic">{row.dynamic}</td>
+                      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{row.feature}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.static}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.hybrid}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.dynamic}</td>
                     </tr>
                   ))}
                 </tbody>
