@@ -98,31 +98,31 @@ graph TD
         <div className="absolute inset-0 bg-gradient-to-r from-bank-blue/20 to-transparent"></div>
         <div className="relative z-10">
           <div className="max-w-4xl">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 lg:mb-6 leading-tight">
               FirstChekout Payment Gateway
             </h1>
-            <p className="text-xl lg:text-2xl text-blue-100 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-blue-100 mb-6 lg:mb-8 leading-relaxed">
               Welcome to the FirstChekout Developer Documentation where you'll learn how to build 
               amazing payment experiences with the FirstChekout API.
             </p>
-            <div className="flex flex-wrap gap-4 mb-8">
-              <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">
+            <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 mb-6 lg:mb-8">
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-xs sm:text-sm font-medium">
                 🔒 PCI DSS Compliant
               </span>
-              <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-xs sm:text-sm font-medium">
                 ⚡ Real-time Processing
               </span>
-              <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-xs sm:text-sm font-medium">
                 🌍 Multi-channel Support
               </span>
-              <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-xs sm:text-sm font-medium">
                 📱 Mobile Optimized
               </span>
             </div>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 lg:gap-4">
               <Link
                 to="/registration"
-                className="inline-flex items-center px-6 py-3 bg-bank-gold text-bank-blue rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"
+                className="inline-flex items-center justify-center px-4 py-2.5 lg:px-6 lg:py-3 bg-bank-gold text-bank-blue rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold text-sm lg:text-base"
               >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -131,7 +131,7 @@ graph TD
                 href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg hover:bg-white/20 transition-colors font-semibold"
+                className="inline-flex items-center justify-center px-4 py-2.5 lg:px-6 lg:py-3 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg hover:bg-white/20 transition-colors font-semibold text-sm lg:text-base"
               >
                 <Play className="mr-2 h-5 w-5" />
                 API Reference
@@ -166,8 +166,8 @@ graph TD
       {/* Quick Start Section - Inspired by Paystack/Citi Screenshots */}
       <div id="quick-start" className="mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Quick Start</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-4">Quick Start</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
             Choose your integration path and start accepting payments in minutes
           </p>
         </div>
@@ -184,10 +184,10 @@ graph TD
                   <item.icon className={`h-8 w-8 text-${item.color}-600`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
+                  <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                  <p className="text-sm lg:text-base text-gray-600 mb-4 leading-relaxed">
                     {item.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -208,8 +208,8 @@ graph TD
       {/* Integration Methods */}
       <div className="mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Integration Methods</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Integration Methods</h2>
+          <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
             Multiple ways to integrate FirstChekout into your application
           </p>
         </div>
@@ -234,10 +234,10 @@ graph TD
               <h3 className="font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
                 {method.title}
               </h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-xs lg:text-sm text-gray-600 mb-4">
                 {method.description}
               </p>
-              <div className="flex items-center text-bank-blue text-sm font-medium">
+              <div className="flex items-center text-bank-blue text-xs lg:text-sm font-medium">
                 Learn more
                 <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
               </div>
@@ -249,8 +249,8 @@ graph TD
       {/* Features Grid */}
       <div className="mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose FirstChekout?</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Why Choose FirstChekout?</h2>
+          <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
             Built for Nigerian businesses with global standards
           </p>
         </div>
@@ -261,7 +261,7 @@ graph TD
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">99.9% Uptime</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs lg:text-sm text-gray-600">
               Reliable infrastructure with comprehensive monitoring
             </p>
           </div>
@@ -271,7 +271,7 @@ graph TD
               <Zap className="h-8 w-8 text-blue-600" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">Lightning Fast</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs lg:text-sm text-gray-600">
               Sub-second response times for all API calls
             </p>
           </div>
@@ -281,7 +281,7 @@ graph TD
               <Users className="h-8 w-8 text-purple-600" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">24/7 Support</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs lg:text-sm text-gray-600">
               Expert support team ready to help when you need it
             </p>
           </div>
@@ -291,7 +291,7 @@ graph TD
               <BookOpen className="h-8 w-8 text-amber-600" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">Rich Documentation</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs lg:text-sm text-gray-600">
               Comprehensive guides and examples for every use case
             </p>
           </div>
@@ -300,21 +300,21 @@ graph TD
 
       {/* Getting Started CTA */}
       <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-8 lg:p-12 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
-        <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
+        <p className="text-base lg:text-lg text-gray-600 mb-6 lg:mb-8 max-w-2xl mx-auto">
           Join thousands of businesses already using FirstChekout to power their payment experiences
         </p>
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 lg:gap-4">
           <Link
             to="/registration"
-            className="inline-flex items-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg"
+            className="inline-flex items-center justify-center px-6 py-3 lg:px-8 lg:py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-base lg:text-lg"
           >
             Create Account
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
           <Link
             to="/api-sdk"
-            className="inline-flex items-center px-8 py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-lg"
+            className="inline-flex items-center justify-center px-6 py-3 lg:px-8 lg:py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-base lg:text-lg"
           >
             <Code className="mr-2 h-5 w-5" />
             View API Docs

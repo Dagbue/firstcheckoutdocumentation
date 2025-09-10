@@ -157,10 +157,10 @@ export const Sidebar: React.FC = () => {
                           : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                     >
-                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                      <item.icon className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
                       <div className="flex-1 text-left">
-                        <div className="font-semibold">{item.label}</div>
-                        <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
+                        <div className="font-semibold text-sm lg:text-base">{item.label}</div>
+                        <div className="text-xs text-gray-500 mt-0.5 hidden lg:block">{item.description}</div>
                       </div>
                       <ChevronRight className={`ml-2 h-4 w-4 transition-transform duration-200 ${
                         expandedItems.includes(item.id) ? 'rotate-90' : ''
@@ -179,10 +179,10 @@ export const Sidebar: React.FC = () => {
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                             }`}
                           >
-                            <child.icon className="mr-3 h-4 w-4 flex-shrink-0" />
+                            <child.icon className="mr-3 h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
                             <div className="text-left">
-                              <div className="font-medium">{child.label}</div>
-                              <div className="text-xs text-gray-500 mt-0.5">{child.description}</div>
+                              <div className="font-medium text-xs lg:text-sm">{child.label}</div>
+                              <div className="text-xs text-gray-500 mt-0.5 hidden lg:block">{child.description}</div>
                             </div>
                           </Link>
                         ))}
@@ -203,10 +203,10 @@ export const Sidebar: React.FC = () => {
                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                   >
-                    <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                    <item.icon className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
                     <div className="flex-1 text-left">
-                      <div className="font-semibold">{item.label}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
+                      <div className="font-semibold text-sm lg:text-base">{item.label}</div>
+                      <div className="text-xs text-gray-500 mt-0.5 hidden lg:block">{item.description}</div>
                     </div>
                   </Link>
                 )}
@@ -218,7 +218,7 @@ export const Sidebar: React.FC = () => {
           <div className="px-4 py-4 border-t border-gray-200">
             <div className="text-xs text-gray-500 text-center">
               <div className="mb-2">FirstChekout Documentation</div>
-              <div className="text-bank-blue">v1.0.0</div>
+              <div className="text-bank-blue font-medium">v1.0.0</div>
             </div>
           </div>
         </div>

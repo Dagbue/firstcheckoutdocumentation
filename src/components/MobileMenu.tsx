@@ -65,9 +65,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >
-                  <item.icon className="mr-3 h-5 w-5 flex-shrink-0 mt-0.5" />
+                  <item.icon className="mr-3 h-4 w-4 flex-shrink-0 mt-0.5" />
                   <div className="text-left">
-                    <div className="font-semibold">{item.label}</div>
+                    <div className="font-semibold text-sm">{item.label}</div>
                     <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
                   </div>
                 </Link>
