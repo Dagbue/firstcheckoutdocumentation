@@ -1,8 +1,30 @@
 import React from 'react';
-import { ArrowRight, Play, BookOpen, Code, Zap, Users, CheckCircle, ExternalLink, CreditCard, Smartphone, QrCode, Building } from 'lucide-react';
+import { ArrowRight, Play, BookOpen, Code, Zap, Users, CheckCircle, ExternalLink, CreditCard, Smartphone, QrCode, Building, FileText, Settings, Shield, HelpCircle, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { MermaidDiagramSudo } from '../MermaidDiagramSudo';
+import { MermaidDiagram } from '@lightenna/react-mermaid-diagram';
 
 export const OverviewSection: React.FC = () => {
+  const integrationFlowDiagram = `
+graph TD
+    A[Start: Visit Portal] --> B[Register Account]
+    B --> C[Complete KYC & Approval]
+    C --> D[Fetch API Keys]
+    D --> E[Choose Integration Path]
+    E --> F1[API/SDK: Custom Apps]
+    E --> F2[NPM: JS Sites]
+    E --> F3[CDN: Static Sites]
+    E --> F4[WordPress Plugin]
+    E --> F5[Payment Links: No-Code]
+    F1 --> G[Test in Sandbox]
+    F2 --> G
+    F3 --> G
+    F4 --> G
+    F5 --> G
+    G --> H[Go Live: Toggle to Production]
+    H --> I[Monitor Transactions via Webhooks]
+  `;
+
   const quickStartItems = [
     {
       title: 'Accept Payments',
@@ -71,7 +93,7 @@ export const OverviewSection: React.FC = () => {
 
   return (
     <section id="overview" className="mb-16">
-      {/* Hero Section */}
+      {/* Hero Section - Inspired by Screenshots */}
       <div className="bg-gradient-to-br from-bank-blue via-blue-700 to-blue-800 rounded-2xl p-8 lg:p-12 text-white mb-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-bank-blue/20 to-transparent"></div>
         <div className="relative z-10">
@@ -120,7 +142,28 @@ export const OverviewSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Start Section */}
+      {/* High-Level Integration Flow - Restored from Screenshots */}
+      <div className="mb-16">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">High-Level Integration Flow</h2>
+          <p className="text-gray-600 mb-6">
+            This diagram outlines the complete merchant journey from registration to live payment processing.
+          </p>
+          
+          <div className="mb-6">
+            <MermaidDiagramSudo code={integrationFlowDiagram} />
+            <MermaidDiagram>{integrationFlowDiagram}</MermaidDiagram>
+          </div>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p className="text-blue-800 text-sm">
+              💡 This diagram would render as a visual flowchart in full implementation below.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Start Section - Inspired by Paystack/Citi Screenshots */}
       <div id="quick-start" className="mb-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Quick Start</h2>
