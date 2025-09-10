@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'; // Adjust based on your routing library
 import { ChevronRight } from 'lucide-react'; // Adjust based on your icon library
 
@@ -8,7 +8,7 @@ interface MenuItem {
   label: string;
   description?: string;
   path?: string;
-  icon: FC<{ className?: string }>; // Type for React component
+  icon: React.FC<{ className?: string }>;
   children?: MenuItem[];
 }
 
@@ -21,7 +21,7 @@ interface SidebarProps {
   setIsSidebarOpen: (open: boolean) => void;
 }
 
-const Sidebar: FC<SidebarProps> = ({
+const Sidebar: React.FC<SidebarProps> = ({
   items,
   expandedItems,
   toggleExpanded,
