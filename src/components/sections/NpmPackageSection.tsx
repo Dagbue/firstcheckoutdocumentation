@@ -183,8 +183,8 @@ export default {
   return (
     <section id="npm-package" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">NPM Package Integration</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">NPM Package Integration</h2>
+        <p className="text-l text-gray-600 mb-4">
           Perfect for modern JavaScript frameworks like React, Vue, Angular, and Node.js applications. 
           Provides a clean, promise-based API for seamless payment integration.
         </p>

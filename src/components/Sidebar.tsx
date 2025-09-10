@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, HelpCircle, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug } from 'lucide-react';
+import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug } from 'lucide-react';
 
 const navigationItems = [
   { 
@@ -153,7 +153,7 @@ export const Sidebar: React.FC = () => {
                       onClick={() => toggleExpanded(item.id)}
                       className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                         isChildActive(item.children)
-                          ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-l-4 border-bank-blue'
+                          ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-2 border-bank-gold'
                           : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                     >
@@ -199,7 +199,7 @@ export const Sidebar: React.FC = () => {
                     }}
                     className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                       isActive(item.path)
-                        ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-l-4 border-bank-blue'
+                        ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-2 border-bank-gold'
                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                   >
@@ -214,13 +214,7 @@ export const Sidebar: React.FC = () => {
             ))}
           </nav>
           
-          {/* Footer */}
-          <div className="px-4 py-4 border-t border-gray-200">
-            <div className="text-xs text-gray-500 text-center">
-              <div className="mb-2">FirstChekout Documentation</div>
-              <div className="text-bank-blue font-medium">v1.0.0</div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

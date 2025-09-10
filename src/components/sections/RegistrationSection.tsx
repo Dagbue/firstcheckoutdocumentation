@@ -239,19 +239,19 @@ sequenceDiagram
   return (
       <section id="registration" className="mb-16">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div className="text-left mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Merchant Registration & Onboarding</h2>
-            <p className="text-lg text-gray-600 max-w-3xl text-left">
+          <div className="text-left mb-5">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Merchant Registration & Onboarding</h2>
+            <p className="text-l text-gray-600 max-w-5xl text-left">
               Welcome to FirstChekout! Follow our comprehensive step-by-step guide to create and activate your merchant account.
               Our streamlined onboarding process ensures you're ready to accept payments quickly and securely.
             </p>
           </div>
 
           {/* Welcome Banner */}
-          <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white mb-8">
+          <div className="bg-bank-blue rounded-xl p-8 text-white mb-8">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-2">Welcome onboard FirstChekout</h3>
+                <h3 className="text-2xl font-bold text-white mb-2">Welcome onboard FirstChekout</h3>
                 <p className="text-blue-100 mb-4">
                   Enhance your payment experience with FirstChekout, the seamless payment solution that enables
                   you to offer your customers convenient and stress-free transactions.

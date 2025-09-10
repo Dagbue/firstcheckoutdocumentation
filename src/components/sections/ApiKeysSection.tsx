@@ -118,10 +118,10 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {/* Header Section */}
         <div className="text-left mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
             API Integration for Merchant
           </h2>
-          <p className="text-lg text-gray-600 max-w-4xl ">
+          <p className="text-l text-gray-600 max-w-5xl ">
             This document provides a step-by-step guide to integrating with the FirstChekout Platform via API across
             all supported payment methods. The platform supports a wide range of channels including Card, USSD,
             Bank Account, Virtual Account, Bank Transfer, e-Naira, SoftPOS, Wallet, QR,

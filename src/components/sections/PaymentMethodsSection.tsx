@@ -69,8 +69,8 @@ graph TD
   return (
     <section id="payment-methods" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Payment Methods & Flows</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Methods & Flows</h2>
+        <p className="text-l text-gray-600 mb-4">
           FirstChekout supports multiple payment methods to give your customers flexibility.
           Each method has specific initiation and confirmation steps optimized for the Nigerian market.
         </p>

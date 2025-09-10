@@ -84,8 +84,8 @@ export const SupportSection: React.FC = () => {
   return (
       <section id="support" className="mb-16">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Support & Resources</h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Support & Resources</h2>
+          <p className="text-l text-gray-600 mb-4">
             Our dedicated support team is here to help you succeed with FirstChekout. Whether you need technical
             assistance, have integration questions, or require urgent help, we provide multiple channels to get you
             the support you need.

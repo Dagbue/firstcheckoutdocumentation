@@ -165,8 +165,8 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
   return (
     <section id="security" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Security & Compliance</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Security & Compliance</h2>
+        <p className="text-l text-gray-600 mb-4">
           FirstChekout implements industry-leading security measures to protect payment data and ensure compliance
           with international standards. Understanding and implementing these security practices is crucial for 
           protecting your customers and business.

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
-import { CodeBlock } from '../CodeBlock';
+import {ckeckoutscreen, dynamic, hybrid1, hybrid2, staticLink} from "../../assets";
 
 export const PaymentLinksSection: React.FC = () => {
   const comparisonData = [
@@ -36,38 +36,12 @@ export const PaymentLinksSection: React.FC = () => {
     }
   ];
 
-  const staticLinkExample = `# Static Payment Link Example
-# Perfect for: Standard products, donations, subscriptions
-
-Link: {{ static_payment_link }}/static-payme
-Product: Italian Shoes
-Amount: ₦10,000.00
-Usage: Unlimited customers can use the same link`;
-
-  const hybridLinkExample = `# Hybrid Payment Link Example
-# Perfect for: Campaign tracking, event registrations
-
-Alias: testLink
-Amount: ₦20,000.00
-Purpose: for testing
-Link: {{ hybrid_payment_link }}/testLink
-Usage: Reusable with campaign tracking`;
-
-  const dynamicLinkExample = `# Dynamic Payment Link Example
-# Perfect for: Personalized invoicing, B2B payments
-
-Customer: Sandra Ihekire
-Email: sandraihekire@yopmail.com
-Product: barella tact
-Amount: ₦400.00
-Status: PENDING → SUCCESS
-Usage: One-time personalized payment`;
 
   return (
     <section id="payment-links" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Payment Links (No-Code Method)</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Links (No-Code Method)</h2>
+        <p className="text-l text-gray-600 mb-4">
           Create secure, shareable payment URLs or QR codes directly from your merchant dashboard without any coding. 
           Perfect for small businesses, one-off transactions, quick invoicing, or when you need to start accepting 
           payments immediately without developer resources.
@@ -118,7 +92,7 @@ Usage: One-time personalized payment`;
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Link2 className="h-6 w-6 text-blue-600" />
             </div>
-            <h3 className="font-semibold text-blue-900 mb-2">Static Payment Link</h3>
+            <h3 className="font-semibold text-blue-900 mb-2 text-lg ">Static Payment Link</h3>
             <p className="text-sm text-blue-700">Reusable, fixed-purpose links for standard products or services</p>
           </div>
           
@@ -126,7 +100,7 @@ Usage: One-time personalized payment`;
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-purple-600" />
             </div>
-            <h3 className="font-semibold text-purple-900 mb-2">Hybrid Payment Link</h3>
+            <h3 className="font-semibold text-purple-900 mb-2 text-lg ">Hybrid Payment Link</h3>
             <p className="text-sm text-purple-700">Reusable with custom aliases for campaign tracking</p>
           </div>
           
@@ -134,7 +108,7 @@ Usage: One-time personalized payment`;
             <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <User className="h-6 w-6 text-amber-600" />
             </div>
-            <h3 className="font-semibent text-amber-900 mb-2">Dynamic Payment Link</h3>
+            <h3 className="font-semibent text-amber-900 mb-2 text-lg ">Dynamic Payment Link</h3>
             <p className="text-sm text-amber-700">Personalized, one-time links with customer details</p>
           </div>
         </div>
@@ -212,13 +186,22 @@ Usage: One-time personalized payment`;
 
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-3">💡 Example Usage</h4>
-              <CodeBlock language="text" code={staticLinkExample} />
+              <div>
+                <img src={staticLink} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 1:</strong> Static PaymentLik</p>
+              </div>
+
+              <div className="mt-8">
+                <img src={ckeckoutscreen} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 2:</strong>CheckOut Frame</p>
+              </div>
             </div>
 
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
               <h4 className="font-semibold text-emerald-900 mb-2">🎯 Use Case Example</h4>
               <p className="text-emerald-800 text-sm">
-                A merchant selling "Italian Shoes" for ₦10,000.00 generates one Static link and embeds it on their website 
+                A merchant selling "Italian Shoes" for ₦10,000.00 generates one Static link and embeds it on their
+                website
                 or shares it in social media posts. Multiple customers can use the same link without reconfiguration.
               </p>
             </div>
@@ -296,13 +279,27 @@ Usage: One-time personalized payment`;
 
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-3">💡 Example Usage</h4>
-              <CodeBlock language="text" code={hybridLinkExample} />
+              <div>
+                <img src={hybrid1} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 1:</strong>Hybrid PaymentLik</p>
+              </div>
+
+              <div className="mt-8">
+                <img src={hybrid2} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 2:</strong>Hybrid PaymentLik</p>
+              </div>
+
+              <div className="mt-8">
+                <img src={ckeckoutscreen} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 3:</strong>CheckOut Frame</p>
+              </div>
             </div>
 
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
               <h4 className="font-semibold text-emerald-900 mb-2">🎯 Use Case Example</h4>
               <p className="text-emerald-800 text-sm">
-                For a test campaign ("for testing") at ₦20,000.00 with alias "testLink," share the link in targeted emails. 
+                For a test campaign ("for testing") at ₦20,000.00 with alias "testLink," share the link in targeted
+                emails.
                 The alias helps attribute payments to the campaign in analytics and reporting.
               </p>
             </div>
@@ -380,13 +377,22 @@ Usage: One-time personalized payment`;
 
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-3">💡 Example Usage</h4>
-              <CodeBlock language="text" code={dynamicLinkExample} />
+
+              <div>
+                <img src={dynamic} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 1:</strong> Dynamic PaymentLik</p>
+              </div>
+
+              <div className="mt-8">
+                <img src={ckeckoutscreen} alt="Figure 1"/>
+                <p className="mt-2 text-gray-600 space-y-1"><strong>Figure 2:</strong>CheckOut Frame</p>
+              </div>
             </div>
 
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
               <h4 className="font-semibold text-emerald-900 mb-2">🎯 Use Case Example</h4>
               <p className="text-emerald-800 text-sm">
-                Invoice "Sandra Ihekire" for "barella tact" at ₦400.00. Send the personalized link via email; 
+                Invoice "Sandra Ihekire" for "barella tact" at ₦400.00. Send the personalized link via email;
                 monitor status changes from PENDING to SUCCESS in the dashboard without any coding required.
               </p>
             </div>
@@ -509,8 +515,8 @@ Usage: One-time personalized payment`;
           </div>
 
           {/* Getting Started */}
-          <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">🚀 Ready to Start Creating Payment Links?</h3>
+          <div className="bg-bank-blue rounded-xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4 text-white ">🚀 Ready to Start Creating Payment Links?</h3>
             <p className="text-blue-100 mb-6">
               Access your merchant dashboard to create your first payment link in minutes. No coding required, 
               no complex setup - just fill in the details and start accepting payments immediately.
@@ -518,7 +524,7 @@ Usage: One-time personalized payment`;
             
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold mb-2">📋 What You Need:</h4>
+                <h4 className="font-semibold mb-2 text-white ">📋 What You Need:</h4>
                 <ul className="text-blue-100 text-sm space-y-1">
                   <li>• Active FirstChekout merchant account</li>
                   <li>• Product/service details</li>
@@ -528,7 +534,7 @@ Usage: One-time personalized payment`;
               </div>
               
               <div>
-                <h4 className="font-semibold mb-2">⚡ Quick Start Steps:</h4>
+                <h4 className="font-semibold mb-2 text-white ">⚡ Quick Start Steps:</h4>
                 <ul className="text-blue-100 text-sm space-y-1">
                   <li>• Log in to your merchant dashboard</li>
                   <li>• Navigate to "Payment Links" section</li>
@@ -544,7 +550,7 @@ Usage: One-time personalized payment`;
                 href="https://www.firstchekout.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-bank-gold text-bank-blue rounded-lg hover:bg-opacity-90 transition-colors font-semibold"
+                className="text-white inline-flex items-center px-6 py-3 bg-bank-gold  rounded-lg hover:bg-opacity-90 transition-colors font-semibold"
               >
                 <Users className="mr-2 h-5 w-5" />
                 Access Merchant Dashboard

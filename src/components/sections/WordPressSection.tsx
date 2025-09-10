@@ -147,10 +147,10 @@ export const WordPressSection: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {/* Header Section */}
         <div className="text-left mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">WordPress Plugin Integration</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">WordPress Plugin Integration</h2>
 
           
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-l text-gray-600 mb-4">
             FirstChekout is the official payment solution by First Bank of Nigeria for WordPress. It enables
             merchants to seamlessly receive payments for goods and services via dynamic or static 
             payment links. Whether you're running a WooCommerce store, service-based website, 
