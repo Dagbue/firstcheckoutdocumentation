@@ -397,7 +397,8 @@ Usage: One-time personalized payment`;
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">📊 Payment Link Types Comparison</h3>
             
             <div className="overflow-x-auto">
-              <table className="min-w-full border border-gray-200 rounded-lg">
+            <div className="table-container">
+              <table className="responsive-table min-w-full border border-gray-200 rounded-lg">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
@@ -424,14 +425,15 @@ Usage: One-time personalized payment`;
                 <tbody className="bg-white divide-y divide-gray-200">
                   {comparisonData.map((row, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{row.feature}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.static}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.hybrid}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{row.dynamic}</td>
+                      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900" data-label="Feature">{row.feature}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-label="Static">{row.static}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-label="Hybrid">{row.hybrid}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-label="Dynamic">{row.dynamic}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
             </div>
           </div>
 
