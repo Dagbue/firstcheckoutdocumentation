@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setIsSearchOpen(true)}
                     placeholder="Search documentation..."
-                    className="block w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-bank-blue focus:border-bank-blue sm:text-sm"
+                    className="block w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-bank-blue focus:border-bank-blue text-sm"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <div className="flex items-center space-x-1 text-xs text-gray-400">
@@ -89,7 +89,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                   className="hidden md:block inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bank-blue hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-blue transition-colors"
               >
                 Merchant Portal
-                {/*<ExternalLink className="ml-2 h-4 w-4"/>*/}
               </a>
             </div>
           </div>
