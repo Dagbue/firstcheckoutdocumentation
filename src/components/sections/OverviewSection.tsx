@@ -121,39 +121,36 @@ graph TD
 
         <div className="grid lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
           {quickStartItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.link}
-              className="group relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="flex items-start space-x-4">
-                <div className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-${item.color}-100 rounded-lg md:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon className={`h-6 w-6 md:h-8 md:w-8 text-${item.color}-600`}/>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.features.map((feature, idx) => (
-                      <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-
-
-                        {feature}
-                      </span>
-                        ))}
-                      </div>
-                    </div>
-                    <ArrowRight
-                        className="h-5 w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
+              <Link
+                  key={index}
+                  to={item.link}
+                  className="group relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-start space-x-4">
+                  <div
+                      className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-${item.color}-100 rounded-lg md:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <item.icon className={`h-6 w-6 md:h-8 md:w-8 text-${item.color}-600`}/>
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 leading-relaxed">
+                      {item.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {item.features.map((feature, idx) => (
+                          <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                {feature}
+              </span>
+                      ))}
+                    </div>
+                  </div>
+                  <ArrowRight
+                      className="h-4 w-4 md:h-5 md:w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"
+                  />
                 </div>
-                <ArrowRight className="h-4 w-4 md:h-5 md:w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
-              </div>
-            </Link>
+              </Link>
           ))}
         </div>
       </section>
@@ -169,22 +166,23 @@ graph TD
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {integrationMethods.map((method, index) => (
-            <Link
-              key={index}
-              to={method.link}
-              className="group relative bg-white rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200 hover:border-bank-blue hover:shadow-lg transition-all duration-300"
-            >
-              <div className="absolute top-3 md:top-4 right-3 md:right-4">
+              <Link
+                  key={index}
+                  to={method.link}
+                  className="group relative bg-white rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200 hover:border-bank-blue hover:shadow-lg transition-all duration-300"
+              >
+                <div className="absolute top-3 md:top-4 right-3 md:right-4">
                 <span className="text-xs bg-bank-blue text-white px-2 py-1 rounded-full">
                   {method.tag}
                 </span>
-              </div>
-              <div className="mb-3 md:mb-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-bank-blue group-hover:text-white transition-colors duration-300">
-                  <method.icon className="h-5 w-5 md:h-6 md:w-6"/>
                 </div>
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
+                <div className="mb-3 md:mb-4">
+                  <div
+                      className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-bank-blue group-hover:text-white transition-colors duration-300">
+                    <method.icon className="h-5 w-5 md:h-6 md:w-6"/>
+                  </div>
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
                 {method.title}
               </h3>
               <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">

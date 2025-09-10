@@ -131,14 +131,7 @@ export const Sidebar: React.FC = () => {
     return children.some(child => isActive(child.path));
   };
 
-  const scrollToSection = (anchor: string) => {
-    setTimeout(() => {
-      const element = document.getElementById(anchor);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
-  };
+
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 lg:fixed lg:inset-y-0 lg:top-16 lg:z-40">
@@ -192,11 +185,6 @@ export const Sidebar: React.FC = () => {
                 ) : (
                   <Link
                     to={item.path}
-                    onClick={() => {
-                      if (item.id === 'overview') {
-                        scrollToSection('quick-start');
-                      }
-                    }}
                     className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                       isActive(item.path)
                         ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-2 border-bank-gold'
