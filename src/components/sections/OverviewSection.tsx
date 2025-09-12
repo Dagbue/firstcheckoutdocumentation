@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Code, Zap, Users, CheckCircle, CreditCard, Smartphone, QrCode, Building } from 'lucide-react';
+import { ArrowRight, BookOpen, Code, Users, CreditCard, Smartphone, QrCode, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MermaidDiagramSudo } from '../MermaidDiagramSudo';
 import { MermaidDiagram } from '@lightenna/react-mermaid-diagram';
@@ -213,64 +213,68 @@ graph TD
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="mb-12">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Why Choose FirstChekout?</h2>
-          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Built for Nigerian businesses with global standards
-          </p>
-        </div>
+      {/*<section id="features" className="mb-12">*/}
+      {/*  <div className="text-center mb-8 md:mb-12">*/}
+      {/*    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Why Choose FirstChekout?</h2>*/}
+      {/*    <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">*/}
+      {/*      Built for Nigerian businesses with global standards*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-green-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">99.9% Uptime</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Reliable infrastructure with comprehensive monitoring
-            </p>
+      {/*  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">*/}
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-green-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">99.9% Uptime</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Reliable infrastructure with comprehensive monitoring*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <Users className="h-6 w-6 md:h-8 md:w-8 text-purple-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">24/7 Support</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Expert support team ready to help when you need it*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Lightning Fast</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Sub-second response times for all API calls
-            </p>
-          </div>
-        </div>
-        
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <Users className="h-6 w-6 md:h-8 md:w-8 text-purple-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">24/7 Support</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Expert support team ready to help when you need it
-            </p>
-          </div>
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <BookOpen className="h-6 w-6 md:h-8 md:w-8 text-amber-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">Rich Documentation</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Comprehensive guides and examples for every use case*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <BookOpen className="h-6 w-6 md:h-8 md:w-8 text-amber-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Rich Documentation</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Comprehensive guides and examples for every use case
-            </p>
-          </div>
-        </div>
-      </section>
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">Lightning Fast</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Sub-second response times for all API calls*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
 
       {/* Getting Started CTA */}
       <section id="get-started" className="mb-12">
-        <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-12 text-center">
+        <div
+            className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-12 text-center">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Ready to Get Started?</h2>
           <p className="text-base md:text-lg text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto">
-            Join thousands of businesses already using FirstChekout to power their payment experiences
+            Join growing list of businesses already using FirstChekout to power their payment experiences
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
             <Link

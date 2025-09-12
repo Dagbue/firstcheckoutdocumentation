@@ -232,26 +232,26 @@ Content-Type: application/json`;
   }
 }`;
 
-  const paginationExample = `curl --location '{{ payment_Gateway_Url }}/api/v1/transactions?page=1&per_page=50&status=success&from=2025-01-01&to=2025-09-04' \\
---header 'Authorization: Bearer {access_token}'`;
-
-  const paginationResponse = `{
-  "responseCode": "00",
-  "responseMessage": "Success",
-  "data": [
-    {
-      "transactionReference": "TXN_123",
-      "amount": 10000,
-      "status": "success"
-    }
-  ],
-  "meta": {
-    "total": 100,
-    "page": 1,
-    "per_page": 50,
-    "total_pages": 2
-  }
-}`;
+//   const paginationExample = `curl --location '{{ payment_Gateway_Url }}/api/v1/transactions?page=1&per_page=50&status=success&from=2025-01-01&to=2025-09-04' \\
+// --header 'Authorization: Bearer {access_token}'`;
+//
+//   const paginationResponse = `{
+//   "responseCode": "00",
+//   "responseMessage": "Success",
+//   "data": [
+//     {
+//       "transactionReference": "TXN_123",
+//       "amount": 10000,
+//       "status": "success"
+//     }
+//   ],
+//   "meta": {
+//     "total": 100,
+//     "page": 1,
+//     "per_page": 50,
+//     "total_pages": 2
+//   }
+// }`;
 
   const standardErrorResponse = `{
   "status": false,
@@ -264,25 +264,25 @@ Content-Type: application/json`;
   }
 }`;
 
-  const webhookPayload = `{
-  "event": "payment.success",
-  "data": {
-    "transactionReference": "TXN_123456",
-    "paymentReference": "unique-ref-12345",
-    "amount": 10000,
-    "currency": "NGN",
-    "status": "successful",
-    "payerEmail": "customer@example.com",
-    "payerName": "John Doe",
-    "createdAt": "2025-01-15T10:30:00Z",
-    "metadata": {
-      "cart_id": "abc123",
-      "order_source": "website"
-    }
-  },
-  "timestamp": "2025-01-15T10:30:00Z",
-  "signature": "sha256=abc123def456..."
-}`;
+//   const webhookPayload = `{
+//   "event": "payment.success",
+//   "data": {
+//     "transactionReference": "TXN_123456",
+//     "paymentReference": "unique-ref-12345",
+//     "amount": 10000,
+//     "currency": "NGN",
+//     "status": "successful",
+//     "payerEmail": "customer@example.com",
+//     "payerName": "John Doe",
+//     "createdAt": "2025-01-15T10:30:00Z",
+//     "metadata": {
+//       "cart_id": "abc123",
+//       "order_source": "website"
+//     }
+//   },
+//   "timestamp": "2025-01-15T10:30:00Z",
+//   "signature": "sha256=abc123def456..."
+// }`;
 
 
 
@@ -497,54 +497,54 @@ Content-Type: application/json`;
             </div>
 
             {/* Pagination & Filtering */}
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                <BookOpen className="h-6 w-6 text-emerald-600 mr-3" />
-                Pagination & Filtering
-              </h3>
-              
-              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6">
-                <h4 className="text-lg font-semibold text-emerald-900 mb-4">📄 Standardized Pagination</h4>
-                <p className="text-emerald-800 mb-4">
-                  All list endpoints support pagination and filtering to help you efficiently manage large datasets. 
-                  Use query parameters to control the results returned.
-                </p>
-                
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h5 className="font-semibold text-emerald-900 mb-2">Query Parameters:</h5>
-                    <ul className="text-sm text-emerald-800 space-y-1">
-                      <li>• <code>page</code>: Page number (default: 1)</li>
-                      <li>• <code>per_page</code>: Items per page (default: 20, max: 100)</li>
-                      <li>• <code>status</code>: Filter by status (success, pending, failed)</li>
-                      <li>• <code>from</code> & <code>to</code>: Date range filtering</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h5 className="font-semibold text-emerald-900 mb-2">Advanced Filters:</h5>
-                    <ul className="text-sm text-emerald-800 space-y-1">
-                      <li>• <code>amount_min</code> & <code>amount_max</code>: Amount range</li>
-                      <li>• <code>sort</code>: Sort order (amount_desc, date_asc)</li>
-                      <li>• <code>email</code>: Filter by customer email</li>
-                      <li>• <code>reference</code>: Search by reference</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+            {/*<div>*/}
+            {/*  <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">*/}
+            {/*    <BookOpen className="h-6 w-6 text-emerald-600 mr-3" />*/}
+            {/*    Pagination & Filtering*/}
+            {/*  </h3>*/}
+            {/*  */}
+            {/*  <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6">*/}
+            {/*    <h4 className="text-lg font-semibold text-emerald-900 mb-4">📄 Standardized Pagination</h4>*/}
+            {/*    <p className="text-emerald-800 mb-4">*/}
+            {/*      All list endpoints support pagination and filtering to help you efficiently manage large datasets. */}
+            {/*      Use query parameters to control the results returned.*/}
+            {/*    </p>*/}
+            {/*    */}
+            {/*    <div className="grid md:grid-cols-2 gap-4">*/}
+            {/*      <div>*/}
+            {/*        <h5 className="font-semibold text-emerald-900 mb-2">Query Parameters:</h5>*/}
+            {/*        <ul className="text-sm text-emerald-800 space-y-1">*/}
+            {/*          <li>• <code>page</code>: Page number (default: 1)</li>*/}
+            {/*          <li>• <code>per_page</code>: Items per page (default: 20, max: 100)</li>*/}
+            {/*          <li>• <code>status</code>: Filter by status (success, pending, failed)</li>*/}
+            {/*          <li>• <code>from</code> & <code>to</code>: Date range filtering</li>*/}
+            {/*        </ul>*/}
+            {/*      </div>*/}
+            {/*      */}
+            {/*      <div>*/}
+            {/*        <h5 className="font-semibold text-emerald-900 mb-2">Advanced Filters:</h5>*/}
+            {/*        <ul className="text-sm text-emerald-800 space-y-1">*/}
+            {/*          <li>• <code>amount_min</code> & <code>amount_max</code>: Amount range</li>*/}
+            {/*          <li>• <code>sort</code>: Sort order (amount_desc, date_asc)</li>*/}
+            {/*          <li>• <code>email</code>: Filter by customer email</li>*/}
+            {/*          <li>• <code>reference</code>: Search by reference</li>*/}
+            {/*        </ul>*/}
+            {/*      </div>*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
 
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Paginated Request Example:</h4>
-                  <CodeBlock language="bash" code={paginationExample} />
-                </div>
+            {/*  <div className="space-y-4">*/}
+            {/*    <div>*/}
+            {/*      <h4 className="font-medium text-gray-900 mb-2">Paginated Request Example:</h4>*/}
+            {/*      <CodeBlock language="bash" code={paginationExample} />*/}
+            {/*    </div>*/}
 
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Paginated Response Format:</h4>
-                  <CodeBlock language="json" code={paginationResponse} />
-                </div>
-              </div>
-            </div>
+            {/*    <div>*/}
+            {/*      <h4 className="font-medium text-gray-900 mb-2">Paginated Response Format:</h4>*/}
+            {/*      <CodeBlock language="json" code={paginationResponse} />*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
             {/* Standardized Error Handling */}
             <div>
@@ -656,10 +656,10 @@ Content-Type: application/json`;
                 </ul>
               </div>
               
-              <div className="mt-6">
-                <h4 className="font-medium text-gray-900 mb-2">Enhanced Webhook Payload Example:</h4>
-                <CodeBlock language="json" code={webhookPayload} />
-              </div>
+              {/*<div className="mt-6">*/}
+              {/*  <h4 className="font-medium text-gray-900 mb-2">Enhanced Webhook Payload Example:</h4>*/}
+              {/*  <CodeBlock language="json" code={webhookPayload} />*/}
+              {/*</div>*/}
               
               <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
                 <h4 className="font-semibold text-amber-900 mb-2">🔐 Webhook Security</h4>
