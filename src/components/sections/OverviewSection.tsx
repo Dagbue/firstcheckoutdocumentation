@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Code, Zap, Users, CheckCircle, CreditCard, Smartphone, QrCode, Building } from 'lucide-react';
+import { ArrowRight, BookOpen, Code, Users, CreditCard, Smartphone, QrCode, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MermaidDiagramSudo } from '../MermaidDiagramSudo';
 import { MermaidDiagram } from '@lightenna/react-mermaid-diagram';
@@ -121,39 +121,36 @@ graph TD
 
         <div className="grid lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
           {quickStartItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.link}
-              className="group relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="flex items-start space-x-4">
-                <div className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-${item.color}-100 rounded-lg md:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon className={`h-6 w-6 md:h-8 md:w-8 text-${item.color}-600`}/>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.features.map((feature, idx) => (
-                      <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-
-
-                        {feature}
-                      </span>
-                        ))}
-                      </div>
-                    </div>
-                    <ArrowRight
-                        className="h-5 w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
+              <Link
+                  key={index}
+                  to={item.link}
+                  className="group relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-start space-x-4">
+                  <div
+                      className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-${item.color}-100 rounded-lg md:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <item.icon className={`h-6 w-6 md:h-8 md:w-8 text-${item.color}-600`}/>
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 leading-relaxed">
+                      {item.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {item.features.map((feature, idx) => (
+                          <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                {feature}
+              </span>
+                      ))}
+                    </div>
+                  </div>
+                  <ArrowRight
+                      className="h-4 w-4 md:h-5 md:w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"
+                  />
                 </div>
-                <ArrowRight className="h-4 w-4 md:h-5 md:w-5 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-1 transition-all duration-300"/>
-              </div>
-            </Link>
+              </Link>
           ))}
         </div>
       </section>
@@ -169,22 +166,23 @@ graph TD
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {integrationMethods.map((method, index) => (
-            <Link
-              key={index}
-              to={method.link}
-              className="group relative bg-white rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200 hover:border-bank-blue hover:shadow-lg transition-all duration-300"
-            >
-              <div className="absolute top-3 md:top-4 right-3 md:right-4">
+              <Link
+                  key={index}
+                  to={method.link}
+                  className="group relative bg-white rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200 hover:border-bank-blue hover:shadow-lg transition-all duration-300"
+              >
+                <div className="absolute top-3 md:top-4 right-3 md:right-4">
                 <span className="text-xs bg-bank-blue text-white px-2 py-1 rounded-full">
                   {method.tag}
                 </span>
-              </div>
-              <div className="mb-3 md:mb-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-bank-blue group-hover:text-white transition-colors duration-300">
-                  <method.icon className="h-5 w-5 md:h-6 md:w-6"/>
                 </div>
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
+                <div className="mb-3 md:mb-4">
+                  <div
+                      className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-bank-blue group-hover:text-white transition-colors duration-300">
+                    <method.icon className="h-5 w-5 md:h-6 md:w-6"/>
+                  </div>
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-bank-blue transition-colors">
                 {method.title}
               </h3>
               <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
@@ -215,64 +213,68 @@ graph TD
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="mb-12">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Why Choose FirstChekout?</h2>
-          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Built for Nigerian businesses with global standards
-          </p>
-        </div>
+      {/*<section id="features" className="mb-12">*/}
+      {/*  <div className="text-center mb-8 md:mb-12">*/}
+      {/*    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Why Choose FirstChekout?</h2>*/}
+      {/*    <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">*/}
+      {/*      Built for Nigerian businesses with global standards*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-green-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">99.9% Uptime</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Reliable infrastructure with comprehensive monitoring
-            </p>
+      {/*  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">*/}
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-green-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">99.9% Uptime</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Reliable infrastructure with comprehensive monitoring*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <Users className="h-6 w-6 md:h-8 md:w-8 text-purple-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">24/7 Support</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Expert support team ready to help when you need it*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Lightning Fast</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Sub-second response times for all API calls
-            </p>
-          </div>
-        </div>
-        
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <Users className="h-6 w-6 md:h-8 md:w-8 text-purple-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">24/7 Support</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Expert support team ready to help when you need it
-            </p>
-          </div>
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <BookOpen className="h-6 w-6 md:h-8 md:w-8 text-amber-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">Rich Documentation</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Comprehensive guides and examples for every use case*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
 
-          <div className="text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-              <BookOpen className="h-6 w-6 md:h-8 md:w-8 text-amber-600"/>
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Rich Documentation</h4>
-            <p className="text-xs md:text-sm text-gray-600">
-              Comprehensive guides and examples for every use case
-            </p>
-          </div>
-        </div>
-      </section>
+      {/*    <div className="text-center">*/}
+      {/*      <div*/}
+      {/*          className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4">*/}
+      {/*        <Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600"/>*/}
+      {/*      </div>*/}
+      {/*      <h4 className="font-bold text-gray-900 mb-2">Lightning Fast</h4>*/}
+      {/*      <p className="text-xs md:text-sm text-gray-600">*/}
+      {/*        Sub-second response times for all API calls*/}
+      {/*      </p>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
 
       {/* Getting Started CTA */}
       <section id="get-started" className="mb-12">
-        <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-12 text-center">
+        <div
+            className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-12 text-center">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Ready to Get Started?</h2>
           <p className="text-base md:text-lg text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto">
-            Join thousands of businesses already using FirstChekout to power their payment experiences
+            Join growing list of businesses already using FirstChekout to power their payment experiences
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
             <Link

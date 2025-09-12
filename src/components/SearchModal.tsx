@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, FileText, ArrowRight, Hash, Book, Settings, Code, CreditCard, Shield, HelpCircle, Phone } from 'lucide-react';
+import { Search, X, FileText, ArrowRight, Hash, Settings, Code, CreditCard, Shield, HelpCircle, Phone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface SearchResult {
