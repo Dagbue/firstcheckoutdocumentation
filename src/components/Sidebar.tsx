@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug } from 'lucide-react';
+import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug, HelpCircle } from 'lucide-react';
 
 const navigationItems = [
   { 
@@ -101,6 +101,13 @@ const navigationItems = [
     icon: Bug, 
     path: '/troubleshooting',
     description: 'Common issues and solutions'
+  },
+  { 
+    id: 'faq', 
+    label: 'FAQ', 
+    icon: HelpCircle, 
+    path: '/faq',
+    description: 'Frequently asked questions and detailed guides'
   },
   { 
     id: 'support', 

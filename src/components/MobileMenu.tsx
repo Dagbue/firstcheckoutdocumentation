@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Home, FileText, Settings, Code, CreditCard, Shield, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug } from 'lucide-react';
+import { X, Home, FileText, Settings, Code, CreditCard, Shield, Phone, Key, Package, Globe, WholeWord as Wordpress, Link2, TestTube, Bug, HelpCircle } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -21,6 +21,7 @@ const navigationItems = [
   { id: 'testing', label: 'Testing & Debugging', icon: TestTube, path: '/testing', description: 'Sandbox testing and troubleshooting' },
   { id: 'security', label: 'Security & Compliance', icon: Shield, path: '/security', description: 'PCI DSS, encryption, and best practices' },
   { id: 'troubleshooting', label: 'Troubleshooting', icon: Bug, path: '/troubleshooting', description: 'Common issues and solutions' },
+  { id: 'faq', label: 'FAQ', icon: HelpCircle, path: '/faq', description: 'Frequently asked questions and detailed guides' },
   { id: 'support', label: 'Support & Resources', icon: Phone, path: '/support', description: 'Get help and additional resources' }
 ];
 

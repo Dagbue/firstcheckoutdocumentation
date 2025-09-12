@@ -22,6 +22,7 @@ import { TestingPage } from './pages/TestingPage';
 import { SecurityPage } from './pages/SecurityPage';
 import { TroubleshootingPage } from './pages/TroubleshootingPage';
 import { SupportPage } from './pages/SupportPage';
+import { FaqPage } from './pages/FaqPage';
 
 // Scroll to top component
 function ScrollToTop() {
@@ -69,6 +70,7 @@ function App() {
                   <Route path="/security" element={<SecurityPage />} />
                   <Route path="/troubleshooting" element={<TroubleshootingPage />} />
                   <Route path="/support" element={<SupportPage />} />
+                  <Route path="/faq" element={<FaqPage />} />
                 </Routes>
               </div>
             </div>
