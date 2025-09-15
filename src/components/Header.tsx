@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Search, Command } from 'lucide-react';
-import {Logo} from "../assets";
+import { Logo } from "../assets";
 import { SearchModal } from './SearchModal';
 
 interface HeaderProps {
@@ -48,8 +48,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 <img
                     src={Logo}
                     alt="FirstCheckout Logo"
-                    className="h-8 w-auto"
+                    className="h-8 w-auto mr-3"
                 />
+                <div className="hidden sm:block">
+                  <h1 className="text-lg font-bold text-gray-900">FirstChekout</h1>
+                  <p className="text-xs text-gray-500">Payment Gateway Documentation</p>
+                </div>
               </div>
             </div>
 

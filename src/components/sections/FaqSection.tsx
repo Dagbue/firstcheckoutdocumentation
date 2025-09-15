@@ -20,6 +20,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
+import { complianceError } from '../../assets';
 
 interface FaqItem {
   id: string;

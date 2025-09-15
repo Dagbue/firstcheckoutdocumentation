@@ -9,6 +9,23 @@ export const ApiSdkSection: React.FC = () => {
   //   window.open('https://documenter.getpostman.com/view/30508792/2sB3BLi6vb', '_blank', 'noopener,noreferrer');
   // };
 
+  const quickStartCode = `// Quick Start Example
+const firstchekout = require('firstchekout');
+
+// Initialize with your credentials
+const client = firstchekout({
+  publicKey: 'pk_live_your_key_here',
+  secretKey: 'sk_live_your_secret_here'
+});
+
+// Accept a payment
+const payment = await client.transaction.initialize({
+  amount: 10000, // Amount in kobo (₦100.00)
+  email: 'customer@example.com',
+  reference: 'unique_ref_' + Date.now()
+});
+
+console.log('Payment URL:', payment.data.authorization_url);`;
   const apiFlowDiagram = `
 graph LR
     A[Generate Token] --> B[Initiate Transaction]
