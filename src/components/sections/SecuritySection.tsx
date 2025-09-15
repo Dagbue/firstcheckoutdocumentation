@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Lock, Key, AlertTriangle } from 'lucide-react';
+import { Shield, Lock, Key, AlertTriangle, CheckCircle, XCircle, Globe, Smartphone, Monitor, Code2 } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const SecuritySection: React.FC = () => {
@@ -139,7 +139,110 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);
     return response;
 }`;
 
+  const securityBestPracticesCode = `// Security Best Practices Implementation
 
+// 1. Environment-based Configuration
+const config = {
+  apiKeys: {
+    public: process.env.FIRSTCHEKOUT_PUBLIC_KEY,
+    secret: process.env.FIRSTCHEKOUT_SECRET_KEY,
+    encryption: process.env.FIRSTCHEKOUT_ENCRYPTION_KEY
+  },
+  environment: process.env.NODE_ENV === 'production' ? 'live' : 'sandbox',
+  webhookSecret: process.env.WEBHOOK_SECRET
+};
+
+// 2. HTTPS Enforcement Middleware
+const enforceHTTPS = (req, res, next) => {
+  if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
+    return res.redirect(301, \`https://\${req.get('host')}\${req.url}\`);
+  }
+  next();
+};
+
+// 3. Webhook Signature Validation
+const validateWebhookSignature = (payload, signature, secret) => {
+  const crypto = require('crypto');
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  
+  return crypto.timingSafeEqual(
+    Buffer.from(signature, 'hex'),
+    Buffer.from(expectedSignature, 'hex')
+  );
+};
+
+// 4. Rate Limiting Implementation
+const rateLimit = require('express-rate-limit');
+const paymentRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many payment requests, please try again later'
+});
+
+// 5. Input Validation and Sanitization
+const validatePaymentData = (data) => {
+  const schema = {
+    amount: { type: 'number', min: 100, max: 10000000 }, // 1 NGN to 100,000 NGN
+    email: { type: 'string', format: 'email', required: true },
+    reference: { type: 'string', minLength: 10, maxLength: 100, required: true }
+  };
+  
+  // Implement validation logic
+  return validateSchema(data, schema);
+};`;
+
+  const parameterDefinitionsCode = `// Parameter Definitions with Types and Constraints
+
+interface TransactionRequest {
+  // Required Parameters
+  amount: number;           // Type: Integer, Min: 100 (₦1.00), Max: 10000000 (₦100,000.00)
+  email: string;            // Type: String, Format: Valid email, Max length: 255
+  reference: string;        // Type: String, Unique, Min: 10, Max: 100 chars, Alphanumeric + hyphens
+  publicKey: string;        // Type: String, Format: pk_live_* or sb-pk_*, Required
+  
+  // Optional Parameters
+  currency?: 'NGN';         // Type: String, Default: 'NGN', Enum: ['NGN']
+  callback_url?: string;    // Type: String, Format: Valid HTTPS URL, Max: 2048 chars
+  metadata?: {              // Type: Object, Max: 10 key-value pairs
+    [key: string]: string | number | boolean;
+  };
+  
+  // Customer Information (Optional but Recommended)
+  customer?: {
+    first_name?: string;    // Type: String, Max: 50 chars, Letters and spaces only
+    last_name?: string;     // Type: String, Max: 50 chars, Letters and spaces only
+    phone?: string;         // Type: String, Format: +234XXXXXXXXX, Length: 14
+  };
+  
+  // Payment Channels (Optional)
+  channels?: Array<'card' | 'bank' | 'ussd' | 'qr' | 'mobile_money'>;
+}
+
+// Response Type Definitions
+interface TransactionResponse {
+  status: boolean;          // Type: Boolean, Success indicator
+  message: string;          // Type: String, Human-readable message
+  data: {
+    authorization_url: string;  // Type: String, Payment URL for redirect
+    access_code: string;        // Type: String, Unique transaction identifier
+    reference: string;          // Type: String, Merchant's transaction reference
+  };
+}
+
+// Error Response Structure
+interface ErrorResponse {
+  status: false;            // Type: Boolean, Always false for errors
+  message: string;          // Type: String, Error description
+  code: string;             // Type: String, Machine-readable error code
+  details?: {               // Type: Object, Additional error context
+    field?: string;         // Type: String, Field that caused the error
+    expected?: string;      // Type: String, Expected value format
+    received?: any;         // Type: Any, Actual value received
+  };
+}`;
   const secureConfigExample = `# Secure Environment Variables (.env)
 # NEVER commit this file to version control!
 
@@ -314,8 +417,94 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
             </div>
           </div>
 
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">Parameter Definitions & Constraints</h3>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+              <h4 className="text-lg font-semibold text-blue-900 mb-4">Type System & Validation Rules</h4>
+              <p className="text-blue-800 mb-4">
+                All API parameters follow strict type definitions and validation constraints to ensure data integrity 
+                and prevent common integration errors. Below are the complete parameter specifications:
+              </p>
+              <CodeBlock language="typescript" code={parameterDefinitionsCode} />
+            </div>
 
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                <h4 className="font-semibold text-emerald-900 mb-2">✅ Parameter Best Practices</h4>
+                <ul className="text-sm text-emerald-800 space-y-1">
+                  <li>• Always validate parameters client-side before API calls</li>
+                  <li>• Use TypeScript interfaces for type safety</li>
+                  <li>• Implement proper error handling for validation failures</li>
+                  <li>• Sanitize user input to prevent injection attacks</li>
+                  <li>• Use meaningful reference IDs for transaction tracking</li>
+                </ul>
+              </div>
 
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="font-semibold text-amber-900 mb-2">⚠️ Common Parameter Mistakes</h4>
+                <ul className="text-sm text-amber-800 space-y-1">
+                  <li>• Using float values for amounts (use integers in kobo)</li>
+                  <li>• Missing required fields in API requests</li>
+                  <li>• Invalid email format validation</li>
+                  <li>• Non-unique transaction references</li>
+                  <li>• Exceeding maximum parameter lengths</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">Platform-Specific Integration Guides</h3>
+            
+            <div className="grid gap-8">
+              {platformGuides.map((guide, index) => (
+                <div key={index} className={`bg-${guide.color}-50 border border-${guide.color}-200 rounded-lg p-6`}>
+                  <div className="flex items-center mb-4">
+                    <div className={`p-3 bg-${guide.color}-100 rounded-lg mr-4`}>
+                      <guide.icon className={`h-6 w-6 text-${guide.color}-600`} />
+                    </div>
+                    <div>
+                      <h4 className={`text-xl font-semibold text-${guide.color}-900`}>{guide.platform}</h4>
+                      <p className={`text-${guide.color}-700`}>{guide.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    <div>
+                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Supported Technologies</h5>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {guide.technologies.map((tech, idx) => (
+                          <span key={idx} className={`px-3 py-1 bg-${guide.color}-100 text-${guide.color}-800 text-sm rounded-full`}>
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Best Practices</h5>
+                      <ul className={`text-sm text-${guide.color}-800 space-y-1`}>
+                        {guide.bestPractices.map((practice, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                            <span>{practice}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Implementation Example</h5>
+                      <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre className="text-sm text-gray-100">
+                          <code>{guide.implementation}</code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Compliance Requirements</h3>
             
@@ -402,6 +591,74 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                     <span className="flex-shrink-0 w-5 h-5 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xs font-semibold mr-2 mt-0.5">4</span>
                     <span>Document the incident timeline</span>
                   </li>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">Security Best Practices Implementation</h3>
+              
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                <div className="flex items-center mb-4">
+                  <AlertTriangle className="h-6 w-6 text-red-600 mr-3" />
+                  <h4 className="text-lg font-semibold text-red-900">Critical Security Requirements</h4>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h5 className="font-semibold text-red-900 mb-2">✅ Must Do</h5>
+                    <ul className="text-sm text-red-800 space-y-1">
+                      <li className="flex items-start">
+                        <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Use HTTPS for all API communications</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Store API keys in environment variables</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Validate all webhook signatures</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Encrypt sensitive card data with AES-256</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Implement rate limiting on payment endpoints</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-semibold text-red-900 mb-2">❌ Never Do</h5>
+                    <ul className="text-sm text-red-800 space-y-1">
+                      <li className="flex items-start">
+                        <XCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Hardcode API keys in source code</span>
+                      </li>
+                      <li className="flex items-start">
+                        <XCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Send card data in plain text</span>
+                      </li>
+                      <li className="flex items-start">
+                        <XCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Ignore webhook signature validation</span>
+                      </li>
+                      <li className="flex items-start">
+                        <XCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Use HTTP for payment processing</span>
+                      </li>
+                      <li className="flex items-start">
+                        <XCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Log sensitive payment information</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Complete Security Implementation</h4>
+                <CodeBlock language="javascript" code={securityBestPracticesCode} />
+              </div>
+            </div>
+
                 </ol>
               </div>
               
