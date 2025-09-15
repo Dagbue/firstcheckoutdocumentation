@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Key, Shield, Zap, AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import { apiKeyDashImage } from "../../assets";
