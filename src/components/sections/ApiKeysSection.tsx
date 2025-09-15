@@ -1,9 +1,7 @@
 import React from 'react';
-import { Key, Shield,
-  // Eye, EyeOff, Copy, Check,
-  AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
+import { Key, Shield, Zap, AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
-import {apiKeyDashImage} from "../../assets";
+import { apiKeyDashImage } from "../../assets";
 
 
 export const ApiKeysSection: React.FC = () => {
