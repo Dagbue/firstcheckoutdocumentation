@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, Zap, Shield, CheckCircle, AlertTriangle, Key, Database, Globe, Clock, ArrowRight, Copy, Check, BookOpen, CreditCard } from 'lucide-react';
+import {Code, Database, Webhook, Lock, CreditCard, QrCode, BriefcaseIcon, ScanBarcode, AlertTriangle, BookOpen, Shield, Zap, ArrowRight, CheckCircle, Clock, XCircle} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
@@ -8,7 +8,6 @@ export const ApiSdkSection: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState('curl');
   const [selectedWorkflowStep, setSelectedWorkflowStep] = React.useState(1);
 
-  const [selectedEndpoint, setSelectedEndpoint] = React.useState('authentication');
   // Multi-language code examples
   const tokenGenerationExamples = {
     curl: `curl --location '{{ identity_Service_Url }}/api/v2/Authenticate/token' \\
@@ -1787,105 +1786,5 @@ public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);`
           </div>
         </div>
       </section>
-        {/* API Endpoints Reference */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-6">API Endpoints Reference</h3>
-          
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="flex flex-wrap gap-2 mb-6">
-              {apiEndpoints.map((endpoint) => (
-                <button
-                  key={endpoint.id}
-                  onClick={() => setSelectedEndpoint(endpoint.id)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    selectedEndpoint === endpoint.id
-                      ? `bg-${endpoint.color}-600 text-white`
-                      : `bg-white text-${endpoint.color}-600 border border-${endpoint.color}-200 hover:bg-${endpoint.color}-50`
-                  }`}
-                >
-                  <endpoint.icon className="h-4 w-4 inline mr-2" />
-                  {endpoint.title}
-                </button>
-              ))}
-            </div>
-
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
-              <div className="flex items-center mb-4">
-                <selectedEndpointData.icon className={`h-6 w-6 text-${selectedEndpointData.color}-600 mr-3`} />
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-900">{selectedEndpointData.title}</h4>
-                  <p className="text-gray-600">{selectedEndpointData.description}</p>
-                </div>
-                <div className="ml-auto">
-                  <span className={`px-3 py-1 bg-${selectedEndpointData.color}-100 text-${selectedEndpointData.color}-800 rounded-full text-sm font-medium`}>
-                    {selectedEndpointData.method}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <div className="bg-gray-900 rounded-lg p-4">
-                  <code className="text-emerald-400 font-mono">
-                    {selectedEndpointData.method} {selectedEndpointData.endpoint}
-                  </code>
-                </div>
-              </div>
-
-              <div className="grid lg:grid-cols-2 gap-6">
-                <div>
-                  <h5 className="font-semibold text-gray-900 mb-3">Parameters</h5>
-                  <div className="space-y-3">
-                    {selectedEndpointData.parameters.map((param, idx) => (
-                      <div key={idx} className="border border-gray-200 rounded-lg p-3">
-                        <div className="flex items-center justify-between mb-1">
-                          <code className="text-sm font-mono text-blue-600">{param.name}</code>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">{param.type}</span>
-                            <span className={`text-xs px-2 py-1 rounded ${
-                              param.required 
-                                ? 'bg-red-100 text-red-800' 
-                                : 'bg-blue-100 text-blue-800'
-                            }`}>
-                              {param.required ? 'Required' : 'Optional'}
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-600">{param.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="font-semibold text-gray-900 mb-3">Responses</h5>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm font-medium text-emerald-700">Success ({selectedEndpointData.responses.success.code})</span>
-                      </div>
-                      <div className="bg-gray-900 rounded-lg p-3">
-                        <pre className="text-sm text-gray-100 overflow-x-auto">
-                          <code>{selectedEndpointData.responses.success.body}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex items-center mb-2">
-                        <span className="text-sm font-medium text-red-700">Error ({selectedEndpointData.responses.error.code})</span>
-                      </div>
-                      <div className="bg-gray-900 rounded-lg p-3">
-                        <pre className="text-sm text-gray-100 overflow-x-auto">
-                          <code>{selectedEndpointData.responses.error.body}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
   );
 };
