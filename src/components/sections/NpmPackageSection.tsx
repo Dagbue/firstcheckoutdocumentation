@@ -5,6 +5,42 @@ import { CodeBlock } from '../CodeBlock';
 export const NpmPackageSection: React.FC = () => {
   const installationCode = `npm install firstchekout@^1.5.4-9.15`;
 
+  const quickStartCode = `import FBNCheckout from "firstchekout";
+
+// Simple payment function
+async function quickPayment() {
+  const config = {
+    live: false, // Set to true for production
+    ref: "payment-" + Date.now(),
+    amount: 10000, // ₦100.00 in kobo
+    customer: {
+      firstname: "John",
+      lastname: "Doe",
+      email: "john@example.com"
+    },
+    publicKey: "your-public-key-here",
+    description: "Quick Payment Test",
+    currency: "NGN",
+    callback: (response) => {
+      if (response.status === "successful") {
+        alert("Payment successful!");
+      } else {
+        alert("Payment failed!");
+      }
+    }
+  };
+
+  const urls = {
+    BaseFrame: "base_frame",
+    InitiatePaymentURI: "initiate_payment_URI"
+  };
+
+  await FBNCheckout.initiateTransactionAsync(config, urls);
+}
+
+// Call the function
+quickPayment();`;
+
   const basicUsageCode = `import FBNCheckout from "firstchekout";
 
 async function makePayment() {
@@ -215,6 +251,24 @@ export default {
               Install the FirstChekout NPM package using npm or yarn:
             </p>
             <CodeBlock language="bash" code={installationCode} />
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Start</h3>
+            <p className="text-gray-600 mb-4">
+              Get up and running with FirstChekout in under 5 minutes:
+            </p>
+            <CodeBlock language="javascript" code={quickStartCode} />
+            
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="font-semibold text-blue-900 mb-2">🎯 What This Does</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Initializes a payment for ₦100.00</li>
+                <li>• Opens the FirstChekout payment modal</li>
+                <li>• Handles success and error responses</li>
+                <li>• Works with all supported payment methods</li>
+              </ul>
+            </div>
           </div>
 
           <div>

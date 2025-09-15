@@ -202,14 +202,17 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
               <div className="flex items-center mb-4">
                 <Lock className="h-6 w-6 text-red-600 mr-3" />
-                <h4 className="text-lg font-semibold text-red-900">Critical Requirement</h4>
+                <h4 className="text-lg font-semibold text-red-900">Security Requirements</h4>
               </div>
               <p className="text-red-800 mb-4">
                 All card data MUST be encrypted using AES-256 encryption before transmission to FirstChekout APIs.
                 Never send plain card details over the network.
               </p>
               <div className="bg-red-100 p-3 rounded">
-                <strong className="text-red-900">⚠️ Non-compliance may result in:</strong>
+                <strong className="text-red-900 flex items-center">
+                  <AlertTriangle className="h-4 w-4 mr-1" />
+                  Non-compliance may result in:
+                </strong>
                 <ul className="text-red-800 text-sm mt-2 ml-4">
                   <li>• Account suspension</li>
                   <li>• Security breach liability</li>
