@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle, Zap } from 'lucide-react';
 import {ckeckoutscreen, dynamic, hybrid1, hybrid2, staticLink} from "../../assets";
 
 export const PaymentLinksSection: React.FC = () => {
@@ -49,7 +49,10 @@ export const PaymentLinksSection: React.FC = () => {
 
         {/* Key Benefits */}
         <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 border border-emerald-200 rounded-lg p-6 mb-8">
-          <h3 className="text-xl font-semibold text-emerald-900 mb-4">🚀 Key Benefits of Payment Links</h3>
+          <h3 className="text-xl font-semibold text-emerald-900 mb-4 flex items-center">
+            <Zap className="h-6 w-6 mr-2" />
+            Key Benefits of Payment Links
+          </h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <ul className="space-y-2 text-emerald-800">

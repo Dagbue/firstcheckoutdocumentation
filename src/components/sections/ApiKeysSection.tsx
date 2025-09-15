@@ -1,9 +1,9 @@
 import React from 'react';
-import { Key, Shield,
-  // Eye, EyeOff, Copy, Check,
-  AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Key, Shield, Zap, AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
-import {apiKeyDashImage} from "../../assets";
+import { apiKeyDashImage } from "../../assets";
+
 
 
 export const ApiKeysSection: React.FC = () => {
@@ -11,6 +11,27 @@ export const ApiKeysSection: React.FC = () => {
   // const [showClientSecret, setShowClientSecret] = React.useState(false);
   // const [copiedField, setCopiedField] = React.useState<string | null>(null);
 
+  const quickStartGuide = `// Quick API Keys Setup Guide
+
+1. Complete Merchant Onboarding
+   ✓ Verify your First Bank account
+   ✓ Upload KYC documents
+   ✓ Wait for admin approval
+
+2. Access Your Dashboard
+   ✓ Login at www.firstchekout.com
+   ✓ Navigate to API Keys section
+   ✓ Copy your credentials securely
+
+3. Environment Setup
+   ✓ Use sb- prefixed keys for testing
+   ✓ Switch to pk- keys for production
+   ✓ Store keys in environment variables
+
+4. Test Integration
+   ✓ Make your first API call
+   ✓ Verify webhook setup
+   ✓ Test payment flows`;
   // const copyToClipboard = (text: string, field: string) => {
   //   navigator.clipboard.writeText(text);
   //   setCopiedField(field);
@@ -119,17 +140,46 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
         {/* Header Section */}
         <div className="text-left mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            API Integration for Merchant
+            API Keys & Credentials
           </h2>
-          <p className="text-l text-gray-600 max-w-5xl ">
-            This document provides a step-by-step guide to integrating with the FirstChekout Platform via API across
-            all supported payment methods. The platform supports a wide range of channels including Card, USSD,
-            Bank Account, Virtual Account, Bank Transfer, e-Naira, SoftPOS, Wallet, QR,
-            and Buy Now Pay Later (BNPL). Integration can be implemented in any programming language, with
-            encryption guidelines provided in the Appendix for selected languages and reproducible in others.
+          <p className="text-lg text-gray-600 max-w-4xl">
+            Secure your FirstChekout integration with proper API key management. Learn how to obtain, configure, 
+            and safely use your authentication credentials across different environments.
           </p>
         </div>
 
+        {/* Quick Start Guide */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-8">
+          <div className="flex items-center mb-4">
+            <Zap className="h-6 w-6 text-emerald-600 mr-3" />
+            <h3 className="text-lg font-semibold text-emerald-900">Quick Start Guide</h3>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <CodeBlock language="text" code={quickStartGuide} />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-white rounded-lg p-4 border border-emerald-200">
+                <h4 className="font-semibold text-emerald-900 mb-2">🎯 Key Benefits</h4>
+                <ul className="text-sm text-emerald-800 space-y-1">
+                  <li>• Secure authentication for all API calls</li>
+                  <li>• Separate sandbox and production environments</li>
+                  <li>• Easy key rotation and management</li>
+                  <li>• Comprehensive access control</li>
+                </ul>
+              </div>
+              <div className="bg-white rounded-lg p-4 border border-emerald-200">
+                <h4 className="font-semibold text-emerald-900 mb-2">⚡ Next Steps</h4>
+                <ul className="text-sm text-emerald-800 space-y-1">
+                  <li>• <Link to="/registration" className="text-blue-600 underline">Complete registration</Link> if not done</li>
+                  <li>• <Link to="/api-sdk" className="text-blue-600 underline">Start API integration</Link></li>
+                  <li>• <Link to="/testing" className="text-blue-600 underline">Test in sandbox</Link></li>
+                  <li>• <Link to="/support" className="text-blue-600 underline">Get support</Link> if needed</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Key Management Overview */}
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
           <div className="flex items-center mb-4">

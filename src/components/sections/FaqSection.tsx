@@ -20,6 +20,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
+import { complianceError } from '../../assets';
 
 interface FaqItem {
   id: string;
@@ -31,6 +32,9 @@ interface FaqItem {
   codeLanguage?: string;
   relatedLinks?: { title: string; path: string }[];
   severity?: 'low' | 'medium' | 'high' | 'critical';
+  hasImage?: boolean;
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
 interface FaqCategory {
@@ -127,7 +131,23 @@ export const FaqSection: React.FC = () => {
     {
       id: 'test-cards-failing',
       question: 'Why are test card payments failing in sandbox?',
-      answer: 'Test card payments in sandbox can fail due to incorrect card details, mismatched PIN/OTP, or environment configuration issues. This is a common bottleneck during initial integration testing, often stemming from using production data in sandbox or vice versa.',
+      answer: `Test card payments in sandbox can fail due to incorrect card details, mismatched PIN/OTP, or environment configuration issues. This is a common bottleneck during initial integration testing, often stemming from using production data in sandbox or vice versa.
+
+**Self-Resolution Guide:**
+1. **Verify Environment**: Ensure your API keys start with "sb-" (e.g., sb-pk_test_abc123). Production keys (pk-) won't work in sandbox.
+2. **Use Official Test Cards**: Only use test card numbers from our documentation:
+   - Visa: 4000000000002503 (Expiry: 03/50, CVV: 11, PIN: 1111)
+   - Mastercard: 5123450000000008 (Expiry: 01/39, CVV: 100, PIN: 1111)
+   - Verve: 5060990580000217499 (Expiry: 03/50, CVV: 111, PIN: 1111)
+3. **Correct PIN/OTP**: Always use PIN: 1111 and OTP: 123456 during payment flow
+4. **Check Configuration**: Ensure live: false in your integration settings
+5. **Debug Logs**: Enable verbose logging to capture specific error codes
+
+**Common Error Codes:**
+- \`INVALID_CARD\`: Using real card numbers in sandbox
+- \`WRONG_PIN\`: Using PIN other than 1111
+- \`INVALID_OTP\`: Using OTP other than 123456
+- \`ENV_MISMATCH\`: Using production keys in sandbox mode`,
       category: 'getting-started',
       tags: ['sandbox', 'test cards', 'PIN', 'OTP', 'environment'],
       severity: 'high',
@@ -200,7 +220,46 @@ const config = {
     {
       id: 'token-expiration',
       question: 'How long do access tokens last, and how do I handle expiration?',
-      answer: 'OAuth access tokens expire after 30 minutes (1800 seconds) to enhance security. This can cause 401 Unauthorized errors during long sessions or batch processes—a frequent challenge for merchants with automated workflows.',
+      answer: `OAuth access tokens expire after 30 minutes to enhance security, which can cause 401 Unauthorized errors during long sessions or batch processes—a frequent challenge for merchants with automated workflows.
+
+**Self-Resolution Guide:**
+1. **Monitor Token Expiry**: Track token issuance time and implement refresh logic
+2. **Implement Auto-Refresh**: Generate new tokens before expiry
+3. **Handle 401 Errors**: Catch authentication failures and retry with fresh token
+4. **Cache Strategy**: Store tokens securely and reuse until expiry
+
+**Implementation Example (Node.js):**
+\`\`\`javascript
+class TokenManager {
+  constructor(clientId, clientSecret) {
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
+    this.token = null;
+    this.expiresAt = null;
+  }
+  
+  async getValidToken() {
+    if (this.token && this.expiresAt > Date.now()) {
+      return this.token;
+    }
+    
+    return await this.refreshToken();
+  }
+  
+  async refreshToken() {
+    const response = await axios.post('/oauth/token', {
+      grant_type: 'client_credentials',
+      client_id: this.clientId,
+      client_secret: this.clientSecret
+    });
+    
+    this.token = response.data.access_token;
+    this.expiresAt = Date.now() + (response.data.expires_in * 1000);
+    
+    return this.token;
+  }
+}
+\`\`\``,
       category: 'integration',
       tags: ['OAuth', 'tokens', 'expiration', '401 error'],
       severity: 'high',
@@ -270,7 +329,66 @@ const response = await tokenManager.makeAuthenticatedRequest('/api/v1/transactio
     {
       id: 'payment-modal-not-opening',
       question: 'Payment modal doesn\'t open when I click the pay button',
-      answer: 'This is often caused by CDN script loading issues, incorrect public keys, JavaScript errors, or browser popup blockers. It\'s one of the most common integration bottlenecks.',
+      answer: `Payment modal issues typically stem from CDN loading problems, incorrect public keys, JavaScript errors, or browser popup blockers. This is one of the most common integration bottlenecks.
+
+**Diagnostic Checklist:**
+
+1. **Check CDN Script Loading**:
+\`\`\`javascript
+// Verify FBNCheckout is available
+if (typeof window.FBNCheckout === 'undefined') {
+  console.error('FirstChekout SDK not loaded');
+  // Check network tab for failed CDN requests
+}
+\`\`\`
+
+2. **Validate Public Key**:
+   - Sandbox: Must start with "sb-pk_"
+   - Production: Must start with "pk_live_"
+   - Check for typos or extra spaces
+   - Verify key is active in dashboard
+
+3. **Browser Console Debugging**:
+   - Open Developer Tools (F12)
+   - Check Console tab for JavaScript errors
+   - Look for network failures in Network tab
+   - Verify no ad blockers are interfering
+
+4. **Test in Incognito Mode**:
+   - Rules out browser extensions
+   - Clears cache-related issues
+   - Tests with clean browser state
+
+**Common Solutions:**
+- Ensure CDN script loads before payment button click
+- Add error handling for SDK initialization
+- Check popup blocker settings
+- Verify HTTPS is used (required for payment modal)
+- Test with different browsers
+
+**Implementation Example:**
+\`\`\`javascript
+function initializePayment() {
+  // Check if SDK is loaded
+  if (!window.FBNCheckout) {
+    alert('Payment system not ready. Please refresh and try again.');
+    return;
+  }
+  
+  // Validate configuration
+  if (!config.publicKey || !config.amount) {
+    console.error('Missing required payment configuration');
+    return;
+  }
+  
+  // Initialize payment
+  window.FBNCheckout.initiateTransactionAsync(config, urls)
+    .catch(error => {
+      console.error('Payment initialization failed:', error);
+      alert('Unable to start payment. Please try again.');
+    });
+}
+\`\`\``,
       category: 'integration',
       tags: ['modal', 'CDN', 'popup blocker', 'JavaScript'],
       severity: 'critical',
@@ -325,7 +443,50 @@ if (debugPaymentModal()) {
     {
       id: 'webhook-not-receiving',
       question: 'Can I test webhooks locally, and why am I not receiving webhook events?',
-      answer: 'Webhooks require publicly accessible HTTPS URLs, making local testing challenging. Common issues include firewall blocks, non-200 responses, or SSL certificate problems.',
+      answer: `Yes, but webhooks require publicly accessible HTTPS URLs, making local testing tricky without tools. This is a common integration bottleneck, as local servers aren't internet-exposed, leading to missed events or delayed debugging.
+
+**Self-Resolution Guide:**
+1. **Use ngrok for Local Testing**:
+   - Install: \`npm install -g ngrok\`
+   - Run: \`ngrok http 3000\` (replace 3000 with your port)
+   - Copy HTTPS URL: \`https://abc123.ngrok.io\`
+   - Add webhook endpoint: \`https://abc123.ngrok.io/webhook/firstchekout\`
+
+2. **Configure in Dashboard**:
+   - Login to merchant portal
+   - Navigate to Settings > Webhooks
+   - Add endpoint URL with events: payment.success, payment.failed
+   - Save webhook secret for signature verification
+
+3. **Implement Webhook Handler**:
+\`\`\`javascript
+app.post('/webhook/firstchekout', express.raw({type: 'application/json'}), (req, res) => {
+  const signature = req.headers['x-firstchekout-signature'];
+  const webhookSecret = process.env.WEBHOOK_SECRET;
+  
+  // Verify signature
+  const expectedSignature = crypto
+    .createHmac('sha256', webhookSecret)
+    .update(req.body)
+    .digest('hex');
+  
+  if (signature !== expectedSignature) {
+    return res.status(400).send('Invalid signature');
+  }
+  
+  const event = JSON.parse(req.body);
+  console.log('Webhook received:', event.type);
+  
+  // Always respond with 200
+  res.status(200).send('OK');
+});
+\`\`\`
+
+**Testing Tips:**
+- Use webhook simulator in dashboard for initial testing
+- Monitor ngrok web interface for incoming requests
+- Test signature verification with sample payloads
+- Implement proper error handling and logging`,
       category: 'webhooks',
       tags: ['webhooks', 'local testing', 'ngrok', 'HTTPS'],
       severity: 'high',
@@ -416,7 +577,43 @@ app.listen(3000, () => {
     {
       id: 'environment-mismatch',
       question: 'What\'s the difference between sb-pk and pk keys, and why do they matter?',
-      answer: 'Keys prefixed with "sb-" are for sandbox/testing environments only, while "pk-" keys are for live production. Mixing them causes authentication failures or unexpected behaviors—a top integration error for new merchants.',
+      answer: `"sb-" prefixed keys are for sandbox/testing environments only, while "pk-" keys are for live production. Mixing them causes authentication failures or unexpected behaviors, a top integration error for new merchants.
+
+**Key Differences:**
+
+| Environment | Public Key Format | Secret Key Format | Usage |
+|-------------|------------------|-------------------|--------|
+| Sandbox | sb-pk_test_xxx | sb-sk_test_xxx | Testing only |
+| Production | pk_live_xxx | sk_live_xxx | Real transactions |
+
+**Self-Resolution Guide:**
+1. **Environment Check**: Verify which environment you're targeting
+2. **Key Validation**: Ensure key prefix matches environment
+3. **Configuration**: Use environment variables to switch keys
+4. **Testing Flow**: Always test in sandbox before production
+
+**Implementation Example:**
+\`\`\`javascript
+const config = {
+  publicKey: process.env.NODE_ENV === 'production' 
+    ? process.env.FIRSTCHEKOUT_LIVE_PUBLIC_KEY 
+    : process.env.FIRSTCHEKOUT_SANDBOX_PUBLIC_KEY,
+  live: process.env.NODE_ENV === 'production'
+};
+
+// Validate key format
+if (config.live && !config.publicKey.startsWith('pk_live_')) {
+  throw new Error('Production mode requires live keys');
+}
+if (!config.live && !config.publicKey.startsWith('sb-pk_')) {
+  throw new Error('Sandbox mode requires test keys');
+}
+\`\`\`
+
+**Common Errors:**
+- \`INVALID_KEY_FORMAT\`: Wrong key prefix for environment
+- \`ENV_MISMATCH\`: Using sandbox keys with live: true
+- \`KEY_NOT_FOUND\`: Key doesn't exist or is deactivated`,
       category: 'authentication',
       tags: ['API keys', 'sandbox', 'production', 'environment'],
       severity: 'critical',
@@ -492,7 +689,50 @@ if (config.validateConfiguration()) {
     {
       id: 'international-cards',
       question: 'Can customers use international cards, and what are common issues?',
-      answer: 'Yes, FirstChekout supports international Visa and Mastercard. However, some issuing banks decline online Nigerian transactions due to fraud rules or currency restrictions, leading to high failure rates for cross-border payments.',
+      answer: `Yes, FirstChekout supports international Visa and Mastercard. However, some issuing banks decline online Nigerian transactions due to fraud rules or currency restrictions, leading to high failure rates for cross-border payments.
+
+**International Card Support:**
+- ✅ Visa (all regions)
+- ✅ Mastercard (all regions)  
+- ✅ American Express (limited)
+- ❌ Local cards from other countries
+
+**Common Issues & Solutions:**
+
+1. **Bank Fraud Prevention**:
+   - **Issue**: Bank blocks international transactions
+   - **Solution**: Advise customers to:
+     - Call their bank to whitelist Nigerian transactions
+     - Inform bank of intended purchase amount and merchant
+     - Use bank's mobile app to enable international transactions
+
+2. **Currency Conversion**:
+   - **Issue**: Customer confused about NGN charges
+   - **Solution**: Display amount in customer's currency with conversion rate
+   - **Implementation**: Use real-time exchange rates and show both amounts
+
+3. **3D Secure Authentication**:
+   - **Issue**: International cards require additional verification
+   - **Solution**: Ensure your integration supports 3DS redirects
+   - **Code Example**:
+\`\`\`javascript
+// Handle 3DS redirect
+if (response.status === 'send_otp' || response.status === '3ds_redirect') {
+  // Redirect customer to authentication page
+  window.location.href = response.redirect_url;
+}
+\`\`\`
+
+4. **High Decline Rates**:
+   - **Monitoring**: Track decline rates by card country
+   - **Alternatives**: Offer local payment methods as backup
+   - **Communication**: Set customer expectations about international processing
+
+**Best Practices:**
+- Always offer multiple payment methods
+- Implement proper 3DS handling
+- Monitor and analyze decline patterns
+- Provide clear error messages for international customers`,
       category: 'payment-methods',
       tags: ['international cards', 'Visa', 'Mastercard', 'declines'],
       severity: 'medium',
@@ -504,7 +744,63 @@ if (config.validateConfiguration()) {
     {
       id: 'payment-failures-graceful',
       question: 'How do I handle payment failures gracefully?',
-      answer: 'Payment failures can occur due to insufficient funds, network issues, or bank declines. Implement robust error handling to minimize cart abandonment and provide clear user feedback.',
+      answer: `Payment failures can occur due to insufficient funds, network issues, or bank declines, frustrating customers and merchants. Implement robust handlers to minimize cart abandonment.
+
+**Self-Resolution Guide:**
+1. **Implement Comprehensive Error Handling**:
+\`\`\`javascript
+const paymentConfig = {
+  // ... other config
+  callback: (response) => {
+    if (response.status === 'successful') {
+      // Redirect to success page
+      window.location.href = '/payment/success';
+    } else {
+      // Handle failure gracefully
+      const errorMessage = getErrorMessage(response.code);
+      showErrorModal(errorMessage, response.code);
+      
+      // Offer alternatives
+      if (response.code === 'INSUFFICIENT_FUNDS') {
+        suggestAlternativePaymentMethods();
+      }
+    }
+  },
+  onClose: () => {
+    // User closed modal without completing payment
+    showRetryPrompt();
+  }
+};
+
+function getErrorMessage(errorCode) {
+  const messages = {
+    'INSUFFICIENT_FUNDS': 'Insufficient funds. Please check your balance or try another card.',
+    'CARD_DECLINED': 'Card declined. Please contact your bank or try another card.',
+    'NETWORK_ERROR': 'Connection issue. Please check your internet and try again.',
+    'CARD_EXPIRED': 'Card expired. Please use a valid card.',
+    'INVALID_PIN': 'Incorrect PIN. Please try again.',
+    'TRANSACTION_TIMEOUT': 'Transaction timed out. Please try again.'
+  };
+  
+  return messages[errorCode] || 'Payment failed. Please try again or contact support.';
+}
+\`\`\`
+
+2. **Provide Alternative Payment Methods**:
+   - Offer USSD for card failures
+   - Suggest bank transfer for large amounts
+   - Enable QR code for mobile users
+
+3. **Implement Retry Logic**:
+   - Allow 2-3 retry attempts
+   - Use exponential backoff for network errors
+   - Clear previous state before retry
+
+4. **User Experience Best Practices**:
+   - Show clear, actionable error messages
+   - Provide "Try Again" and "Use Different Method" options
+   - Save form data to avoid re-entry
+   - Display loading states during processing`,
       category: 'payment-methods',
       tags: ['payment failures', 'error handling', 'user experience'],
       severity: 'high',
@@ -622,7 +918,119 @@ console.log('FirstChekout loaded:', typeof FBNCheckout);`,
     {
       id: 'api-key-invalid',
       question: 'Why do I get "invalid API key" or authentication errors?',
-      answer: 'Authentication errors typically stem from using wrong keys for the environment, expired tokens, incorrect key formats, or insufficient permissions for the requested operation.',
+      answer: `Authentication errors typically stem from key mismatches, expiration, incorrect scopes, or environment configuration issues. These are among the most common integration problems.
+
+**Types of Authentication Errors:**
+
+1. **Invalid API Key (AUTH_001)**:
+   - **Symptoms**: "Invalid API key" or "Key not found"
+   - **Causes**: Typos, wrong environment, deactivated key
+   - **Solution**: Regenerate and verify key format
+
+2. **Token Expired (AUTH_002)**:
+   - **Symptoms**: "Token expired" or 401 Unauthorized
+   - **Causes**: Token older than 30 minutes
+   - **Solution**: Implement automatic token refresh
+
+3. **Insufficient Permissions (AUTH_003)**:
+   - **Symptoms**: "Access denied" or "Insufficient scope"
+   - **Causes**: Key lacks required permissions
+   - **Solution**: Check key permissions in dashboard
+
+**Self-Resolution Guide:**
+
+1. **Key Validation Checklist**:
+\`\`\`javascript
+function validateApiKey(key, environment) {
+  // Check key format
+  if (environment === 'sandbox' && !key.startsWith('sb-pk_')) {
+    throw new Error('Sandbox requires sb-pk_ prefixed keys');
+  }
+  
+  if (environment === 'live' && !key.startsWith('pk_live_')) {
+    throw new Error('Production requires pk_live_ prefixed keys');
+  }
+  
+  // Check key length (should be 32+ characters after prefix)
+  const keyPart = key.split('_').pop();
+  if (keyPart.length < 32) {
+    throw new Error('API key appears to be truncated');
+  }
+  
+  return true;
+}
+\`\`\`
+
+2. **Token Management**:
+\`\`\`javascript
+class TokenManager {
+  constructor() {
+    this.token = null;
+    this.expiresAt = null;
+  }
+  
+  async getToken() {
+    // Check if current token is still valid
+    if (this.token && this.expiresAt > Date.now() + 60000) { // 1 min buffer
+      return this.token;
+    }
+    
+    // Generate new token
+    return await this.refreshToken();
+  }
+  
+  async refreshToken() {
+    try {
+      const response = await fetch('/oauth/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'client_credentials',
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(\`Token generation failed: \${response.status}\`);
+      }
+      
+      const data = await response.json();
+      this.token = data.access_token;
+      this.expiresAt = Date.now() + (data.expires_in * 1000);
+      
+      return this.token;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      throw error;
+    }
+  }
+}
+\`\`\`
+
+3. **Environment Configuration**:
+\`\`\`bash
+# .env file
+NODE_ENV=development
+FIRSTCHEKOUT_CLIENT_ID=cid_your_client_id
+FIRSTCHEKOUT_CLIENT_SECRET=sb_your_client_secret
+FIRSTCHEKOUT_PUBLIC_KEY=sb-pk_your_public_key
+FIRSTCHEKOUT_SECRET_KEY=sb-sk_your_secret_key
+FIRSTCHEKOUT_ENVIRONMENT=sandbox
+\`\`\`
+
+**Troubleshooting Steps:**
+1. **Verify Credentials**: Check dashboard for correct keys
+2. **Test Token Generation**: Use Postman or curl to test OAuth flow
+3. **Check Permissions**: Ensure key has required scopes
+4. **Environment Match**: Verify sandbox vs production consistency
+5. **Network Issues**: Test API connectivity
+
+**Common Solutions:**
+- Regenerate API keys in merchant dashboard
+- Clear cached tokens and regenerate
+- Verify environment variables are loaded correctly
+- Check for trailing spaces or hidden characters in keys`,
       category: 'authentication',
       tags: ['API key', 'authentication', 'invalid key', 'permissions'],
       severity: 'critical',
@@ -971,7 +1379,109 @@ app.post('/webhook/firstchekout', (req, res) => {
     {
       id: 'mobile-app-integration',
       question: 'How do I integrate FirstChekout with mobile apps (React Native, Flutter)?',
-      answer: 'Mobile integration can use WebView with our CDN script or direct API calls. Common issues include permission handling, network security policies, and platform-specific configurations.',
+      answer: `Mobile integration requires platform-specific considerations and proper SDK implementation. Common issues include permission handling, SDK conflicts, and platform-specific behaviors.
+
+**Mobile Integration Options:**
+
+1. **React Native**:
+\`\`\`javascript
+import { FirstChekoutRN } from 'firstchekout-react-native';
+
+const PaymentScreen = () => {
+  const handlePayment = async () => {
+    try {
+      const result = await FirstChekoutRN.initiatePayment({
+        publicKey: 'your-public-key',
+        amount: 10000,
+        email: 'customer@example.com',
+        currency: 'NGN'
+      });
+      
+      if (result.status === 'success') {
+        navigation.navigate('PaymentSuccess', { reference: result.reference });
+      }
+    } catch (error) {
+      console.error('Payment failed:', error);
+    }
+  };
+  
+  return (
+    <TouchableOpacity onPress={handlePayment}>
+      <Text>Pay Now</Text>
+    </TouchableOpacity>
+  );
+};
+\`\`\`
+
+2. **Flutter**:
+\`\`\`dart
+import 'package:firstchekout_flutter/firstchekout_flutter.dart';
+
+class PaymentService {
+  static Future<void> initiatePayment() async {
+    try {
+      final result = await FirstChekoutFlutter.initiatePayment(
+        publicKey: 'your-public-key',
+        amount: 10000,
+        email: 'customer@example.com',
+        currency: 'NGN',
+      );
+      
+      if (result.status == 'success') {
+        // Handle success
+        Navigator.pushNamed(context, '/payment-success');
+      }
+    } catch (e) {
+      print('Payment failed: \$e');
+    }
+  }
+}
+\`\`\`
+
+3. **WebView Integration**:
+\`\`\`javascript
+// For hybrid apps using WebView
+const mobileConfig = {
+  // ... standard config
+  callback: (response) => {
+    // Send result to native app
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(JSON.stringify(response));
+    } else if (window.flutter_inappwebview) {
+      window.flutter_inappwebview.callHandler('paymentResult', response);
+    }
+  }
+};
+\`\`\`
+
+**Common Mobile Pitfalls:**
+
+1. **Permission Issues**:
+   - **Camera**: Required for card scanning
+   - **Internet**: Essential for API calls
+   - **Storage**: For caching payment data
+   - **Solution**: Request permissions before payment flow
+
+2. **SDK Version Conflicts**:
+   - **Issue**: Multiple payment SDKs causing conflicts
+   - **Solution**: Use dependency resolution and update regularly
+   - **Check**: \`npm ls\` or \`pod list\` for conflicts
+
+3. **Platform-Specific Behaviors**:
+   - **iOS**: App Store review requirements for payments
+   - **Android**: Google Play billing policy compliance
+   - **Solution**: Follow platform guidelines and test thoroughly
+
+4. **Network Handling**:
+   - **Issue**: Poor mobile network causing timeouts
+   - **Solution**: Implement offline detection and retry logic
+   - **UX**: Show network status and retry options
+
+**Testing Strategy:**
+- Test on real devices, not just simulators
+- Verify different network conditions (3G, 4G, WiFi)
+- Test payment flows on various screen sizes
+- Validate deep linking and app state management`,
       category: 'mobile',
       tags: ['mobile', 'React Native', 'Flutter', 'WebView'],
       severity: 'medium',
@@ -987,7 +1497,113 @@ app.post('/webhook/firstchekout', (req, res) => {
     {
       id: 'refunds-how-to',
       question: 'How do I process refunds and what are the timelines?',
-      answer: 'Refunds can be processed through the merchant dashboard or API. Timelines vary: instant for unsettled transactions, 5-7 business days for settled transactions depending on the customer\'s bank.',
+      answer: `Refunds reverse charges but can fail if funds are settled or references are wrong. Understanding the refund process and timelines helps set proper customer expectations.
+
+**Refund Types & Timelines:**
+
+1. **Instant Refunds** (Unsettled transactions):
+   - **Timeline**: Immediate (within minutes)
+   - **Condition**: Transaction not yet settled to merchant account
+   - **Process**: Automatic reversal, no manual intervention needed
+
+2. **Standard Refunds** (Settled transactions):
+   - **Timeline**: 5-7 business days
+   - **Condition**: Funds already settled to merchant account
+   - **Process**: Manual processing through banking system
+
+3. **Partial Refunds**:
+   - **Timeline**: Same as full refunds
+   - **Limitation**: Cannot exceed original transaction amount
+   - **Use case**: Partial order cancellations, discounts
+
+**Self-Resolution Guide:**
+
+1. **Initiate Refund via API**:
+\`\`\`javascript
+async function processRefund(paymentReference, amount, reason) {
+  try {
+    const response = await fetch('/api/v1/refunds', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': \`Bearer \${accessToken}\`
+      },
+      body: JSON.stringify({
+        payment_reference: paymentReference,
+        amount: amount, // In kobo, leave empty for full refund
+        reason: reason,
+        metadata: {
+          initiated_by: 'merchant',
+          customer_request: true
+        }
+      })
+    });
+    
+    const refund = await response.json();
+    
+    if (refund.status === 'successful') {
+      console.log('Refund initiated:', refund.refund_reference);
+      return refund;
+    } else {
+      throw new Error(refund.message);
+    }
+  } catch (error) {
+    console.error('Refund failed:', error);
+    throw error;
+  }
+}
+\`\`\`
+
+2. **Track Refund Status**:
+\`\`\`javascript
+async function checkRefundStatus(refundReference) {
+  const response = await fetch(\`/api/v1/refunds/\${refundReference}\`, {
+    headers: {
+      'Authorization': \`Bearer \${accessToken}\`
+    }
+  });
+  
+  const refund = await response.json();
+  
+  switch (refund.status) {
+    case 'pending':
+      console.log('Refund being processed');
+      break;
+    case 'successful':
+      console.log('Refund completed');
+      break;
+    case 'failed':
+      console.log('Refund failed:', refund.failure_reason);
+      break;
+  }
+  
+  return refund;
+}
+\`\`\`
+
+**Common Refund Issues:**
+
+1. **"Transaction not found"**:
+   - Verify payment reference is correct
+   - Check transaction exists and was successful
+   - Ensure using correct environment (sandbox vs live)
+
+2. **"Refund amount exceeds original"**:
+   - Check original transaction amount
+   - Verify refund amount calculation
+   - Consider partial refunds if appropriate
+
+3. **"Insufficient merchant balance"**:
+   - Ensure merchant account has sufficient funds
+   - Check settlement status of original transaction
+   - Contact support for balance verification
+
+**Best Practices:**
+- Process refunds promptly to avoid chargebacks
+- Communicate refund timelines clearly to customers
+- Keep detailed records of all refund requests
+- Monitor refund patterns for fraud detection
+- Implement automated refund workflows where possible`,
       category: 'business-operations',
       tags: ['refunds', 'timeline', 'settlement', 'API'],
       severity: 'medium',
@@ -999,7 +1615,95 @@ app.post('/webhook/firstchekout', (req, res) => {
     {
       id: 'settlement-delays',
       question: 'Why are my settlements delayed or pending?',
-      answer: 'Settlement delays can occur due to bank processing times, compliance reviews, account verification issues, or weekend/holiday schedules. Most settlements complete within 24-48 hours.',
+      answer: `Transfers can pend due to bank processing delays, verification issues, or holidays—common for merchants with high-volume payouts.
+
+**Common Reasons for Pending Transfers:**
+
+1. **Bank Processing Times**:
+   - Same bank (First Bank): Instant to 2 hours
+   - Other Nigerian banks: 2-24 hours
+   - Weekends/holidays: Next business day
+   - International: 3-5 business days
+
+2. **Account Verification Issues**:
+   - Recipient account name mismatch
+   - Invalid account number
+   - Account frozen or restricted
+   - Bank requires additional verification
+
+3. **Compliance Checks**:
+   - Large amount flagged for review (>₦1M)
+   - AML (Anti-Money Laundering) screening
+   - Regulatory compliance verification
+   - Risk assessment delays
+
+**Self-Resolution Guide:**
+
+1. **Check Transfer Status**:
+\`\`\`javascript
+async function checkTransferStatus(transferId) {
+  try {
+    const response = await fetch(\`/api/v1/transfers/\${transferId}\`, {
+      headers: {
+        'Authorization': \`Bearer \${accessToken}\`
+      }
+    });
+    
+    const transfer = await response.json();
+    
+    switch (transfer.status) {
+      case 'pending':
+        console.log('Transfer in progress');
+        break;
+      case 'successful':
+        console.log('Transfer completed');
+        break;
+      case 'failed':
+        console.log('Transfer failed:', transfer.failure_reason);
+        break;
+    }
+    
+    return transfer;
+  } catch (error) {
+    console.error('Status check failed:', error);
+  }
+}
+\`\`\`
+
+2. **Verify Recipient Details**:
+\`\`\`javascript
+// Use account verification endpoint
+const verification = await fetch('/api/v1/verify-account', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': \`Bearer \${accessToken}\`
+  },
+  body: JSON.stringify({
+    account_number: '1234567890',
+    bank_code: '011'
+  })
+});
+
+const result = await verification.json();
+if (result.status === 'valid') {
+  console.log('Account verified:', result.account_name);
+} else {
+  console.log('Invalid account details');
+}
+\`\`\`
+
+3. **Handle Different Scenarios**:
+   - **Pending < 24 hours**: Normal processing, monitor status
+   - **Pending > 24 hours**: Contact support with transfer ID
+   - **Failed transfers**: Check failure reason and retry if appropriate
+   - **Large amounts**: Expect additional verification delays
+
+**Prevention Tips:**
+- Always verify recipient account before transfer
+- Use smaller batch sizes for bulk transfers
+- Schedule large transfers during business hours
+- Maintain sufficient balance for processing fees`,
       category: 'business-operations',
       tags: ['settlements', 'delays', 'bank processing', 'compliance'],
       severity: 'medium',
@@ -1118,7 +1822,95 @@ deployment.deployToProduction();`,
     {
       id: 'webhook-local-testing',
       question: 'How can I test webhooks during local development?',
-      answer: 'Use ngrok or similar tunneling tools to expose your local server to the internet. FirstChekout webhooks require publicly accessible HTTPS URLs.',
+      answer: `Use ngrok or similar tunneling tools to expose your local server to the internet. FirstChekout webhooks require publicly accessible HTTPS URLs.
+
+**Complete Local Webhook Testing Setup:**
+
+1. **Install and Setup ngrok**:
+   - Install globally: \`npm install -g ngrok\`
+   - Start tunnel: \`ngrok http 3000\`
+   - Copy HTTPS URL (e.g., https://abc123.ngrok.io)
+
+2. **Create Webhook Handler**:
+\`\`\`javascript
+const express = require('express');
+const crypto = require('crypto');
+const app = express();
+
+// Middleware to capture raw body for signature verification
+app.use('/webhook', express.raw({ type: 'application/json' }));
+
+app.post('/webhook/firstchekout', (req, res) => {
+  console.log('📨 Webhook received:', new Date().toISOString());
+  
+  try {
+    // 1. Verify signature (CRITICAL for security)
+    const signature = req.headers['x-firstchekout-signature'];
+    const payload = req.body;
+    const secret = process.env.WEBHOOK_SECRET;
+    
+    const hmac = crypto.createHmac('sha256', secret);
+    const digest = 'sha256=' + hmac.update(payload).digest('hex');
+    
+    if (signature !== digest) {
+      console.error('❌ Invalid webhook signature');
+      return res.status(400).send('Invalid signature');
+    }
+
+    // 2. Parse and process event
+    const event = JSON.parse(payload);
+    console.log('Event type:', event.eventType);
+    console.log('Payment reference:', event.data.paymentReference);
+    
+    // 3. Handle different event types
+    switch (event.eventType) {
+      case 'payment.success':
+        console.log('✅ Payment successful:', event.data.amount);
+        // Update order status in your database
+        break;
+      case 'payment.failed':
+        console.log('❌ Payment failed:', event.data.reason);
+        // Handle failure (send email, update status)
+        break;
+      case 'payment.pending':
+        console.log('⏳ Payment pending verification');
+        break;
+      default:
+        console.log('ℹ️ Unknown event type:', event.eventType);
+    }
+
+    // 4. ALWAYS respond with 200 (within 10 seconds)
+    res.status(200).send('OK');
+    
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Health check endpoint
+app.get('/webhook/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`🚀 Webhook server running on port \${PORT}\`);
+  console.log('📡 Use ngrok to expose: ngrok http ' + PORT);
+});
+\`\`\`
+
+3. **Configure in FirstChekout Dashboard**:
+   - Webhook URL: https://abc123.ngrok.io/webhook/firstchekout
+   - Events: payment.success, payment.failed, payment.pending
+   - Save webhook secret for signature verification
+
+4. **Testing Checklist**:
+   - ✅ Endpoint returns 200 OK
+   - ✅ HTTPS URL (via ngrok)
+   - ✅ Signature verification implemented
+   - ✅ Responds within 10 seconds
+   - ✅ Handles all event types`,
       category: 'webhooks',
       tags: ['webhooks', 'local testing', 'ngrok', 'development'],
       severity: 'medium',
@@ -1188,7 +1980,85 @@ app.listen(PORT, () => {
     {
       id: 'cors-errors',
       question: 'I\'m getting CORS errors when making API calls from my frontend',
-      answer: 'CORS errors occur when making API calls directly from the browser to FirstChekout endpoints. API calls should be made from your backend server, not directly from frontend JavaScript.',
+      answer: `CORS errors occur when making API calls directly from the browser to FirstChekout endpoints. API calls should be made from your backend server, not directly from frontend JavaScript.
+
+**Why CORS Errors Occur:**
+- Browsers block cross-origin requests for security
+- FirstChekout API doesn't allow direct frontend access
+- Secret keys should never be exposed in frontend code
+
+**Correct Architecture:**
+
+1. **Frontend**: Use SDK for payment initiation only
+2. **Backend**: Handle all API calls and sensitive operations
+3. **Verification**: Always verify payments server-side
+
+**Implementation Examples:**
+
+**❌ WRONG - Direct API call from frontend:**
+\`\`\`javascript
+// Don't do this in browser JavaScript
+fetch('https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/initiate', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sk_live_xxx', // NEVER expose secret keys!
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(transactionData)
+});
+\`\`\`
+
+**✅ CORRECT - Frontend using SDK:**
+\`\`\`javascript
+import FBNCheckout from 'firstchekout';
+
+const config = {
+  live: false,
+  publicKey: 'pk_test_xxx', // Public key is safe for frontend
+  amount: 10000,
+  customer: { /* customer data */ },
+  callback: (response) => {
+    // Send result to your backend for verification
+    fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reference: response.reference })
+    });
+  }
+};
+
+FBNCheckout.initiateTransactionAsync(config, addressUrl);
+\`\`\`
+
+**✅ CORRECT - Backend API calls:**
+\`\`\`javascript
+// Node.js/Express backend
+app.post('/api/verify-payment', async (req, res) => {
+  const { reference } = req.body;
+  
+  try {
+    const response = await fetch(
+      \`https://payment-solution-gateway.azurewebsites.net/api/v1/transactions/status/\${reference}\`,
+      {
+        headers: {
+          'Authorization': \`Bearer \${process.env.FIRSTCHEKOUT_SECRET_KEY}\`
+        }
+      }
+    );
+    
+    const result = await response.json();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Verification failed' });
+  }
+});
+\`\`\`
+
+**Best Practices:**
+- Use public keys only in frontend code
+- Keep secret keys secure on your server
+- Implement proper API endpoints for payment verification
+- Never trust frontend-only payment confirmations`,
       category: 'integration',
       tags: ['CORS', 'frontend', 'backend', 'API calls'],
       severity: 'high',
@@ -1253,7 +2123,93 @@ app.post('/api/verify-payment', async (req, res) => {
     {
       id: 'duplicate-reference-error',
       question: 'I\'m getting "duplicate reference" errors',
-      answer: 'Each transaction must have a unique payment reference. Reusing references causes conflicts. Implement a robust reference generation strategy using timestamps and random components.',
+      answer: `Each transaction must have a unique payment reference. Reusing references causes conflicts. Implement a robust reference generation strategy using timestamps and random components.
+
+**Why Unique References Matter:**
+- Prevents transaction conflicts
+- Enables proper tracking and reconciliation
+- Required for payment verification
+- Helps with fraud detection
+
+**Reference Generation Strategies:**
+
+1. **Timestamp + Random (Recommended)**:
+\`\`\`javascript
+function generateUniqueReference(prefix = 'txn') {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return \`\${prefix}_\${timestamp}_\${random}\`;
+}
+
+// Example: txn_1642678901234_a1b2c3
+\`\`\`
+
+2. **UUID-based**:
+\`\`\`javascript
+const { v4: uuidv4 } = require('uuid');
+
+function generateUUIDReference(prefix = 'pay') {
+  return \`\${prefix}_\${uuidv4().replace(/-/g, '')}\`;
+}
+
+// Example: pay_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
+\`\`\`
+
+3. **Sequential with Database**:
+\`\`\`javascript
+class ReferenceGenerator {
+  constructor(db) {
+    this.db = db;
+  }
+
+  async generateSequentialReference(merchantId) {
+    const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+    const sequence = await this.getNextSequence(merchantId, today);
+    return \`\${merchantId}_\${today}_\${sequence.toString().padStart(6, '0')}\`;
+  }
+
+  async getNextSequence(merchantId, date) {
+    // Atomic increment in database
+    const result = await this.db.query(
+      'UPDATE reference_counters SET sequence = sequence + 1 WHERE merchant_id = ? AND date = ? RETURNING sequence',
+      [merchantId, date]
+    );
+    
+    if (result.rows.length === 0) {
+      // First transaction of the day
+      await this.db.query(
+        'INSERT INTO reference_counters (merchant_id, date, sequence) VALUES (?, ?, 1)',
+        [merchantId, date]
+      );
+      return 1;
+    }
+    
+    return result.rows[0].sequence;
+  }
+}
+\`\`\`
+
+4. **Collision-Resistant (Best for High Volume)**:
+\`\`\`javascript
+function generateCollisionResistantReference() {
+  const timestamp = Date.now().toString(36); // Base36 timestamp
+  const random1 = Math.random().toString(36).substring(2, 8);
+  const random2 = Math.random().toString(36).substring(2, 8);
+  const counter = (Math.floor(Math.random() * 1000)).toString().padStart(3, '0');
+  
+  return \`fc_\${timestamp}\${random1}\${counter}\${random2}\`;
+}
+
+// Example: fc_1a2b3c4d5e6f789g012h3i4j5k
+\`\`\`
+
+**Best Practices:**
+- ✅ Always generate new references
+- ✅ Include timestamp for chronological sorting
+- ✅ Add randomness to prevent prediction
+- ✅ Use consistent prefix for easy identification
+- ✅ Store references in database to prevent duplicates
+- ✅ Validate reference format before API calls`,
       category: 'integration',
       tags: ['duplicate reference', 'unique ID', 'transaction reference'],
       severity: 'medium',
@@ -1342,6 +2298,72 @@ console.log(generateCollisionResistantReference()); // fc_1a2b3c4d5e6f789g012h3i
       relatedLinks: [
         { title: 'Payment Methods', path: '/payment-methods' },
         { title: 'Testing & Debugging', path: '/testing' }
+      ]
+    },
+
+    // Compliance Error FAQ
+    {
+      id: 'compliance-document-error',
+      question: 'What does \'No valid compliance document\' error mean and how do I fix it?',
+      answer: `This error appears when your merchant account lacks required KYC (Know Your Customer) documents or the uploaded documents don't meet compliance standards. This is a critical blocker that prevents payment processing.
+
+**What This Error Means:**
+The system has detected that your merchant account is missing essential compliance documents required by Nigerian banking regulations and international payment processing standards.
+
+**Self-Resolution Guide:**
+
+1. **Access Your Merchant Dashboard**:
+   - Login to [FirstChekout Merchant Portal](https://www.firstchekout.com/)
+   - Navigate to Account Settings > KYC Documents
+   - Check document status indicators
+
+2. **Required Documents Checklist**:
+   - ✅ **Certificate of Incorporation (CAC)**: Current business registration
+   - ✅ **Government-Issued ID**: National ID, Driver's License, or Passport
+   - ✅ **Utility Bill**: Not older than 3 months, showing business address
+   - ✅ **Bank Statement**: First Bank account statement (last 3 months)
+   - ⚠️ **Business License**: Industry-specific permits (if applicable)
+
+3. **Document Upload Requirements**:
+   - **Format**: PDF, JPG, or PNG only
+   - **Size**: Maximum 5MB per file
+   - **Quality**: Clear, readable text with no blur or shadows
+   - **Completeness**: All pages and sections visible
+   - **Validity**: Current and not expired
+
+4. **Upload Process**:
+   - Click "Upload Documents" in dashboard
+   - Select document type from dropdown
+   - Choose file and verify preview is clear
+   - Add description if document requires explanation
+   - Submit for review
+
+5. **Common Upload Issues**:
+   - **File too large**: Compress or scan at lower resolution
+   - **Wrong format**: Convert to PDF, JPG, or PNG
+   - **Poor quality**: Rescan with better lighting and focus
+   - **Incomplete**: Ensure all pages are included
+
+**Timeline Expectations:**
+- Document upload: Immediate
+- Initial review: 24-48 hours
+- Approval/rejection notification: 1-3 business days
+- Resubmission (if needed): Same timeline
+
+**Prevention Tips:**
+- Prepare all documents before starting upload
+- Use high-resolution scans (300 DPI minimum)
+- Ensure document names match business registration
+- Keep documents current and renew before expiry`,
+      category: 'getting-started',
+      tags: ['compliance', 'documents', 'KYC', 'upload', 'verification'],
+      severity: 'critical',
+      hasImage: true,
+      imageSrc: 'complianceError',
+      imageAlt: 'No valid compliance document error message',
+      relatedLinks: [
+        { title: 'Registration & Onboarding', path: '/registration' },
+        { title: 'API Keys & Credentials', path: '/api-keys' }
       ]
     }
   ];
@@ -1538,9 +2560,31 @@ console.log(generateCollisionResistantReference()); // fc_1a2b3c4d5e6f789g012h3i
                   <div className="px-6 pb-6 border-t border-gray-100 bg-gray-50">
                     <div className="pt-4">
                       <div className="prose prose-sm max-w-none">
-                        <p className="text-gray-700 leading-relaxed mb-4">
-                          {item.answer}
-                        </p>
+                        <div 
+                          className="text-gray-700 leading-relaxed whitespace-pre-line"
+                          dangerouslySetInnerHTML={{ 
+                            __html: item.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                              .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>')
+                              .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"><code>$2</code></pre>')
+                          }}
+                        />
+                        
+                        {/* Display image if FAQ has one */}
+                        {item.hasImage && item.imageSrc && (
+                          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <h5 className="font-semibold text-red-900 mb-3">Error Screenshot Example:</h5>
+                            <div className="bg-white p-4 rounded-lg border border-red-200">
+                              <img 
+                                src={complianceError} 
+                                alt={item.imageAlt || "Error example"}
+                                className="max-w-full h-auto rounded-lg shadow-sm"
+                              />
+                              <p className="text-sm text-red-700 mt-2 italic">
+                                This error appears when required KYC documents are missing or invalid
+                              </p>
+                            </div>
+                          </div>
+                        )}
 
                         {item.codeExample && (
                           <div className="mb-6">
