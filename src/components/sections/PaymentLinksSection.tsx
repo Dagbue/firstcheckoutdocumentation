@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { Link2, QrCode, Copy, Users, Target, User, CheckCircle, Clock, AlertTriangle, Zap } from 'lucide-react';
 import {ckeckoutscreen, dynamic, hybrid1, hybrid2, staticLink} from "../../assets";
 
 export const PaymentLinksSection: React.FC = () => {
