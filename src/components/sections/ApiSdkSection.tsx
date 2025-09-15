@@ -298,18 +298,18 @@ Content-Type: application/json`;
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
               <Code className="h-8 w-8 text-blue-600 mx-auto mb-3"/>
-              <h3 className="font-semibold text-blue-900">Any Language</h3>
-              <p className="text-sm text-blue-700">Works with any language supporting HTTP</p>
+              <h3 className="font-semibold text-blue-900 text-sm">Any Language</h3>
+              <p className="text-xs text-blue-700">Works with any language supporting HTTP</p>
             </div>
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-center">
               <Database className="h-8 w-8 text-emerald-600 mx-auto mb-3"/>
-              <h3 className="font-semibold text-emerald-900">Full Control</h3>
-              <p className="text-sm text-emerald-700">Complete customization of payment flow</p>
+              <h3 className="font-semibold text-emerald-900 text-sm">Full Control</h3>
+              <p className="text-xs text-emerald-700">Complete customization of payment flow</p>
             </div>
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
               <Webhook className="h-8 w-8 text-purple-600 mx-auto mb-3"/>
-              <h3 className="font-semibold text-purple-900">Real-time Updates</h3>
-              <p className="text-sm text-purple-700">Webhook notifications for events</p>
+              <h3 className="font-semibold text-purple-900 text-sm">Real-time Updates</h3>
+              <p className="text-xs text-purple-700">Webhook notifications for events</p>
             </div>
           </div>
 
