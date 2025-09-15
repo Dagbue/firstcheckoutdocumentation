@@ -11,6 +11,7 @@ import dynamic from "./dynamic.png"
 import hybrid1 from "./hybrid1.png"
 import hybrid2 from "./hybrid2.png"
 import staticLink from "./static.png"
+import complianceError from "./WhatsApp Image 2025-09-15 at 09.38.45.jpeg"
 
 
 export {
@@ -26,5 +27,6 @@ export {
   dynamic,
   hybrid1,
   hybrid2,
-  staticLink
+  staticLink,
+  complianceError
 };
