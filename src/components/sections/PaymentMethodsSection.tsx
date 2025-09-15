@@ -77,23 +77,23 @@ graph TD
 
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-            <CreditCard className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-blue-900">Card Payments</h3>
+            <CreditCard className="h-8 w-10 text-blue-600 mx-auto mb-3" />
+            <h3 className="font-semibold text-blue-900 text-sm">Card Payments</h3>
             <p className="text-sm text-blue-700 mt-2">Visa, Mastercard, Verve with 3D Secure</p>
           </div>
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center">
-            <Smartphone className="h-10 w-10 text-emerald-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-emerald-900">USSD</h3>
+            <Smartphone className="h-8 w-10 text-emerald-600 mx-auto mb-3" />
+            <h3 className="font-semibold text-emerald-900 text-sm">USSD</h3>
             <p className="text-sm text-emerald-700 mt-2">All major Nigerian banks</p>
           </div>
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 text-center">
-            <Bank className="h-10 w-10 text-purple-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-purple-900">Bank Transfer</h3>
+            <Bank className="h-8 w-10 text-purple-600 mx-auto mb-3" />
+            <h3 className="font-semibold text-purple-900 text-sm">Bank Transfer</h3>
             <p className="text-sm text-purple-700 mt-2">Virtual account generation</p>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 text-center">
-            <QrCode className="h-10 w-10 text-amber-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-amber-900">QR Code</h3>
+            <QrCode className="h-8 w-10 text-amber-600 mx-auto mb-3" />
+            <h3 className="font-semibold text-amber-900 text-sm">QR Code</h3>
             <p className="text-sm text-amber-700 mt-2">Scan and pay with mobile apps</p>
           </div>
         </div>

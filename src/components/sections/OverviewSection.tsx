@@ -96,7 +96,7 @@ graph TD
       <section id="overview" className="mb-12">
         {/* Hero Section */}
         <div className="bg-bank-blue rounded-xl p-6 md:p-8 text-white mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">FirstChekout Payment Gateway</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-1">FirstChekout Payment Gateway</h1>
           <p className="text-base md:text-lg text-white/90 mb-4 md:mb-6 leading-relaxed">
             The official payment gateway by First Bank of Nigeria, designed for merchants to receive payments
             seamlessly via multiple payment methods including cards, USSD, and bank transfers.
@@ -113,7 +113,7 @@ graph TD
       {/* Quick Start Section */}
       <section id="quick-start" className="mb-12">
         <div className="text-center mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Get Started Quickly</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900">Get Started Quickly</h2>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto font-medium">
             Choose your integration path and start accepting payments in minutes
           </p>
@@ -158,7 +158,7 @@ graph TD
       {/* Integration Methods */}
       <section id="integration-options" className="mb-12">
         <div className="text-center mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Integration Methods</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900">Integration Methods</h2>
           <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
             Multiple ways to integrate FirstChekout into your application
           </p>
@@ -200,7 +200,7 @@ graph TD
       {/* High-Level Integration Flow */}
       <section id="integration-flow" className="mb-12">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">High-Level Integration Flow</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb1">High-Level Integration Flow</h2>
           <p className="text-gray-600 mb-4 md:mb-6">
             This diagram outlines the complete merchant journey from registration to live payment processing.
           </p>
@@ -272,7 +272,7 @@ graph TD
       <section id="get-started" className="mb-12">
         <div
             className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl md:rounded-2xl p-6 md:p-8 lg:p-12 text-center">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Ready to Get Started?</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900">Ready to Get Started?</h2>
           <p className="text-base md:text-lg text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto">
             Join growing list of businesses already using FirstChekout to power their payment experiences
           </p>

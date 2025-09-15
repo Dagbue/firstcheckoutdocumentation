@@ -15,12 +15,9 @@ import {
   Clock,
   Key,
   Globe,
-  Database,
   Zap,
-  Bug,
   Users,
   FileText,
-  Lock
 } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
@@ -978,84 +975,7 @@ app.post('/webhook/firstchekout', (req, res) => {
       category: 'mobile',
       tags: ['mobile', 'React Native', 'Flutter', 'WebView'],
       severity: 'medium',
-      codeExample: `// React Native WebView integration
-import React from 'react';
-import { WebView } from 'react-native-webview';
-
-const PaymentWebView = ({ amount, email, onPaymentComplete }) => {
-  const paymentUrl = \`https://yourserver.com/payment.html?amount=\${amount}&email=\${email}\`;
-
-  const handleMessage = (event) => {
-    try {
-      const data = JSON.parse(event.nativeEvent.data);
-      
-      if (data.status === 'success') {
-        onPaymentComplete(data.response);
-      } else if (data.status === 'error') {
-        console.error('Payment error:', data.message);
-      }
-    } catch (error) {
-      console.error('Error parsing payment message:', error);
-    }
-  };
-
-  return (
-    <WebView
-      source={{ uri: paymentUrl }}
-      onMessage={handleMessage}
-      javaScriptEnabled={true}
-      domStorageEnabled={true}
-      startInLoadingState={true}
-      scalesPageToFit={true}
-      mixedContentMode="compatibility"
-      allowsInlineMediaPlayback={true}
-      mediaPlaybackRequiresUserAction={false}
-    />
-  );
-};
-
-// Flutter WebView integration
-// pubspec.yaml: webview_flutter: ^4.0.0
-
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-class PaymentWebView extends StatefulWidget {
-  final String amount;
-  final String email;
-  final Function(Map<String, dynamic>) onPaymentComplete;
-
-  PaymentWebView({required this.amount, required this.email, required this.onPaymentComplete});
-
-  @override
-  _PaymentWebViewState createState() => _PaymentWebViewState();
-}
-
-class _PaymentWebViewState extends State<PaymentWebView> {
-  late final WebViewController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel('ReactNativeWebView', onMessageReceived: (message) {
-        final data = jsonDecode(message.message);
-        if (data['status'] == 'success') {
-          widget.onPaymentComplete(data['response']);
-        }
-      })
-      ..loadRequest(Uri.parse('https://yourserver.com/payment.html?amount=\${widget.amount}&email=\${widget.email}'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Payment')),
-      body: WebViewWidget(controller: controller),
-    );
-  }
-}`,
+      codeExample: `// React Native WebView integration`,
       codeLanguage: 'javascript',
       relatedLinks: [
         { title: 'CDN Script Integration', path: '/cdn-script' },
@@ -1644,7 +1564,7 @@ console.log(generateCollisionResistantReference()); // fc_1a2b3c4d5e6f789g012h3i
                               {item.relatedLinks.map((link, index) => (
                                 <a
                                   key={index}
-                                  href={`#${link.path}`}
+                                  href={`/onlinedoc${link.path}`}
                                   className="inline-flex items-center px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
                                 >
                                   {link.title}
@@ -1664,41 +1584,30 @@ console.log(generateCollisionResistantReference()); // fc_1a2b3c4d5e6f789g012h3i
         </div>
 
         {/* Contact Support CTA */}
-        <div className="mt-12 bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white text-center">
+        <div className="mt-12 bg-bank-blue  rounded-xl p-8 text-white text-center">
           <div className="max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Still Need Help?</h3>
+            <h3 className="text-2xl font-bold mb-4 text-white">Still Need Help?</h3>
             <p className="text-blue-100 mb-6">
               Can't find the answer you're looking for? Our support team is ready to help you resolve 
               any integration challenges or technical issues.
             </p>
             
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
+            <div className="grid md:grid-cols-1 gap-4 mb-6">
               <div className="bg-white bg-opacity-10 rounded-lg p-4">
                 <h4 className="font-semibold mb-2">📧 Email Support</h4>
                 <p className="text-sm text-blue-100 mb-2">firstcontactcomplaints@firstbankgroup.com</p>
                 <p className="text-xs text-blue-200">Response within 24 hours</p>
               </div>
               
-              <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                <h4 className="font-semibold mb-2">💬 Live Chat</h4>
-                <p className="text-sm text-blue-100 mb-2">Available in merchant portal</p>
-                <p className="text-xs text-blue-200">Monday - Friday, 9 AM - 5 PM WAT</p>
-              </div>
+
             </div>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a
-                href="/support"
-                className="inline-flex items-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-              >
-                <HelpCircle className="mr-2 h-5 w-5" />
-                View Support Options
-              </a>
-              <a
                 href="https://www.firstchekout.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-opacity-90 transition-colors font-semibold"
+                className="inline-flex items-center px-20 py-3 bg-bank-gold text-white rounded-lg hover:bg-opacity-90 transition-colors font-semibold"
               >
                 <Globe className="mr-2 h-5 w-5" />
                 Merchant Portal
