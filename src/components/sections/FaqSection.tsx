@@ -196,68 +196,6 @@ const config = {
         { title: 'Registration & Onboarding', path: '/registration' }
       ]
     },
-    {
-      id: 'compliance-document-error',
-      question: 'Why am I getting "No valid compliance document" error?',
-      answer: `This error appears when your merchant account lacks required KYC (Know Your Customer) documents for compliance verification. FirstChekout requires all merchants to upload valid compliance documents before processing live transactions.
-
-**What this error means:**
-The system has detected that your account is missing one or more mandatory compliance documents required for payment processing. This is a regulatory requirement by the Central Bank of Nigeria (CBN) and international payment standards.
-
-**Self-Resolution Guide:**
-
-1. **Access your merchant dashboard:**
-   - Log in to https://www.firstchekout.com/
-   - Navigate to "Account Settings" or "Compliance" section
-   - Look for "Document Upload" or "KYC Documents"
-
-2. **Check document status:**
-   - Review which documents are marked as "Missing" or "Rejected"
-   - Common missing documents include:
-     • Certificate of Incorporation (CAC)
-     • Valid government-issued ID
-     • Utility bill (not older than 3 months)
-     • Business license/permit (if applicable)
-
-3. **Prepare and upload documents:**
-   - Ensure documents are clear, high-resolution scans or photos
-   - File formats: PDF, JPG, PNG (maximum 5MB each)
-   - All text must be readable and document must be current
-   - Upload documents one at a time to avoid errors
-
-4. **Document requirements checklist:**
-   - **CAC Certificate:** Current business registration
-   - **Government ID:** National ID, Driver's License, or Passport
-   - **Utility Bill:** Electricity, water, or gas bill (max 3 months old)
-   - **Business License:** Industry-specific permits (if required)
-
-5. **Wait for verification:**
-   - Document review typically takes 1-3 business days
-   - You'll receive email notification once approved
-   - Check dashboard for real-time status updates
-
-**Common upload issues:**
-- File size too large (reduce to under 5MB)
-- Poor image quality (ensure text is clearly readable)
-- Expired documents (use current, valid documents only)
-- Wrong file format (use PDF, JPG, or PNG only)
-
-**Prevention tips:**
-- Upload all required documents during initial registration
-- Keep documents current and renew before expiration
-- Ensure business information matches across all documents
-- Contact support if you're unsure about requirements
-
-If the error persists after uploading valid documents, contact our support team with your merchant ID and upload confirmation details.`,
-      severity: 'critical',
-      tags: ['compliance', 'documents', 'kyc', 'verification', 'account-setup'],
-      category: 'getting-started',
-      relatedLinks: [
-        { title: 'Registration & Onboarding', path: '/registration' },
-        { title: 'Prerequisites', path: '/prerequisites' },
-        { title: 'Support & Resources', path: '/support' }
-      ]
-    },
 
     // Integration Issues
     {
