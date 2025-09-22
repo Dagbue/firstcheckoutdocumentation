@@ -44,7 +44,7 @@ function ScrollToTop() {
 
   return null;
 }
-function App() {
+export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isApiSection, setIsApiSection] = React.useState(false);
 
