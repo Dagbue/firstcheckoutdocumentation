@@ -8,21 +8,21 @@ interface ApiMobileMenuProps {
 }
 
 const navigationItems = [
-  { id: 'introduction', label: 'Introduction', icon: Home, path: '/api/introduction' },
-  { id: 'authentication', label: 'Authentication', icon: Shield, path: '/api/authentication' },
-  { id: 'pagination', label: 'Pagination', icon: Layers, path: '/api/pagination' },
-  { id: 'errors', label: 'Errors', icon: AlertCircle, path: '/api/errors' },
-  { id: 'transactions', label: 'Transactions', icon: CreditCard, path: '/api/transactions' },
-  { id: 'customers', label: 'Customers', icon: Users, path: '/api/customers' },
-  { id: 'virtual-accounts', label: 'Virtual Accounts', icon: Building, path: '/api/virtual-accounts' },
-  { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/api/ussd' }
+  { id: 'introduction', label: 'Introduction', icon: Home, path: '/introduction' },
+  { id: 'authentication', label: 'Authentication', icon: Shield, path: '/authentication' },
+  { id: 'pagination', label: 'Pagination', icon: Layers, path: '/pagination' },
+  { id: 'errors', label: 'Errors', icon: AlertCircle, path: '/errors' },
+  { id: 'transactions', label: 'Transactions', icon: CreditCard, path: '/transactions' },
+  { id: 'customers', label: 'Customers', icon: Users, path: '/customers' },
+  { id: 'virtual-accounts', label: 'Virtual Accounts', icon: Building, path: '/virtual-accounts' },
+  { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/ussd' }
 ];
 
 export const ApiMobileMenu: React.FC<ApiMobileMenuProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/api/introduction' && location.pathname === '/api');
+    return location.pathname === path || (path === '/introduction' && location.pathname === '/');
   };
 
   const handleLinkClick = () => {

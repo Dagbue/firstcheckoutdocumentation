@@ -4,28 +4,28 @@ import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, Phone
 
 const navigationItems = [
   { 
-    id: 'home', 
-    label: 'Home', 
+    id: 'overview', 
+    label: 'Overview', 
     icon: Home, 
-    path: '/docs'
+    path: '/docs/overview'
   },
   { 
     id: 'prerequisites', 
     label: 'Prerequisites', 
     icon: Settings, 
-    path: '/prerequisites'
+    path: '/docs/prerequisites'
   },
   { 
     id: 'registration', 
     label: 'Registration', 
     icon: FileText, 
-    path: '/registration'
+    path: '/docs/registration'
   },
   { 
     id: 'api-keys', 
     label: 'API Keys', 
     icon: Key, 
-    path: '/api-keys'
+    path: '/docs/api-keys'
   },
   {
     id: 'integration',
@@ -35,25 +35,25 @@ const navigationItems = [
       { 
         id: 'npm-package', 
         label: 'NPM Package', 
-        path: '/npm-package',
+        path: '/docs/npm-package',
         icon: Package
       },
       { 
         id: 'cdn-script', 
         label: 'CDN Script', 
-        path: '/cdn-script',
+        path: '/docs/cdn-script',
         icon: Globe
       },
       { 
         id: 'wordpress', 
         label: 'WordPress', 
-        path: '/wordpress',
+        path: '/docs/wordpress',
         icon: Wordpress
       },
       { 
         id: 'payment-links', 
         label: 'Payment Links', 
-        path: '/payment-links',
+        path: '/docs/payment-links',
         icon: Link2
       }
     ]
@@ -62,37 +62,37 @@ const navigationItems = [
     id: 'payment-methods', 
     label: 'Payment Methods', 
     icon: CreditCard, 
-    path: '/payment-methods'
+    path: '/docs/payment-methods'
   },
   { 
     id: 'testing', 
     label: 'Testing', 
     icon: TestTube, 
-    path: '/testing'
+    path: '/docs/testing'
   },
   { 
     id: 'security', 
     label: 'Security', 
     icon: Shield, 
-    path: '/security'
+    path: '/docs/security'
   },
   { 
     id: 'troubleshooting', 
     label: 'Troubleshooting', 
     icon: Bug, 
-    path: '/troubleshooting'
+    path: '/docs/troubleshooting'
   },
   { 
     id: 'faq', 
     label: 'FAQ', 
     icon: HelpCircle, 
-    path: '/faq'
+    path: '/docs/faq'
   },
   { 
     id: 'support', 
     label: 'Support', 
     icon: Phone, 
-    path: '/support'
+    path: '/docs/support'
   }
 ];
 

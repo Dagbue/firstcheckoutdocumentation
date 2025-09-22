@@ -7,25 +7,25 @@ const navigationItems = [
     id: 'introduction', 
     label: 'Introduction', 
     icon: Home, 
-    path: '/api/introduction'
+    path: '/introduction'
   },
   { 
     id: 'authentication', 
     label: 'Authentication', 
     icon: Shield, 
-    path: '/api/authentication'
+    path: '/authentication'
   },
   { 
     id: 'pagination', 
     label: 'Pagination', 
     icon: Layers, 
-    path: '/api/pagination'
+    path: '/pagination'
   },
   { 
     id: 'errors', 
     label: 'Errors', 
     icon: AlertCircle, 
-    path: '/api/errors'
+    path: '/errors'
   }
 ];
 
@@ -34,73 +34,73 @@ const apiEndpoints = [
     id: 'transactions', 
     label: 'Transactions', 
     icon: CreditCard, 
-    path: '/api/transactions',
+    path: '/transactions',
     children: [
-      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/api/transactions#initialize' },
-      { id: 'verify-transaction', label: 'Verify Transaction', path: '/api/transactions#verify' },
-      { id: 'list-transactions', label: 'List Transactions', path: '/api/transactions#list' },
-      { id: 'fetch-transaction', label: 'Fetch Transaction', path: '/api/transactions#fetch' }
+      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/transactions#initialize' },
+      { id: 'verify-transaction', label: 'Verify Transaction', path: '/transactions#verify' },
+      { id: 'list-transactions', label: 'List Transactions', path: '/transactions#list' },
+      { id: 'fetch-transaction', label: 'Fetch Transaction', path: '/transactions#fetch' }
     ]
   },
   { 
     id: 'ussd', 
     label: 'USSD', 
     icon: Smartphone, 
-    path: '/api/ussd',
+    path: '/ussd',
     children: [
-      { id: 'get-institutions', label: 'Get Financial Institutions', path: '/api/ussd#institutions' },
-      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/api/ussd#initiate' }
+      { id: 'get-institutions', label: 'Get Financial Institutions', path: '/ussd#institutions' },
+      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' }
     ]
   },
   { 
     id: 'card', 
     label: 'Card Payments', 
     icon: CreditCard, 
-    path: '/api/card',
+    path: '/card',
     children: [
-      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/api/card#initiate' },
-      { id: 'verify-otp', label: 'Verify OTP', path: '/api/card#otp' }
+      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
+      { id: 'verify-otp', label: 'Verify OTP', path: '/card#otp' }
     ]
   },
   { 
     id: 'transfer', 
     label: 'Bank Transfer', 
     icon: Building, 
-    path: '/api/transfer',
+    path: '/transfer',
     children: [
-      { id: 'initiate-transfer', label: 'Initiate Transfer', path: '/api/transfer#initiate' },
-      { id: 'query-transfer', label: 'Query Transfer Status', path: '/api/transfer#query' }
+      { id: 'initiate-transfer', label: 'Initiate Transfer', path: '/transfer#initiate' },
+      { id: 'query-transfer', label: 'Query Transfer Status', path: '/transfer#query' }
     ]
   },
   { 
     id: 'customers', 
     label: 'Customers', 
     icon: Users, 
-    path: '/api/customers',
+    path: '/customers',
     children: [
-      { id: 'create-customer', label: 'Create Customer', path: '/api/customers#create' },
-      { id: 'fetch-customer', label: 'Fetch Customer', path: '/api/customers#fetch' },
-      { id: 'list-customers', label: 'List Customers', path: '/api/customers#list' }
+      { id: 'create-customer', label: 'Create Customer', path: '/customers#create' },
+      { id: 'fetch-customer', label: 'Fetch Customer', path: '/customers#fetch' },
+      { id: 'list-customers', label: 'List Customers', path: '/customers#list' }
     ]
   },
   { 
     id: 'virtual-accounts', 
     label: 'Virtual Accounts', 
     icon: Building, 
-    path: '/api/virtual-accounts',
+    path: '/virtual-accounts',
     children: [
-      { id: 'create-virtual-account', label: 'Create Virtual Account', path: '/api/virtual-accounts#create' },
-      { id: 'list-virtual-accounts', label: 'List Virtual Accounts', path: '/api/virtual-accounts#list' }
+      { id: 'create-virtual-account', label: 'Create Virtual Account', path: '/virtual-accounts#create' },
+      { id: 'list-virtual-accounts', label: 'List Virtual Accounts', path: '/virtual-accounts#list' }
     ]
   },
   { 
     id: 'webhooks', 
     label: 'Webhooks', 
     icon: Webhook, 
-    path: '/api/webhooks',
+    path: '/webhooks',
     children: [
-      { id: 'webhook-events', label: 'Webhook Events', path: '/api/webhooks#events' },
-      { id: 'webhook-verification', label: 'Signature Verification', path: '/api/webhooks#verification' }
+      { id: 'webhook-events', label: 'Webhook Events', path: '/webhooks#events' },
+      { id: 'webhook-verification', label: 'Signature Verification', path: '/webhooks#verification' }
     ]
   }
 ];
@@ -118,7 +118,7 @@ export const ApiSidebar: React.FC = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/api/introduction' && (location.pathname === '/api' || location.pathname === '/'));
+    return location.pathname === path || (path === '/introduction' && location.pathname === '/');
   };
 
   const isChildActive = (children: any[]) => {
