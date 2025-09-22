@@ -3,6 +3,7 @@ import { CreditCard, Smartphone, Ban as Bank, QrCode } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 import {MermaidDiagramSudo} from "../MermaidDiagramSudo.tsx";
 import {MermaidDiagram} from "@lightenna/react-mermaid-diagram";
+import { API_CONFIG } from '../../config/apiConfig';
 
 
 export const PaymentMethodsSection: React.FC = () => {
@@ -26,7 +27,7 @@ graph TD
     F --> G[Query Transaction Status]
   `;
 
-  const cardInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/cards/initiate' \\ // reference testing and debugging section
+  const cardInitiateCode = `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/cards/initiate' \\
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -35,7 +36,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const ussdInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/ussd/initiate' \\ // reference testing and debugging section
+  const ussdInitiateCode = `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate' \\
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
@@ -44,7 +45,7 @@ graph TD
   "PaymentReference": "unique-ref-12345"
 }'`;
 
-  const transferInitiateCode = `curl --location '{{ payment_Gateway_Url }}/api/v1/paywithtransfer/initiate' \\ // reference testing and debugging section
+  const transferInitiateCode = `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/initiate' \\
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
