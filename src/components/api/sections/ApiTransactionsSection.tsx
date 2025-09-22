@@ -1,6 +1,7 @@
 import React from 'react';
 import { CreditCard, CheckCircle, List, Copy, Check, ExternalLink } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiTransactionsSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -13,9 +14,9 @@ export const ApiTransactionsSection: React.FC = () => {
   };
 
   const initializeCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "Amount": 100,
   "PayerEmail": "thomas.edison@outlook.com",
@@ -27,7 +28,7 @@ export const ApiTransactionsSection: React.FC = () => {
     nodejs: `const axios = require('axios');
 
 async function initializeTransaction() {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/transactions/initiate', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate', {
     Amount: 100,
     PayerEmail: "thomas.edison@outlook.com",
     PayerName: "Thomas Edison",
@@ -47,7 +48,7 @@ async function initializeTransaction() {
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/transactions/initiate',
+  CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_POST => true,
   CURLOPT_POSTFIELDS => json_encode([
@@ -74,7 +75,7 @@ import os
 import time
 
 def initialize_transaction(access_token):
-    url = "{{GatewayBaseAddress}}/api/v1/transactions/initiate"
+    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate"
     
     payload = {
         "Amount": 100,
@@ -97,13 +98,13 @@ def initialize_transaction(access_token):
   };
 
   const verifyCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/transactions/status/{{PaymentReference}}' \\
---header 'Authorization: Bearer {{access_token}}'`,
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/{PaymentReference}' \\
+--header 'Authorization: Bearer {access_token}'`,
     nodejs: `const axios = require('axios');
 
 async function verifyTransaction(paymentReference, accessToken) {
   const response = await axios.get(
-    \`{{GatewayBaseAddress}}/api/v1/transactions/status/\${paymentReference}\`,
+    \`${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/\${paymentReference}\`,
     {
       headers: {
         'Authorization': \`Bearer \${accessToken}\`
@@ -117,7 +118,7 @@ async function verifyTransaction(paymentReference, accessToken) {
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/transactions/status/' . $paymentReference,
+  CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/' . $paymentReference,
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_HTTPHEADER => array(
     'Authorization: Bearer ' . $accessToken
@@ -132,7 +133,7 @@ $data = json_decode($response, true);
     python: `import requests
 
 def verify_transaction(payment_reference, access_token):
-    url = f"{{GatewayBaseAddress}}/api/v1/transactions/status/{payment_reference}"
+    url = f"${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/{payment_reference}"
     
     headers = {
         'Authorization': f'Bearer {access_token}'
@@ -145,12 +146,12 @@ def verify_transaction(payment_reference, access_token):
   };
 
   const listCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/transactions?page=1&perPage=50' \\
---header 'Authorization: Bearer {{access_token}}'`,
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions?page=1&perPage=50' \\
+--header 'Authorization: Bearer {access_token}'`,
     nodejs: `const axios = require('axios');
 
 async function listTransactions(accessToken, page = 1, perPage = 50) {
-  const response = await axios.get('{{GatewayBaseAddress}}/api/v1/transactions', {
+  const response = await axios.get('${API_CONFIG.gatewayBaseAddress}/api/v1/transactions', {
     params: { page, perPage },
     headers: {
       'Authorization': \`Bearer \${accessToken}\`
@@ -161,7 +162,7 @@ async function listTransactions(accessToken, page = 1, perPage = 50) {
 }`,
     php: `<?php
 function listTransactions($accessToken, $page = 1, $perPage = 50) {
-    $url = '{{GatewayBaseAddress}}/api/v1/transactions?' . http_build_query([
+    $url = '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions?' . http_build_query([
         'page' => $page,
         'perPage' => $perPage
     ]);
@@ -184,7 +185,7 @@ function listTransactions($accessToken, $page = 1, $perPage = 50) {
     python: `import requests
 
 def list_transactions(access_token, page=1, per_page=50):
-    url = "{{GatewayBaseAddress}}/api/v1/transactions"
+    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/transactions"
     
     params = {
         'page': page,

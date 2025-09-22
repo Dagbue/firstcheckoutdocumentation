@@ -1,17 +1,18 @@
 import React from 'react';
 import { Smartphone, Building, CheckCircle } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiUssdSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
 
   const getInstitutionsCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/ussd/institutions' \\
---header 'Authorization: Bearer {{access_token}}'`,
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions' \\
+--header 'Authorization: Bearer {access_token}'`,
     nodejs: `const axios = require('axios');
 
 async function getFinancialInstitutions(accessToken) {
-  const response = await axios.get('{{GatewayBaseAddress}}/api/v1/ussd/institutions', {
+  const response = await axios.get('${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions', {
     headers: {
       'Authorization': \`Bearer \${accessToken}\`
     }
@@ -23,7 +24,7 @@ async function getFinancialInstitutions(accessToken) {
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/ussd/institutions',
+  CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_HTTPHEADER => array(
     'Authorization: Bearer ' . $accessToken
@@ -38,7 +39,7 @@ $data = json_decode($response, true);
     python: `import requests
 
 def get_financial_institutions(access_token):
-    url = "{{GatewayBaseAddress}}/api/v1/ussd/institutions"
+    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions"
     
     headers = {
         'Authorization': f'Bearer {access_token}'
@@ -51,9 +52,9 @@ def get_financial_institutions(access_token):
   };
 
   const initiateUssdCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/ussd/initiate' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "FinancialInstitutionId": "011",
   "AccessCode": "TXN_ACCESS_CODE_123",
@@ -62,7 +63,7 @@ def get_financial_institutions(access_token):
     nodejs: `const axios = require('axios');
 
 async function initiateUssdPayment(accessToken, accessCode, paymentReference, bankId) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/ussd/initiate', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate', {
     FinancialInstitutionId: bankId,
     AccessCode: accessCode,
     PaymentReference: paymentReference
@@ -80,7 +81,7 @@ function initiateUssdPayment($accessToken, $accessCode, $paymentReference, $bank
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/ussd/initiate',
+      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
@@ -103,7 +104,7 @@ function initiateUssdPayment($accessToken, $accessCode, $paymentReference, $bank
     python: `import requests
 
 def initiate_ussd_payment(access_token, access_code, payment_reference, bank_id):
-    url = "{{GatewayBaseAddress}}/api/v1/ussd/initiate"
+    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate"
     
     payload = {
         "FinancialInstitutionId": bank_id,

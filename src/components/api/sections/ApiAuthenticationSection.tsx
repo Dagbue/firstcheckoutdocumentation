@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, Key, AlertTriangle, Copy, Check } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiAuthenticationSection: React.FC = () => {
   const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
@@ -11,10 +12,10 @@ export const ApiAuthenticationSection: React.FC = () => {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const tokenGenerationCode = `curl --location '{{IdentityServiceUrl}}/api/v2/Authenticate/token' \\
+  const tokenGenerationCode = `curl --location '${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token' \\
 --header 'Content-Type: application/x-www-form-urlencoded' \\
---data-urlencode 'client_Id={{client_id}}' \\
---data-urlencode 'client_Secret={{client_secret}}' \\
+--data-urlencode 'client_Id={client_id}' \\
+--data-urlencode 'client_Secret={client_secret}' \\
 --data-urlencode 'grant_type=client_credentials'`;
 
   const tokenResponse = `{
@@ -23,15 +24,15 @@ export const ApiAuthenticationSection: React.FC = () => {
   "expires_in": 1800
 }`;
 
-  const authHeaderCode = `curl --location '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
---header 'Authorization: Bearer {{access_token}}' \\
+  const authHeaderCode = `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate' \\
+--header 'Authorization: Bearer {access_token}' \\
 --header 'Content-Type: application/json'`;
 
   const nodeJsExample = `const axios = require('axios');
 
 // Generate access token
 async function getAccessToken() {
-  const response = await axios.post('{{IdentityServiceUrl}}/api/v2/Authenticate/token', 
+  const response = await axios.post('${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token', 
     new URLSearchParams({
       'client_Id': process.env.FIRSTCHEKOUT_CLIENT_ID,
       'client_Secret': process.env.FIRSTCHEKOUT_CLIENT_SECRET,
@@ -50,7 +51,7 @@ async function getAccessToken() {
 async function makeApiCall() {
   const token = await getAccessToken();
   
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/transactions/initiate', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate', {
     Amount: 100,
     PayerEmail: "customer@example.com",
     PayerName: "John Doe",
@@ -73,7 +74,7 @@ function getAccessToken() {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-        CURLOPT_URL => '{{IdentityServiceUrl}}/api/v2/Authenticate/token',
+        CURLOPT_URL => '${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => http_build_query([
@@ -98,7 +99,7 @@ function initiateTransaction($token) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-        CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/transactions/initiate',
+        CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode([

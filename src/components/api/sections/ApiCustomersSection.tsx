@@ -1,6 +1,7 @@
 import React from 'react';
 import { Users, Copy, Check, ExternalLink } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiCustomersSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -13,9 +14,9 @@ export const ApiCustomersSection: React.FC = () => {
   };
 
   const createCustomerCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/customers' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/customers' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "email": "customer@example.com",
   "first_name": "John",
@@ -25,7 +26,7 @@ export const ApiCustomersSection: React.FC = () => {
     nodejs: `const axios = require('axios');
 
 async function createCustomer(accessToken, customerData) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/customers', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/customers', {
     email: customerData.email,
     first_name: customerData.firstName,
     last_name: customerData.lastName,
@@ -44,7 +45,7 @@ function createCustomer($accessToken, $customerData) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/customers',
+      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/customers',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
@@ -83,13 +84,13 @@ function createCustomer($accessToken, $customerData) {
 }`;
 
   const fetchCustomerCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/customers/{{customer_id}}' \\
---header 'Authorization: Bearer {{access_token}}'`,
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/customers/{customer_id}' \\
+--header 'Authorization: Bearer {access_token}'`,
     nodejs: `const axios = require('axios');
 
 async function fetchCustomer(accessToken, customerId) {
   const response = await axios.get(
-    \`{{GatewayBaseAddress}}/api/v1/customers/\${customerId}\`,
+    \`${API_CONFIG.gatewayBaseAddress}/api/v1/customers/\${customerId}\`,
     {
       headers: {
         'Authorization': \`Bearer \${accessToken}\`

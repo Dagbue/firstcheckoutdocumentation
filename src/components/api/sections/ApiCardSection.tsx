@@ -1,6 +1,7 @@
 import React from 'react';
 import { CreditCard, Shield, Lock } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiCardSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -78,9 +79,9 @@ var encryptedData = CardEncryption.EncryptCardData(cardData, encryptionKey);`
   };
 
   const cardInitiateCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/cards/initiate' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/cards/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "AuthData": "{{encrypted_card_data}}",
   "AccessCode": "TXN_ACCESS_CODE_123",
@@ -89,7 +90,7 @@ var encryptedData = CardEncryption.EncryptCardData(cardData, encryptionKey);`
     nodejs: `const axios = require('axios');
 
 async function initiateCardPayment(accessToken, encryptedCardData, accessCode, paymentReference) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/cards/initiate', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/cards/initiate', {
     AuthData: encryptedCardData,
     AccessCode: accessCode,
     PaymentReference: paymentReference
@@ -107,7 +108,7 @@ function initiateCardPayment($accessToken, $encryptedCardData, $accessCode, $pay
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/cards/initiate',
+      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/cards/initiate',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
@@ -130,9 +131,9 @@ function initiateCardPayment($accessToken, $encryptedCardData, $accessCode, $pay
   };
 
   const otpVerificationCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/cards/otp' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/cards/otp' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "Otp": "123456",
   "AccessCode": "TXN_ACCESS_CODE_123",
@@ -141,7 +142,7 @@ function initiateCardPayment($accessToken, $encryptedCardData, $accessCode, $pay
     nodejs: `const axios = require('axios');
 
 async function verifyOtp(accessToken, otp, accessCode, paymentReference) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/cards/otp', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/cards/otp', {
     Otp: otp,
     AccessCode: accessCode,
     PaymentReference: paymentReference

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Building, Copy, Check, ExternalLink, Clock } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiTransferSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -13,9 +14,9 @@ export const ApiTransferSection: React.FC = () => {
   };
 
   const initiateTransferCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/paywithtransfer/initiate' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "TypeId": 2,
   "AccessCode": "TXN_ACCESS_CODE_123",
@@ -24,7 +25,7 @@ export const ApiTransferSection: React.FC = () => {
     nodejs: `const axios = require('axios');
 
 async function initiateTransfer(accessToken, accessCode, paymentReference) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/paywithtransfer/initiate', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/initiate', {
     TypeId: 2,
     AccessCode: accessCode,
     PaymentReference: paymentReference
@@ -42,7 +43,7 @@ function initiateTransfer($accessToken, $accessCode, $paymentReference) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '{{GatewayBaseAddress}}/api/v1/paywithtransfer/initiate',
+      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/initiate',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
@@ -65,9 +66,9 @@ function initiateTransfer($accessToken, $accessCode, $paymentReference) {
   };
 
   const queryTransferCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/paywithtransfer/query' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/query' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "AccessCode": "TXN_ACCESS_CODE_123",
   "PaymentReference": "FjWnMSUZajh1k224lXks39728874560476"
@@ -75,7 +76,7 @@ function initiateTransfer($accessToken, $accessCode, $paymentReference) {
     nodejs: `const axios = require('axios');
 
 async function queryTransferStatus(accessToken, accessCode, paymentReference) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/paywithtransfer/query', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/query', {
     AccessCode: accessCode,
     PaymentReference: paymentReference
   }, {

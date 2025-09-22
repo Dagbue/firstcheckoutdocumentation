@@ -2,11 +2,12 @@ import React from 'react';
 import { Code, Zap, Shield, Globe, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiIntroductionSection: React.FC = () => {
-  const quickStartCode = `curl --location '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
+  const quickStartCode = `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "Amount": 100,
   "PayerEmail": "thomas.edison@outlook.com",
@@ -202,15 +203,15 @@ export const ApiIntroductionSection: React.FC = () => {
         <div className="space-y-2">
           <div>
             <span className="text-xs font-medium text-gray-700">Sandbox:</span>
-            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">https://www.firstchekoutdev.com/apigateway/</code>
+            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">{API_CONFIG.gatewayBaseAddress}</code>
           </div>
           <div>
             <span className="text-xs font-medium text-gray-700">Live:</span>
-            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">{{GatewayBaseAddress}}</code>
+            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">{API_CONFIG.gatewayBaseAddress}</code>
           </div>
           <div>
             <span className="text-xs font-medium text-gray-700">Identity:</span>
-            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">{{IdentityServiceUrl}}</code>
+            <code className="ml-2 px-2 py-0.5 bg-gray-200 rounded text-xs">{API_CONFIG.identityServiceUrl}</code>
           </div>
         </div>
       </div>

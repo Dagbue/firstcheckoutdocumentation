@@ -1,6 +1,7 @@
 import React from 'react';
 import { Building, Copy, Check, ExternalLink } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
+import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiVirtualAccountsSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -13,9 +14,9 @@ export const ApiVirtualAccountsSection: React.FC = () => {
   };
 
   const createVirtualAccountCode = {
-    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/virtual-accounts' \\
+    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/virtual-accounts' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {{access_token}}' \\
+--header 'Authorization: Bearer {access_token}' \\
 --data-raw '{
   "customer_id": "CUS_xnxdt6s1zg5f4hn",
   "preferred_bank": "first-bank",
@@ -24,7 +25,7 @@ export const ApiVirtualAccountsSection: React.FC = () => {
     nodejs: `const axios = require('axios');
 
 async function createVirtualAccount(accessToken, customerId, preferredBank) {
-  const response = await axios.post('{{GatewayBaseAddress}}/api/v1/virtual-accounts', {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/virtual-accounts', {
     customer_id: customerId,
     preferred_bank: preferredBank,
     account_name: "Customer Virtual Account"
