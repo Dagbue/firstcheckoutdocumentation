@@ -14,16 +14,16 @@ export const ApiTransactionsSection: React.FC = () => {
   };
 
   const initializeCode = {
-    curl: `curl --location -g '{' + '{GatewayBaseAddress}' + '}/api/v1/transactions/initiate' \\
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {' + '{Access-Token}' + '}' \\
+--header 'Authorization: Bearer {{Access-Token}}' \\
 --data-raw '{
   "Amount": 100,
   "PayerEmail": "thomas.edison@outlook.com",
   "PayerName": "Thomas Edison",
   "Purpose": "UAT",
-  "PublicKey": "sb-pk-mVa4TcjuSqTSiyyxjEF1Bc1EbZ29yE45Y3K",
-  "paymentReference": "FjWnMSUZajh1k224lXks39728874560476"
+  "PublicKey": "{{merchantPublicKey}}",
+  "paymentReference": "{{paymentReference}}"
 }'`,
     nodejs: `const axios = require('axios');
 
@@ -99,9 +99,9 @@ def initialize_transaction(access_token):
   };
 
   const queryCode = {
-    curl: `curl --location -g '{' + '{GatewayBaseAddress}' + '}/api/v1/transactions/referenceId/{' + '{transactionRef}' + '}' \\
---header 'Merchant-Id: {' + '{merchantId}' + '}' \\
---header 'Secret-Key: {' + '{secret-key}' + '}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}' \\
+--header 'Merchant-Id: {{merchantId}}' \\
+--header 'Secret-Key: {{secret-key}}'`,
     nodejs: `const axios = require('axios');
 
 async function queryTransaction(transactionRef, merchantId, secretKey) {
@@ -153,8 +153,8 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
   };
 
   const verifyCode = {
-    curl: `curl --location -g '{' + '{GatewayBaseAddress}' + '}/api/v1/transactions/status/{' + '{PaymentReference}' + '}' \\
---header 'Authorization: Bearer {' + '{Access-Token}' + '}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/status/{{PaymentReference}}' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
     nodejs: `const axios = require('axios');
 
 async function verifyTransaction(paymentReference, accessToken) {
@@ -203,8 +203,8 @@ def verify_transaction(payment_reference, access_token):
   };
 
   const listCode = {
-    curl: `curl --location -g '{' + '{GatewayBaseAddress}' + '}/api/v1/transactions?page=1&perPage=50' \\
---header 'Authorization: Bearer {' + '{Access-Token}' + '}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions?page=1&perPage=50' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
     nodejs: `const axios = require('axios');
 
 async function listTransactions(accessToken, page = 1, perPage = 50) {
