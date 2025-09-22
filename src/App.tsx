@@ -1,15 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+
+// Import docs components
 import { DocsHeader } from './components/docs/DocsHeader';
 import { DocsSidebar } from './components/docs/DocsSidebar';
 import { DocsMobileMenu } from './components/docs/DocsMobileMenu';
+
+// Import API components
 import { ApiHeader } from './components/api/ApiHeader';
 import { ApiSidebar } from './components/api/ApiSidebar';
 import { ApiMobileMenu } from './components/api/ApiMobileMenu';
 
-// Import all page components
+// Import all docs page components
 import { OverviewPage } from './pages/OverviewPage';
 import { PrerequisitesPage } from './pages/PrerequisitesPage';
 import { RegistrationPage } from './pages/RegistrationPage';
@@ -32,7 +35,12 @@ import { ApiAuthenticationPage } from './pages/api/ApiAuthenticationPage';
 import { ApiTransactionsPage } from './pages/api/ApiTransactionsPage';
 import { ApiErrorsPage } from './pages/api/ApiErrorsPage';
 import { ApiPaginationPage } from './pages/api/ApiPaginationPage';
-
+import { ApiUssdPage } from './pages/api/ApiUssdPage';
+import { ApiCardPage } from './pages/api/ApiCardPage';
+import { ApiTransferPage } from './pages/api/ApiTransferPage';
+import { ApiWebhooksPage } from './pages/api/ApiWebhooksPage';
+import { ApiCustomersPage } from './pages/api/ApiCustomersPage';
+import { ApiVirtualAccountsPage } from './pages/api/ApiVirtualAccountsPage';
 
 // Scroll to top component
 function ScrollToTop() {
@@ -44,77 +52,86 @@ function ScrollToTop() {
 
   return null;
 }
-export default function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [isApiSection, setIsApiSection] = React.useState(false);
 
-  // Determine if we're in API section based on URL
+function AppContent() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const location = useLocation();
-  React.useEffect(() => {
-    setIsApiSection(location.pathname.startsWith('/api'));
-  }, [location.pathname]);
+  
+  // Determine if we're in API section based on URL
+  const isApiSection = location.pathname.startsWith('/api');
 
   return (
-      <div className="min-h-screen bg-white">
-        <ScrollToTop />
+    <div className="min-h-screen bg-white">
+      <ScrollToTop />
+      
+      {/* Conditional Header */}
+      {isApiSection ? (
+        <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+      ) : (
+        <DocsHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+      )}
+      
+      <div className="flex">
+        {/* Conditional Sidebar */}
+        {isApiSection ? <ApiSidebar /> : <DocsSidebar />}
         
-        {/* Conditional Header */}
+        {/* Conditional Mobile Menu */}
         {isApiSection ? (
-          <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+          <ApiMobileMenu 
+            isOpen={isMobileMenuOpen} 
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
         ) : (
-          <DocsHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+          <DocsMobileMenu 
+            isOpen={isMobileMenuOpen} 
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
         )}
         
-        <div className="flex">
-          {/* Conditional Sidebar */}
-          {isApiSection ? <ApiSidebar /> : <DocsSidebar />}
-          
-          {/* Conditional Mobile Menu */}
-          {isApiSection ? (
-            <ApiMobileMenu 
-              isOpen={isMobileMenuOpen} 
-              onClose={() => setIsMobileMenuOpen(false)}
-            />
-          ) : (
-            <DocsMobileMenu 
-              isOpen={isMobileMenuOpen} 
-              onClose={() => setIsMobileMenuOpen(false)}
-            />
-          )}
-          
-          <main className="flex-1 ml-0 lg:ml-64 relative z-0 overflow-y-auto focus:outline-none">
-            <div className="py-4">
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
-                <Routes>
-                  {/* Docs Routes */}
-                  <Route path="/" element={<OverviewPage />} />
-                  <Route path="/overview" element={<OverviewPage />} />
-                  <Route path="/prerequisites" element={<PrerequisitesPage />} />
-                  <Route path="/registration" element={<RegistrationPage />} />
-                  <Route path="/api-keys" element={<ApiKeysPage />} />
-                  <Route path="/npm-package" element={<NpmPackagePage />} />
-                  <Route path="/cdn-script" element={<CdnScriptPage />} />
-                  <Route path="/wordpress" element={<WordPressPage />} />
-                  <Route path="/payment-links" element={<PaymentLinksPage />} />
-                  <Route path="/payment-methods" element={<PaymentMethodsPage />} />
-                  <Route path="/testing" element={<TestingPage />} />
-                  <Route path="/security" element={<SecurityPage />} />
-                  <Route path="/troubleshooting" element={<TroubleshootingPage />} />
-                  <Route path="/support" element={<SupportPage />} />
-                  <Route path="/faq" element={<FaqPage />} />
-                  
-                  {/* API Routes */}
-                  <Route path="/api" element={<ApiIntroductionPage />} />
-                  <Route path="/api/introduction" element={<ApiIntroductionPage />} />
-                  <Route path="/api/authentication" element={<ApiAuthenticationPage />} />
-                  <Route path="/api/transactions" element={<ApiTransactionsPage />} />
-                  <Route path="/api/errors" element={<ApiErrorsPage />} />
-                  <Route path="/api/pagination" element={<ApiPaginationPage />} />
-                </Routes>
-              </div>
+        <main className="flex-1 ml-0 lg:ml-64 relative z-0 overflow-y-auto focus:outline-none">
+          <div className="py-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <Routes>
+                {/* Docs Routes */}
+                <Route path="/" element={<OverviewPage />} />
+                <Route path="/overview" element={<OverviewPage />} />
+                <Route path="/prerequisites" element={<PrerequisitesPage />} />
+                <Route path="/registration" element={<RegistrationPage />} />
+                <Route path="/api-keys" element={<ApiKeysPage />} />
+                <Route path="/api-sdk" element={<ApiSdkPage />} />
+                <Route path="/npm-package" element={<NpmPackagePage />} />
+                <Route path="/cdn-script" element={<CdnScriptPage />} />
+                <Route path="/wordpress" element={<WordPressPage />} />
+                <Route path="/payment-links" element={<PaymentLinksPage />} />
+                <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+                <Route path="/testing" element={<TestingPage />} />
+                <Route path="/security" element={<SecurityPage />} />
+                <Route path="/troubleshooting" element={<TroubleshootingPage />} />
+                <Route path="/support" element={<SupportPage />} />
+                <Route path="/faq" element={<FaqPage />} />
+                
+                {/* API Routes */}
+                <Route path="/api" element={<ApiIntroductionPage />} />
+                <Route path="/api/introduction" element={<ApiIntroductionPage />} />
+                <Route path="/api/authentication" element={<ApiAuthenticationPage />} />
+                <Route path="/api/transactions" element={<ApiTransactionsPage />} />
+                <Route path="/api/ussd" element={<ApiUssdPage />} />
+                <Route path="/api/card" element={<ApiCardPage />} />
+                <Route path="/api/transfer" element={<ApiTransferPage />} />
+                <Route path="/api/webhooks" element={<ApiWebhooksPage />} />
+                <Route path="/api/customers" element={<ApiCustomersPage />} />
+                <Route path="/api/virtual-accounts" element={<ApiVirtualAccountsPage />} />
+                <Route path="/api/errors" element={<ApiErrorsPage />} />
+                <Route path="/api/pagination" element={<ApiPaginationPage />} />
+              </Routes>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
+    </div>
   );
+}
+
+export default function App() {
+  return <AppContent />;
 }

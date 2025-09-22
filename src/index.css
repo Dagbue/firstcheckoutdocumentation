@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 /* Import Inter font from Google Fonts with optimized weights */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Global typography improvements */
+/* Global typography improvements - Paystack-style smaller fonts */
 * {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,21 +14,21 @@
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-/* Base font sizes - smaller like Paystack */
+/* Base font sizes - much smaller like Paystack */
 html {
-  font-size: 14px;
+  font-size: 12px;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @media (min-width: 640px) {
   html {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
@@ -38,56 +38,32 @@ html {
   }
 }
 
-/* Typography scale */
+/* Typography scale - smaller like Paystack */
 body {
-  line-height: 1.6;
+  line-height: 1.5;
   color: #374151;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
   letter-spacing: -0.01em;
+  font-size: 0.875rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
   color: #111827;
   letter-spacing: -0.025em;
 }
 
-/* Professional font weights */
-.font-light {
-  font-weight: 300;
-}
-
-.font-normal {
-  font-weight: 400;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.font-bold {
-  font-weight: 600;
-}
-
-.font-extrabold {
-  font-weight: 700;
-}
-
-/* Smaller heading sizes like Paystack */
+/* Much smaller heading sizes like Paystack */
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
 h2 {
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
@@ -114,32 +90,32 @@ h6 {
 /* Desktop heading sizes - keep smaller */
 @media (min-width: 768px) {
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
   }
   
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
     font-weight: 600;
   }
   
   h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  
-  h4 {
     font-size: 1.125rem;
     font-weight: 600;
   }
   
-  h5 {
+  h4 {
     font-size: 1rem;
     font-weight: 600;
   }
   
-  h6 {
+  h5 {
     font-size: 0.875rem;
+    font-weight: 600;
+  }
+  
+  h6 {
+    font-size: 0.8125rem;
     font-weight: 600;
   }
 }
@@ -147,8 +123,9 @@ h6 {
 /* Improved text elements */
 p {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
 }
 
 /* Button typography */
@@ -156,32 +133,40 @@ button, .btn {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
+  font-size: 0.8125rem;
 }
 
 /* Input typography */
 input, textarea, select {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
+  font-size: 0.8125rem;
 }
 
-/* Code typography */
+/* Code typography - smaller */
 code, pre {
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-weight: 400;
-  font-size: 0.875em;
+  font-size: 0.75rem;
+}
+
+/* API-specific code blocks */
+.api-code-block {
+  font-size: 0.6875rem;
+  line-height: 1.4;
 }
 
 /* Mobile responsive tables */
 .responsive-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1rem 0;
-  font-size: 0.8125rem;
+  margin: 0.75rem 0;
+  font-size: 0.75rem;
 }
 
 .responsive-table th,
 .responsive-table td {
-  padding: 0.625rem;
+  padding: 0.5rem;
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -190,76 +175,631 @@ code, pre {
   background-color: #f9fafb;
   font-weight: 600;
   color: #374151;
+  font-size: 0.6875rem;
 }
 
 /* Mobile table styles */
 @media (max-width: 640px) {
   .responsive-table {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
   }
   
   .responsive-table th,
   .responsive-table td {
-    padding: 0.4375rem;
-  }
-  
-  /* Stack table on very small screens */
-  .responsive-table-stack {
-    display: block;
-  }
-  
-  .responsive-table-stack thead {
-    display: none;
-  }
-  
-  .responsive-table-stack tbody,
-  .responsive-table-stack tr,
-  .responsive-table-stack td {
-    display: block;
-  }
-  
-  .responsive-table-stack tr {
-    border: 1px solid #e5e7eb;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-  }
-  
-  .responsive-table-stack td {
-    border: none;
-    padding: 0.1875rem 0;
-    position: relative;
-    padding-left: 40%;
-  }
-  
-  .responsive-table-stack td:before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 35%;
-    font-weight: 600;
-    color: #374151;
+    padding: 0.375rem;
   }
 }
 
-/* Horizontal scroll for medium screens */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .responsive-table {
-    min-width: 600px;
-  }
+/* API Documentation specific styles */
+.api-endpoint-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
 }
 
+.api-parameter-table {
+  font-size: 0.75rem;
+}
+
+.api-parameter-table th {
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.api-parameter-table td {
+  font-size: 0.75rem;
+}
+
+/* Code block improvements */
+.code-block-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.code-block-header {
+  background-color: #1f2937;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-block-content {
+  background-color: #111827;
+  color: #f3f4f6;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+/* Sidebar improvements */
+.sidebar-nav-item {
+  font-size: 0.8125rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.sidebar-nav-subitem {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  margin-left: 1rem;
+}
+
+/* Header improvements */
+.header-height {
+  height: 3.5rem;
+}
+
+.header-search {
+  font-size: 0.8125rem;
+}
+
+/* Content spacing */
+.content-section {
+  margin-bottom: 2rem;
+}
+
+.content-subsection {
+  margin-bottom: 1.5rem;
+}
+
+/* API specific improvements */
+.api-method-badge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+.api-url-path {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Compact spacing for API docs */
+.api-section {
+  margin-bottom: 1.5rem;
+}
+
+.api-subsection {
+  margin-bottom: 1rem;
+}
+
+/* Table of contents */
+.toc-item {
+  font-size: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+/* Status badges */
+.status-badge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+}
+
+/* Compact cards */
+.info-card {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-card h4 {
+  font-size: 0.875rem;
+  margin-bottom: 0.375rem;
+}
+
+.info-card p {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+}
+
+/* List improvements */
+ul, ol {
+  font-size: 0.8125rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+}
+
+/* Link styles */
+a {
+  font-size: inherit;
+}
+
+/* Form elements */
+label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
 @media (max-width: 640px) {
-  pre {
-    font-size: 0.6875rem;
+  .content-section {
+    margin-bottom: 1.5rem;
   }
   
-  code {
-    font-size: 0.75rem;
+  .content-subsection {
+    margin-bottom: 1rem;
   }
+  
+  h1 {
+    font-size: 1.25rem;
+  }
+  
+  h2 {
+    font-size: 1.125rem;
+  }
+  
+  h3 {
+    font-size: 1rem;
+  }
+  
+  p {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Paystack-style code blocks */
+.paystack-code-block {
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.paystack-code-header {
+  background: #2d2d2d;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #404040;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paystack-code-content {
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #e5e5e5;
+}
+
+/* Language tabs */
+.language-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.language-tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.language-tab.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+
+.language-tab:hover {
+  color: #6b7280;
+}
+
+/* API endpoint styling */
+.api-endpoint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.api-method {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.api-method.get {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.api-method.post {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.api-method.put {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.api-method.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Parameter tables */
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  margin: 1rem 0;
+}
+
+.param-table th {
+  background: #f9fafb;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.param-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.param-name {
+  font-family: 'SF Mono', monospace;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.param-type {
+  font-family: 'SF Mono', monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.param-required {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.param-optional {
+  color: #6b7280;
+}
+
+/* Response styling */
+.response-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.response-header {
+  background: #e2e8f0;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.response-body {
+  padding: 1rem;
+}
+
+/* Status codes */
+.status-200 { color: #059669; }
+.status-400 { color: #dc2626; }
+.status-401 { color: #d97706; }
+.status-404 { color: #7c2d12; }
+.status-500 { color: #7c2d12; }
+
+/* Copy button styling */
+.copy-button {
+  background: #374151;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copy-button:hover {
+  background: #4b5563;
+}
+
+/* Sidebar styling */
+.docs-sidebar {
+  width: 16rem;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+.api-sidebar {
+  width: 16rem;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+.sidebar-section {
+  padding: 1rem 0;
+}
+
+.sidebar-section-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  color: #374151;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.sidebar-item:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.sidebar-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+  border-right: 2px solid #2563eb;
+}
+
+.sidebar-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+}
+
+/* Main content area */
+.main-content {
+  max-width: none;
+  padding: 2rem;
+}
+
+/* API content specific */
+.api-content {
+  max-width: 1200px;
+}
+
+.docs-content {
+  max-width: 1000px;
+}
+
+/* Interactive elements */
+.interactive-example {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Syntax highlighting improvements */
+.hljs {
+  background: #1a1a1a !important;
+  color: #e5e5e5 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Table improvements for API docs */
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  margin: 1rem 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.api-table th {
+  background: #f9fafb;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.api-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
+}
+
+.api-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Compact layout for API reference */
+.api-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 1024px) {
+  .api-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Right sidebar for API docs */
+.api-right-sidebar {
+  position: sticky;
+  top: 4rem;
+  height: fit-content;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.api-right-sidebar h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.api-right-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.api-right-sidebar li {
+  margin-bottom: 0.25rem;
+}
+
+.api-right-sidebar a {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.api-right-sidebar a:hover {
+  color: #2563eb;
+}
+
+/* Full-width layout for API docs */
+.api-full-width {
+  max-width: none;
+  width: 100%;
+}
+
+/* Improved spacing for dense content */
+.dense-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dense-content h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.dense-content h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dense-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Code example containers */
+.code-example {
+  margin: 1.5rem 0;
+}
+
+.code-example-header {
+  background: #f3f4f6;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.code-example-body {
+  background: #1a1a1a;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* Endpoint documentation layout */
+.endpoint-doc {
+  margin: 2rem 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.endpoint-header {
+  background: #f9fafb;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.endpoint-content {
+  padding: 1.5rem;
+}
+
+/* Two-column layout for API docs */
+.api-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .api-two-column {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Sticky code examples */
+.sticky-code {
+  position: sticky;
+  top: 1rem;
 }
