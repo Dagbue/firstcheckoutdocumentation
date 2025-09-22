@@ -164,7 +164,7 @@ export const DocsSidebar: React.FC = () => {
                     to={item.path}
                     className={`group flex items-center px-2 py-1.5 text-xs font-medium rounded-md transition-colors sidebar-nav-item ${
                       isActive(item.path)
-                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
+                        ? 'bg-blue-50 text-blue-700 border-r-2 border-bank-gold'
                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                   >

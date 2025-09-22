@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, CheckCircle, List, Copy, Check, ExternalLink } from 'lucide-react';
+import { Copy, Check, ExternalLink } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 

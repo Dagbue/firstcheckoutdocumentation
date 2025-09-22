@@ -138,10 +138,10 @@ graph TD
           <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>
           <div className="relative z-10">
             <div className="max-w-4xl">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 leading-tight">
                 FirstChekout Payment Gateway
               </h1>
-              <p className="text-lg md:text-xl text-blue-100 mb-8 leading-relaxed max-w-3xl">
+              <p className="text-l md:text-l text-blue-100 mb-8 leading-relaxed max-w-3xl">
                 The official payment gateway by First Bank of Nigeria. Accept payments seamlessly via multiple 
                 payment methods including cards, USSD, bank transfers, and more. Built for Nigerian businesses 
                 with global standards.
@@ -151,22 +151,6 @@ graph TD
                 <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Multi-Method Support</span>
                 <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Easy Integration</span>
                 <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Real-time Webhooks</span>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/registration"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-bank-blue rounded-lg hover:bg-bank-gold/90 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-                <Link
-                  to="/api"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-200 font-semibold"
-                >
-                  <Code className="mr-2 h-5 w-5" />
-                  View API Docs
-                </Link>
               </div>
             </div>
           </div>
