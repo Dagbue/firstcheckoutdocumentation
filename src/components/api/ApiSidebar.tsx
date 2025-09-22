@@ -37,9 +37,7 @@ const apiEndpoints = [
     path: '/transactions',
     children: [
       { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/transactions#initialize' },
-      { id: 'verify-transaction', label: 'Verify Transaction', path: '/transactions#verify' },
-      { id: 'list-transactions', label: 'List Transactions', path: '/transactions#list' },
-      { id: 'fetch-transaction', label: 'Fetch Transaction', path: '/transactions#fetch' }
+      { id: 'query-transaction', label: 'Query Transaction', path: '/transactions#query' }
     ]
   },
   { 
