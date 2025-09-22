@@ -195,6 +195,40 @@ export const ApiIntroductionSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Quick Start Cards */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Quick start</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {quickStartItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.link}
+              className="group relative bg-white rounded-lg p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200"
+            >
+              <div className="flex items-start space-x-4">
+                <div className={`flex-shrink-0 w-12 h-12 bg-${item.color}-100 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200`}>
+                  <item.icon className={`h-5 w-5 text-${item.color}-600`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-bank-blue transition-colors">
+                      {item.title}
+                    </h3>
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                      {item.time}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-0.5 transition-all duration-200" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Sample Requests Section */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Sample Requests</h2>
@@ -499,40 +533,6 @@ export const ApiIntroductionSection: React.FC = () => {
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Quick Start Cards */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Quick start</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {quickStartItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.link}
-              className="group relative bg-white rounded-lg p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200"
-            >
-              <div className="flex items-start space-x-4">
-                <div className={`flex-shrink-0 w-12 h-12 bg-${item.color}-100 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200`}>
-                  <item.icon className={`h-5 w-5 text-${item.color}-600`} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-bank-blue transition-colors">
-                      {item.title}
-                    </h3>
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                      {item.time}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-bank-blue group-hover:translate-x-0.5 transition-all duration-200" />
-              </div>
-            </Link>
-          ))}
         </div>
       </div>
 
