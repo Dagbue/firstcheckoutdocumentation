@@ -14,7 +14,7 @@ export const ApiTransactionsSection: React.FC = () => {
   };
 
   const initializeCode = {
-    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
+    curl: `curl --location '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
 --header 'Authorization: Bearer {{Access-Token}}' \\
 --data-raw '{
@@ -23,7 +23,7 @@ export const ApiTransactionsSection: React.FC = () => {
   "PayerName": "Thomas Edison",
   "Purpose": "UAT",
   "PublicKey": "{{merchantPublicKey}}",
-  "paymentReference": "{{paymentReference}}"
+  "paymentReference": "c34a107b-cb01-4fc6-ab33-3683e902891e"
 }'`,
     nodejs: `const axios = require('axios');
 
@@ -33,11 +33,11 @@ async function initializeTransaction(accessToken) {
     PayerEmail: "thomas.edison@outlook.com",
     PayerName: "Thomas Edison",
     Purpose: "UAT",
-    PublicKey: "{" + "{merchantPublicKey}" + "}",
+    PublicKey: process.env.MERCHANT_PUBLIC_KEY,
     paymentReference: "c34a107b-cb01-4fc6-ab33-3683e902891e"
   }, {
     headers: {
-      'Authorization': \`Bearer \${accessToken}\`,
+      'Authorization': 'Bearer ' + accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -76,6 +76,7 @@ function initializeTransaction($accessToken) {
 import os
 
 def initialize_transaction(access_token):
+    """Initialize a payment transaction"""
     url = os.getenv('GATEWAY_BASE_ADDRESS') + "/api/v1/transactions/initiate"
     
     payload = {
@@ -106,7 +107,7 @@ def initialize_transaction(access_token):
 
 async function queryTransaction(transactionRef, merchantId, secretKey) {
   const response = await axios.get(
-    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/referenceId/\${transactionRef}\`,
+    process.env.GATEWAY_BASE_ADDRESS + '/api/v1/transactions/referenceId/' + transactionRef,
     {
       headers: {
         'Merchant-Id': merchantId,
@@ -152,11 +153,20 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
     return response.json()`
   };
 
+  const initializeRequestBody = `{
+  "Amount": 100,
+  "PayerEmail": "example@example.com",
+  "PayerName": "John Doe",
+  "Purpose": "UAT",
+  "PublicKey": "your-public-key",
+  "paymentReference": "your-payment-reference"
+}`;
+
   const initializeResponse = `{
   "data": {
-    "accessCode": "TX-AF06969F49E7D44F89F17E92C28E214BF"
+    "accessCode": "your-access-code"
   },
-  "status": "OK"
+  "status": "success"
 }`;
 
   const queryResponse = `{
@@ -304,98 +314,104 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 mt-6">Body Parameters</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 mt-6">Request Body</h3>
+            <p className="text-gray-600 mb-4">The request body must be in JSON format and include the following parameters:</p>
             
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">Amount</span>
-                    <div className="text-xs text-gray-500 mt-1">integer</div>
+                    <div className="text-xs text-gray-500 mt-1">(number)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The amount of money to be transacted.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: 100 //in naira Hundred Naira</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> 100</p>
                   </div>
                 </div>
               </div>
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">PayerEmail</span>
-                    <div className="text-xs text-gray-500 mt-1">string</div>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The email address of the payer.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: example@example.com</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> example@example.com</p>
                   </div>
                 </div>
               </div>
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">PayerName</span>
-                    <div className="text-xs text-gray-500 mt-1">string</div>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The name of the payer.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: John Doe</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> John Doe</p>
                   </div>
                 </div>
               </div>
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">Purpose</span>
-                    <div className="text-xs text-gray-500 mt-1">string</div>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The purpose of the transaction.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: UAT</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> UAT</p>
                   </div>
                 </div>
               </div>
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">PublicKey</span>
-                    <div className="text-xs text-gray-500 mt-1">string</div>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The public key associated with the transaction.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: your-public-key</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> your-public-key</p>
                   </div>
                 </div>
               </div>
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-sm font-semibold text-gray-900">paymentReference</span>
-                    <div className="text-xs text-gray-500 mt-1">string</div>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
                       A unique reference for the payment.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: your-payment-reference</p>
+                    <p className="text-xs text-gray-500 mt-1"><em>Example:</em> your-payment-reference</p>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <h4 className="text-lg font-semibold text-gray-900 mb-3 mt-6">Example Request Body:</h4>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <CodeBlock language="json" code={initializeRequestBody} />
             </div>
           </div>
 
@@ -439,13 +455,99 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="text-sm font-semibold text-blue-900 mb-2">Important Notes</h4>
-          <ul className="text-sm text-blue-800 space-y-1">
-            <li>• Ensure that all required fields are included in the request body for successful transaction initiation.</li>
-            <li>• The <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">accessCode</code> in the response can be used for subsequent steps in the payment process, such as confirming the transaction or redirecting the user to a payment gateway.</li>
-            <li>• Review the <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">status</code> field to determine the outcome of the transaction initiation, and handle errors appropriately based on the status returned.</li>
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Response</h4>
+          <p className="text-gray-600 mb-4">Upon a successful request, the API will respond with a JSON object containing the following structure:</p>
+          
+          <div className="space-y-4">
+            <div className="border-b border-gray-200 pb-4">
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-24">
+                  <span className="text-sm font-semibold text-gray-900">data</span>
+                  <div className="text-xs text-gray-500 mt-1">(object)</div>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    An object containing the transaction details.
+                  </p>
+                  <div className="mt-2">
+                    <div className="ml-4">
+                      <div className="flex items-start space-x-4 mb-2">
+                        <div className="flex-shrink-0 w-24">
+                          <span className="text-sm font-medium text-gray-900">accessCode</span>
+                          <div className="text-xs text-gray-500 mt-1">(string)</div>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-600">
+                            A code that may be used for further processing of the transaction. This code is crucial for completing the payment process and should be securely stored.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-b border-gray-200 pb-4">
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-24">
+                  <span className="text-sm font-semibold text-gray-900">status</span>
+                  <div className="text-xs text-gray-500 mt-1">(string)</div>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    The status of the transaction initiation request. Possible values include:
+                  </p>
+                  <div className="mt-2 ml-4">
+                    <div className="mb-2">
+                      <span className="text-sm font-medium text-gray-900">success</span>
+                      <span className="text-sm text-gray-600 ml-2">: Indicates that the transaction has been successfully initiated.</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-900">failure</span>
+                      <span className="text-sm text-gray-600 ml-2">: Indicates that the transaction initiation has failed, and further details may be provided in the response.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Example Response Body:</h4>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <CodeBlock language="json" code={initializeResponse} />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Notes</h4>
+          <ul className="space-y-2 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Ensure that all required fields are included in the request body for successful transaction initiation.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">accessCode</code> in the response can be used for subsequent steps in the payment process, such as confirming the transaction or redirecting the user to a payment gateway.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Review the <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">status</code> field to determine the outcome of the transaction initiation, and handle errors appropriately based on the status returned.</span>
+            </li>
           </ul>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <h4 className="text-sm font-semibold text-blue-900 mb-2">Authorization</h4>
+          <div className="space-y-2">
+            <div className="flex items-center space-x-4">
+              <span className="text-sm font-medium text-blue-900">Bearer Token</span>
+              <span className="text-sm text-blue-800">Token: <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">{{Access-Token}}</code></span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -457,7 +559,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">{'/api/v1/transactions/referenceId/{{transactionRef}}'}</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/{{transactionRef}}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -466,13 +568,13 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               through the FirstChekout Payment Gateway.
             </p>
 
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Path Variables</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">URL Path Variables</h3>
             
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">{'{{GatewayBaseAddress}}'}</span>
+                    <span className="text-sm font-semibold text-gray-900">{{GatewayBaseAddress}}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -486,7 +588,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">{'{{transactionRef}}'}</span>
+                    <span className="text-sm font-semibold text-gray-900">{{transactionRef}}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -510,7 +612,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{'{{merchantId}}'}</code> in your environment or collection variables.
+                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{merchantId}}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -524,7 +626,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{'{{secret-key}}'}</code> in your environment or collection variables.
+                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{secret-key}}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -577,6 +679,66 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               </div>
               <CodeBlock language="json" code={queryErrorResponse} />
             </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Authentication</h4>
+          <p className="text-gray-600 mb-4">This endpoint requires valid merchant credentials via the headers above. Ensure your <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Merchant-Id</code> and <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Secret-Key</code> are correct and active.</p>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Example Request</h4>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-sm text-gray-700 mb-2">
+              <strong>Method:</strong> GET
+            </div>
+            <div className="text-sm text-gray-700 mb-2">
+              <strong>URL:</strong> <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}</code>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Response</h4>
+          <p className="text-gray-600 mb-4">Returns a JSON object containing transaction details, such as status, amount, currency, timestamps, and any additional metadata.</p>
+          
+          <div className="space-y-2">
+            <div className="text-sm text-gray-700">
+              <strong>Success (200):</strong> Returns a JSON object containing transaction details, such as status, amount, currency, timestamps, and any additional metadata.
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Error Codes:</h4>
+          <ul className="space-y-2 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-red-500 rounded-full mt-2 mr-3"></span>
+              <span><strong>401 Unauthorized</strong>: Invalid or missing credentials.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-red-500 rounded-full mt-2 mr-3"></span>
+              <span><strong>404 Not Found</strong>: Transaction with the given reference ID does not exist.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-red-500 rounded-full mt-2 mr-3"></span>
+              <span><strong>500 Internal Server Error</strong>: Unexpected server error.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Example Success Response</h4>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <CodeBlock language="json" code={queryResponse} />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Example Error Response</h4>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <CodeBlock language="json" code={queryErrorResponse} />
           </div>
         </div>
 
