@@ -691,7 +691,7 @@ def list_transactions(access_token, page=1, per_page=50):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{secret-key}}</code> in your environment or collection variables.
+                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{'{{secret-key}}'}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
