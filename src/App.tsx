@@ -94,7 +94,6 @@ function AppContent() {
               <Routes>
                 {/* API Routes */}
                 <Route path="/" element={<ApiIntroductionPage />} />
-                <Route path="/introduction" element={<ApiIntroductionPage />} />
                 <Route path="/authentication" element={<ApiAuthenticationPage />} />
                 <Route path="/transactions" element={<ApiTransactionsPage />} />
                 <Route path="/ussd" element={<ApiUssdPage />} />
@@ -108,7 +107,7 @@ function AppContent() {
                 
                 {/* Docs Routes */}
                 <Route path="/docs" element={<OverviewPage />} />
-                <Route path="/docs/home" element={<OverviewPage />} />
+                <Route path="/docs/overview" element={<OverviewPage />} />
                 <Route path="/docs/prerequisites" element={<PrerequisitesPage />} />
                 <Route path="/docs/registration" element={<RegistrationPage />} />
                 <Route path="/docs/api-keys" element={<ApiKeysPage />} />
@@ -120,8 +119,8 @@ function AppContent() {
                 <Route path="/docs/testing" element={<TestingPage />} />
                 <Route path="/docs/security" element={<SecurityPage />} />
                 <Route path="/docs/troubleshooting" element={<TroubleshootingPage />} />
-                <Route path="/docs/support" element={<SupportPage />} />
                 <Route path="/docs/faq" element={<FaqPage />} />
+                <Route path="/docs/support" element={<SupportPage />} />
               </Routes>
             </div>
           </div>

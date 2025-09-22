@@ -8,7 +8,7 @@ interface ApiMobileMenuProps {
 }
 
 const navigationItems = [
-  { id: 'introduction', label: 'Introduction', icon: Home, path: '/introduction' },
+  { id: 'introduction', label: 'Introduction', icon: Home, path: '/' },
   { id: 'authentication', label: 'Authentication', icon: Shield, path: '/authentication' },
   { id: 'pagination', label: 'Pagination', icon: Layers, path: '/pagination' },
   { id: 'errors', label: 'Errors', icon: AlertCircle, path: '/errors' },
@@ -22,7 +22,7 @@ export const ApiMobileMenu: React.FC<ApiMobileMenuProps> = ({ isOpen, onClose })
   const location = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/introduction' && location.pathname === '/');
+    return location.pathname === path || (path === '/' && location.pathname === '/');
   };
 
   const handleLinkClick = () => {

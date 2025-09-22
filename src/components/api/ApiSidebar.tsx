@@ -118,7 +118,7 @@ export const ApiSidebar: React.FC = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/introduction' && location.pathname === '/');
+    return location.pathname === path || (path === '/' && location.pathname === '/');
   };
 
   const isChildActive = (children: any[]) => {
