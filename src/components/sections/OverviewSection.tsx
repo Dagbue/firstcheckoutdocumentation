@@ -161,7 +161,7 @@ graph TD
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
                 <Link
-                  to="/api-sdk"
+                  to="/api"
                   className="inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-200 font-semibold"
                 >
                   <Code className="mr-2 h-5 w-5" />
@@ -407,7 +407,7 @@ graph TD
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
-              to="/api-sdk"
+              to="/api"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-lg"
             >
               <Code className="mr-2 h-5 w-5" />

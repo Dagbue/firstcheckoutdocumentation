@@ -8,7 +8,7 @@ interface DocsMobileMenuProps {
 }
 
 const navigationItems = [
-  { id: 'overview', label: 'Home', icon: Home, path: '/overview' },
+  { id: 'home', label: 'Home', icon: Home, path: '/' },
   { id: 'prerequisites', label: 'Prerequisites', icon: Settings, path: '/prerequisites' },
   { id: 'registration', label: 'Registration', icon: FileText, path: '/registration' },
   { id: 'api-keys', label: 'API Keys', icon: Key, path: '/api-keys' },
@@ -28,7 +28,7 @@ export const DocsMobileMenu: React.FC<DocsMobileMenuProps> = ({ isOpen, onClose 
   const location = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/overview' && location.pathname === '/');
+    return location.pathname === path;
   };
 
   const handleLinkClick = () => {

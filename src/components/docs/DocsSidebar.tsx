@@ -4,10 +4,10 @@ import { ChevronRight, Home, FileText, Settings, Code, CreditCard, Shield, Phone
 
 const navigationItems = [
   { 
-    id: 'overview', 
+    id: 'home', 
     label: 'Home', 
     icon: Home, 
-    path: '/overview'
+    path: '/'
   },
   { 
     id: 'prerequisites', 
@@ -109,7 +109,7 @@ export const DocsSidebar: React.FC = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/overview' && location.pathname === '/');
+    return location.pathname === path;
   };
 
   const isChildActive = (children: any[]) => {
