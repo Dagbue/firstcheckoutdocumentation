@@ -210,7 +210,6 @@ export const ApiSidebar: React.FC = () => {
                 </div>
               )}
               </div>
-            </div>
           </nav>
         </div>
       </div>
