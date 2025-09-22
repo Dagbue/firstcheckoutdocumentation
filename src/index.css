@@ -14,33 +14,33 @@
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-/* Base font sizes - mobile first */
+/* Base font sizes - smaller like Paystack */
 html {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @media (min-width: 640px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 @media (min-width: 1024px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 /* Typography scale */
 body {
-  line-height: 1.65;
+  line-height: 1.6;
   color: #374151;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
@@ -49,8 +49,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 700;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: 1.3;
   color: #111827;
   letter-spacing: -0.025em;
 }
@@ -73,73 +73,73 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .font-bold {
-  font-weight: 700;
-}
-
-.font-extrabold {
-  font-weight: 800;
-}
-
-/* Mobile heading sizes */
-h1 {
-  font-size: 1.875rem;
-  font-weight: 800;
-}
-
-h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 1.25rem;
   font-weight: 600;
 }
 
-h4 {
+.font-extrabold {
+  font-weight: 700;
+}
+
+/* Smaller heading sizes like Paystack */
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+}
+
+h3 {
   font-size: 1.125rem;
   font-weight: 600;
 }
 
-h5 {
+h4 {
   font-size: 1rem;
   font-weight: 600;
 }
 
-h6 {
+h5 {
   font-size: 0.875rem;
   font-weight: 600;
 }
 
-/* Desktop heading sizes */
+h6 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Desktop heading sizes - keep smaller */
 @media (min-width: 768px) {
   h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-  }
-  
-  h2 {
     font-size: 2rem;
     font-weight: 700;
   }
   
-  h3 {
+  h2 {
     font-size: 1.5rem;
     font-weight: 600;
   }
   
-  h4 {
+  h3 {
     font-size: 1.25rem;
     font-weight: 600;
   }
   
-  h5 {
+  h4 {
     font-size: 1.125rem;
     font-weight: 600;
   }
   
-  h6 {
+  h5 {
     font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  h6 {
+    font-size: 0.875rem;
     font-weight: 600;
   }
 }
@@ -147,7 +147,7 @@ h6 {
 /* Improved text elements */
 p {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.65;
+  line-height: 1.6;
   margin-bottom: 1rem;
 }
 
@@ -168,6 +168,7 @@ input, textarea, select {
 code, pre {
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-weight: 400;
+  font-size: 0.875em;
 }
 
 /* Mobile responsive tables */
@@ -175,12 +176,12 @@ code, pre {
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
 }
 
 .responsive-table th,
 .responsive-table td {
-  padding: 0.75rem;
+  padding: 0.625rem;
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -194,12 +195,12 @@ code, pre {
 /* Mobile table styles */
 @media (max-width: 640px) {
   .responsive-table {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .responsive-table th,
   .responsive-table td {
-    padding: 0.5rem;
+    padding: 0.4375rem;
   }
   
   /* Stack table on very small screens */
@@ -226,7 +227,7 @@ code, pre {
   
   .responsive-table-stack td {
     border: none;
-    padding: 0.25rem 0;
+    padding: 0.1875rem 0;
     position: relative;
     padding-left: 40%;
   }
@@ -255,10 +256,10 @@ code, pre {
 
 @media (max-width: 640px) {
   pre {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
   }
   
   code {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 }

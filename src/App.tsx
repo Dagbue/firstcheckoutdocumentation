@@ -1,11 +1,13 @@
 import React from 'react';
-// import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Header } from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { MobileMenu } from './components/MobileMenu';
+import { DocsHeader } from './components/docs/DocsHeader';
+import { DocsSidebar } from './components/docs/DocsSidebar';
+import { DocsMobileMenu } from './components/docs/DocsMobileMenu';
+import { ApiHeader } from './components/api/ApiHeader';
+import { ApiSidebar } from './components/api/ApiSidebar';
+import { ApiMobileMenu } from './components/api/ApiMobileMenu';
 
 // Import all page components
 import { OverviewPage } from './pages/OverviewPage';
@@ -24,6 +26,14 @@ import { TroubleshootingPage } from './pages/TroubleshootingPage';
 import { SupportPage } from './pages/SupportPage';
 import { FaqPage } from './pages/FaqPage';
 
+// Import API pages
+import { ApiIntroductionPage } from './pages/api/ApiIntroductionPage';
+import { ApiAuthenticationPage } from './pages/api/ApiAuthenticationPage';
+import { ApiTransactionsPage } from './pages/api/ApiTransactionsPage';
+import { ApiErrorsPage } from './pages/api/ApiErrorsPage';
+import { ApiPaginationPage } from './pages/api/ApiPaginationPage';
+
+
 // Scroll to top component
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -36,31 +46,52 @@ function ScrollToTop() {
 }
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isApiSection, setIsApiSection] = React.useState(false);
+
+  // Determine if we're in API section based on URL
+  const location = useLocation();
+  React.useEffect(() => {
+    setIsApiSection(location.pathname.startsWith('/api'));
+  }, [location.pathname]);
 
   return (
-    <Router basename="/onlinedoc">
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <ScrollToTop />
-        <Header onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        
+        {/* Conditional Header */}
+        {isApiSection ? (
+          <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        ) : (
+          <DocsHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        )}
         
         <div className="flex">
-          <Sidebar />
+          {/* Conditional Sidebar */}
+          {isApiSection ? <ApiSidebar /> : <DocsSidebar />}
           
-          <MobileMenu 
-            isOpen={isMobileMenuOpen} 
-            onClose={() => setIsMobileMenuOpen(false)}
-          />
+          {/* Conditional Mobile Menu */}
+          {isApiSection ? (
+            <ApiMobileMenu 
+              isOpen={isMobileMenuOpen} 
+              onClose={() => setIsMobileMenuOpen(false)}
+            />
+          ) : (
+            <DocsMobileMenu 
+              isOpen={isMobileMenuOpen} 
+              onClose={() => setIsMobileMenuOpen(false)}
+            />
+          )}
           
-          <main className="flex-1 ml-0 lg:ml-72 relative z-0 overflow-y-auto focus:outline-none">
-            <div className="py-6">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <main className="flex-1 ml-0 lg:ml-64 relative z-0 overflow-y-auto focus:outline-none">
+            <div className="py-4">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
                 <Routes>
+                  {/* Docs Routes */}
                   <Route path="/" element={<OverviewPage />} />
                   <Route path="/overview" element={<OverviewPage />} />
                   <Route path="/prerequisites" element={<PrerequisitesPage />} />
                   <Route path="/registration" element={<RegistrationPage />} />
                   <Route path="/api-keys" element={<ApiKeysPage />} />
-                  <Route path="/api-sdk" element={<ApiSdkPage />} />
                   <Route path="/npm-package" element={<NpmPackagePage />} />
                   <Route path="/cdn-script" element={<CdnScriptPage />} />
                   <Route path="/wordpress" element={<WordPressPage />} />
@@ -71,14 +102,19 @@ function App() {
                   <Route path="/troubleshooting" element={<TroubleshootingPage />} />
                   <Route path="/support" element={<SupportPage />} />
                   <Route path="/faq" element={<FaqPage />} />
+                  
+                  {/* API Routes */}
+                  <Route path="/api" element={<ApiIntroductionPage />} />
+                  <Route path="/api/introduction" element={<ApiIntroductionPage />} />
+                  <Route path="/api/authentication" element={<ApiAuthenticationPage />} />
+                  <Route path="/api/transactions" element={<ApiTransactionsPage />} />
+                  <Route path="/api/errors" element={<ApiErrorsPage />} />
+                  <Route path="/api/pagination" element={<ApiPaginationPage />} />
                 </Routes>
               </div>
             </div>
           </main>
         </div>
       </div>
-    </Router>
   );
 }
-
-export default App;
