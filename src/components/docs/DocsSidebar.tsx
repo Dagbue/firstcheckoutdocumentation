@@ -7,7 +7,7 @@ const navigationItems = [
     id: 'home', 
     label: 'Home', 
     icon: Home, 
-    path: '/'
+    path: '/docs'
   },
   { 
     id: 'prerequisites', 

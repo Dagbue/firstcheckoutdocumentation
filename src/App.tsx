@@ -57,31 +57,35 @@ function AppContent() {
   const location = useLocation();
   
   // Determine if we're in API section based on URL
-  const isApiSection = location.pathname.startsWith('/api');
+  const isApiSection = location.pathname === '/' || location.pathname.startsWith('/api');
+  const isDocsSection = location.pathname.startsWith('/docs') || 
+    ['/prerequisites', '/registration', '/api-keys', '/npm-package', '/cdn-script', 
+     '/wordpress', '/payment-links', '/payment-methods', '/testing', '/security', 
+     '/troubleshooting', '/support', '/faq'].includes(location.pathname);
 
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
       
       {/* Conditional Header */}
-      {isApiSection ? (
-        <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-      ) : (
+      {isDocsSection ? (
         <DocsHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+      ) : (
+        <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
       )}
       
       <div className="flex">
         {/* Conditional Sidebar */}
-        {isApiSection ? <ApiSidebar /> : <DocsSidebar />}
+        {isDocsSection ? <DocsSidebar /> : <ApiSidebar />}
         
         {/* Conditional Mobile Menu */}
-        {isApiSection ? (
-          <ApiMobileMenu 
+        {isDocsSection ? (
+          <DocsMobileMenu 
             isOpen={isMobileMenuOpen} 
             onClose={() => setIsMobileMenuOpen(false)}
           />
         ) : (
-          <DocsMobileMenu 
+          <ApiMobileMenu 
             isOpen={isMobileMenuOpen} 
             onClose={() => setIsMobileMenuOpen(false)}
           />
@@ -93,7 +97,8 @@ function AppContent() {
               <Routes>
                 {/* Docs Routes */}
                 <Route path="/" element={<OverviewPage />} />
-                <Route path="/home" element={<OverviewPage />} />
+                <Route path="/docs" element={<OverviewPage />} />
+                <Route path="/docs/home" element={<OverviewPage />} />
                 <Route path="/prerequisites" element={<PrerequisitesPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/api-keys" element={<ApiKeysPage />} />
@@ -109,6 +114,7 @@ function AppContent() {
                 <Route path="/faq" element={<FaqPage />} />
                 
                 {/* API Routes */}
+                <Route path="/" element={<ApiIntroductionPage />} />
                 <Route path="/api" element={<ApiIntroductionPage />} />
                 <Route path="/api/introduction" element={<ApiIntroductionPage />} />
                 <Route path="/api/authentication" element={<ApiAuthenticationPage />} />

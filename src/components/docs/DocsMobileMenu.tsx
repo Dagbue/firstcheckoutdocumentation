@@ -8,7 +8,7 @@ interface DocsMobileMenuProps {
 }
 
 const navigationItems = [
-  { id: 'home', label: 'Home', icon: Home, path: '/' },
+  { id: 'home', label: 'Home', icon: Home, path: '/docs' },
   { id: 'prerequisites', label: 'Prerequisites', icon: Settings, path: '/prerequisites' },
   { id: 'registration', label: 'Registration', icon: FileText, path: '/registration' },
   { id: 'api-keys', label: 'API Keys', icon: Key, path: '/api-keys' },

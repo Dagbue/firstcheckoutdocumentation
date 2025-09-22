@@ -88,13 +88,13 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
 
               <div className="flex items-center space-x-2">
                 <Link
-                  to="/"
+                  to="/docs"
                   className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
                 >
                   Docs
                 </Link>
                 <Link
-                  to="/api"
+                  to="/"
                   className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
                 >
                   API
