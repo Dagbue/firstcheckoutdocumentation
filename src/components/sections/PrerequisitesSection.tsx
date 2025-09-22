@@ -121,5 +121,6 @@ export const PrerequisitesSection: React.FC = () => {
           </div>
         </div>
       </div>
+    </section>
   );
 };
