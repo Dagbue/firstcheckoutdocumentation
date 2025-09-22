@@ -285,6 +285,11 @@ def list_transactions(access_token, page=1, per_page=50):
   }
 }`;
 
+  const queryErrorResponse = `{
+  "status": "error",
+  "message": "Transaction not found"
+}`;
+
   const verifyResponse = `{
   "status": true,
   "message": "Transaction status retrieved",
@@ -638,8 +643,8 @@ def list_transactions(access_token, page=1, per_page=50):
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-32">
-                    <span className="text-sm font-semibold text-gray-900">{{GatewayBaseAddress}}</span>
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">{'{{GatewayBaseAddress}}'}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -652,8 +657,8 @@ def list_transactions(access_token, page=1, per_page=50):
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-32">
-                    <span className="text-sm font-semibold text-gray-900">{{transactionRef}}</span>
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">{'{{transactionRef}}'}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -671,13 +676,13 @@ def list_transactions(access_token, page=1, per_page=50):
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-28">
                     <span className="text-sm font-semibold text-gray-900">Merchant-Id</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{merchantId}}</code> in your environment or collection variables.
+                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{'{{merchantId}}'}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -685,7 +690,7 @@ def list_transactions(access_token, page=1, per_page=50):
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-28">
                     <span className="text-sm font-semibold text-gray-900">Secret-Key</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
@@ -736,15 +741,24 @@ def list_transactions(access_token, page=1, per_page=50):
               </div>
               <CodeBlock language="json" code={queryResponse} />
             </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">Error Response</span>
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded">404 Not Found</span>
+              </div>
+              <CodeBlock language="json" code={queryErrorResponse} />
+            </div>
           </div>
         </div>
 
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-          <h4 className="text-sm font-semibold text-amber-900 mb-2">Authentication</h4>
-          <p className="text-sm text-amber-800">
-            This endpoint requires valid merchant credentials via the headers above. Ensure your Merchant-Id 
-            and Secret-Key are correct and active.
-          </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6">
+          <h4 className="text-sm font-semibold text-amber-900 mb-2">Notes</h4>
+          <ul className="text-sm text-amber-800 space-y-1">
+            <li>• Ensure all variables are set in your environment before sending the request</li>
+            <li>• Use this endpoint to programmatically verify transaction outcomes or troubleshoot payment issues</li>
+            <li>• This endpoint requires valid merchant credentials via the headers above</li>
+          </ul>
         </div>
       </section>
 
