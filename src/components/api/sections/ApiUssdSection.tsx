@@ -368,27 +368,27 @@ def initiate_ussd_payment(access_token, access_code, payment_reference, bank_id)
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">First Bank (011)</div>
-            <div className="text-xs text-gray-500">*894*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*894*000*{'{amount}'}#</div>
           </div>
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">GTBank (058)</div>
-            <div className="text-xs text-gray-500">*737*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*737*000*{'{amount}'}#</div>
           </div>
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">Access Bank (044)</div>
-            <div className="text-xs text-gray-500">*901*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*901*000*{'{amount}'}#</div>
           </div>
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">Zenith Bank (057)</div>
-            <div className="text-xs text-gray-500">*966*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*966*000*{'{amount}'}#</div>
           </div>
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">UBA (033)</div>
-            <div className="text-xs text-gray-500">*919*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*919*000*{'{amount}'}#</div>
           </div>
           <div className="bg-white rounded p-2 border">
             <div className="text-xs font-medium text-gray-900">Ecobank (050)</div>
-            <div className="text-xs text-gray-500">*326*000*{amount}#</div>
+            <div className="text-xs text-gray-500">*326*000*{'{amount}'}#</div>
           </div>
         </div>
       </div>
