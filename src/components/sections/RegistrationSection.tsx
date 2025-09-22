@@ -237,11 +237,11 @@ sequenceDiagram
   ];
 
   return (
-      <section id="registration" className="mb-16">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <section id="registration" className="docs-section">
+        <div className="bg-white">
           <div className="text-left mb-5">
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Merchant Registration & Onboarding</h2>
-            <p className="text-l text-gray-600 max-w-5xl text-left">
+            <p className="text-lg text-gray-600 max-w-5xl text-left mb-6">
               Welcome to FirstChekout! Follow our comprehensive step-by-step guide to create and activate your merchant account.
               Our streamlined onboarding process ensures you're ready to accept payments quickly and securely.
             </p>
@@ -266,26 +266,26 @@ sequenceDiagram
           </div>
 
           {/* Timeline Overview */}
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-6 mb-8">
+          <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-bank-blue rounded-lg p-6 mb-8">
             <div className="flex items-center mb-4">
-              <Clock className="h-6 w-6 text-blue-600 mr-3" />
-              <h3 className="text-lg font-semibold text-blue-900">Onboarding Timeline</h3>
+              <Clock className="h-6 w-6 text-bank-blue mr-3" />
+              <h3 className="text-lg font-semibold text-bank-blue">Onboarding Timeline</h3>
             </div>
             <div className="grid md:grid-cols-4 gap-4 text-sm">
               <div className="text-center">
-                <div className="font-semibold text-blue-900">Account Setup</div>
+                <div className="font-semibold text-bank-blue">Account Setup</div>
                 <div className="text-blue-700">5-10 minutes</div>
               </div>
               <div className="text-center">
-                <div className="font-semibold text-blue-900">Document Upload</div>
+                <div className="font-semibold text-bank-blue">Document Upload</div>
                 <div className="text-blue-700">10-15 minutes</div>
               </div>
               <div className="text-center">
-                <div className="font-semibold text-blue-900">Review Process</div>
+                <div className="font-semibold text-bank-blue">Review Process</div>
                 <div className="text-blue-700">1-3 Business Days</div>
               </div>
               <div className="text-center">
-                <div className="font-semibold text-blue-900">Go Live</div>
+                <div className="font-semibold text-bank-blue">Go Live</div>
                 <div className="text-blue-700">Immediate</div>
               </div>
             </div>

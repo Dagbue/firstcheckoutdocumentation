@@ -30,7 +30,7 @@ graph TD
       title: 'Accept Payments',
       description: 'Collect payments from cards, bank accounts, and mobile money',
       icon: CreditCard,
-      color: 'blue',
+      color: 'bank-blue',
       link: '/payment-methods',
       features: ['Card Payments', 'USSD', 'Bank Transfer', 'QR Codes'],
       time: '5 minutes'
@@ -39,7 +39,7 @@ graph TD
       title: 'Send Money',
       description: 'Make instant transfers to bank accounts and mobile money numbers',
       icon: Smartphone,
-      color: 'emerald',
+      color: 'bank-gold',
       link: '/api-sdk',
       features: ['Bank Transfers', 'Mobile Money', 'Bulk Payments', 'Instant Settlement'],
       time: '10 minutes'
@@ -48,7 +48,7 @@ graph TD
       title: 'Verify Customers',
       description: 'Verify phone numbers, bank accounts, and customer details',
       icon: Users,
-      color: 'purple',
+      color: 'bank-blue',
       link: '/security',
       features: ['KYC Verification', 'Account Validation', 'Identity Checks', 'Compliance'],
       time: '3 minutes'
@@ -57,7 +57,7 @@ graph TD
       title: 'No-Code Solutions',
       description: 'Create payment links and accept payments without coding',
       icon: QrCode,
-      color: 'amber',
+      color: 'bank-gold',
       link: '/payment-links',
       features: ['Payment Links', 'QR Codes', 'Dashboard Tools', 'Quick Setup'],
       time: '2 minutes'
@@ -108,30 +108,30 @@ graph TD
       icon: CheckCircle,
       title: '99.9% Uptime',
       description: 'Reliable infrastructure with comprehensive monitoring and automatic failover',
-      color: 'emerald'
+      color: 'bank-blue'
     },
     {
       icon: Shield,
       title: 'Bank-Grade Security',
       description: 'PCI DSS Level 1 compliant with end-to-end encryption',
-      color: 'red'
+      color: 'bank-gold'
     },
     {
       icon: Zap,
       title: 'Lightning Fast',
       description: 'Sub-second response times for all API calls and transactions',
-      color: 'blue'
+      color: 'bank-blue'
     },
     {
       icon: Globe,
       title: 'Multi-Channel',
       description: 'Support for cards, USSD, bank transfers, QR codes, and more',
-      color: 'purple'
+      color: 'bank-gold'
     }
   ];
 
   return (
-    <div className="mb-16">
+    <div className="docs-section">
       <section id="overview" className="mb-12">
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-bank-blue via-bank-blue to-blue-800 rounded-2xl p-8 md:p-12 text-white mb-12 relative overflow-hidden">
@@ -190,8 +190,8 @@ graph TD
               className="group relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-start space-x-6">
-                <div className={`flex-shrink-0 w-16 h-16 bg-${item.color}-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon className={`h-8 w-8 text-${item.color}-600`} />
+                <div className={`flex-shrink-0 w-16 h-16 ${item.color === 'bank-blue' ? 'bg-blue-100' : 'bg-yellow-100'} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                  <item.icon className={`h-8 w-8 ${item.color === 'bank-blue' ? 'text-bank-blue' : 'text-bank-gold'}`} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-3">
@@ -267,7 +267,7 @@ graph TD
 
       {/* High-Level Integration Flow */}
       <section id="integration-flow" className="mb-12">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="bg-white rounded-2xl p-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Integration Flow</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -280,26 +280,26 @@ graph TD
             <MermaidDiagram>{integrationFlowDiagram}</MermaidDiagram>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+          <div className="bg-blue-50 border border-bank-blue rounded-xl p-6">
             <h3 className="text-lg font-semibold text-blue-900 mb-4">Integration Steps Overview</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div className="text-center">
-                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">1</div>
+                <div className="w-8 h-8 bg-bank-blue text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">1</div>
                 <div className="font-medium text-blue-900">Register</div>
                 <div className="text-blue-700">Create merchant account</div>
               </div>
               <div className="text-center">
-                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">2</div>
+                <div className="w-8 h-8 bg-bank-blue text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">2</div>
                 <div className="font-medium text-blue-900">Verify</div>
                 <div className="text-blue-700">Complete KYC process</div>
               </div>
               <div className="text-center">
-                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">3</div>
+                <div className="w-8 h-8 bg-bank-blue text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">3</div>
                 <div className="font-medium text-blue-900">Integrate</div>
                 <div className="text-blue-700">Choose integration method</div>
               </div>
               <div className="text-center">
-                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">4</div>
+                <div className="w-8 h-8 bg-bank-blue text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">4</div>
                 <div className="font-medium text-blue-900">Go Live</div>
                 <div className="text-blue-700">Start accepting payments</div>
               </div>
@@ -320,8 +320,8 @@ graph TD
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <div key={index} className="text-center group">
-              <div className={`w-16 h-16 bg-${feature.color}-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon className={`h-8 w-8 text-${feature.color}-600`} />
+              <div className={`w-16 h-16 ${feature.color === 'bank-blue' ? 'bg-blue-100' : 'bg-yellow-100'} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <feature.icon className={`h-8 w-8 ${feature.color === 'bank-blue' ? 'text-bank-blue' : 'text-bank-gold'}`} />
               </div>
               <h4 className="text-lg font-bold text-gray-900 mb-3">{feature.title}</h4>
               <p className="text-gray-600 leading-relaxed">
@@ -343,9 +343,9 @@ graph TD
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
+            <div className="bg-white rounded-xl p-6">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <BookOpen className="h-6 w-6 text-blue-600" />
+                <BookOpen className="h-6 w-6 text-bank-blue" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Interactive Docs</h3>
               <p className="text-gray-600 text-sm">
@@ -353,9 +353,9 @@ graph TD
               </p>
             </div>
             
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                <Code className="h-6 w-6 text-emerald-600" />
+            <div className="bg-white rounded-xl p-6">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                <Code className="h-6 w-6 text-bank-gold" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Code Examples</h3>
               <p className="text-gray-600 text-sm">
@@ -363,9 +363,9 @@ graph TD
               </p>
             </div>
             
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-purple-600" />
+            <div className="bg-white rounded-xl p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-bank-blue" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Security Guide</h3>
               <p className="text-gray-600 text-sm">
@@ -391,7 +391,7 @@ graph TD
 
       {/* Getting Started CTA */}
       <section id="get-started" className="mb-12">
-        <div className="bg-gradient-to-r from-emerald-50 via-blue-50 to-purple-50 rounded-2xl p-8 lg:p-12 text-center border border-gray-200">
+        <div className="bg-gradient-to-r from-blue-50 via-gray-50 to-yellow-50 rounded-2xl p-8 lg:p-12 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
             Join thousands of businesses already using FirstChekout to power their payment experiences. 
@@ -421,11 +421,11 @@ graph TD
               <div className="text-gray-600">Average setup time</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-emerald-600 mb-2">99.9%</div>
+              <div className="text-3xl font-bold text-bank-gold mb-2">99.9%</div>
               <div className="text-gray-600">System uptime</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
+              <div className="text-3xl font-bold text-bank-blue mb-2">24/7</div>
               <div className="text-gray-600">Expert support</div>
             </div>
           </div>

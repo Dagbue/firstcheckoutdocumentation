@@ -135,63 +135,63 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
   ];
 
   return (
-    <section id="api-keys" className="mb-16">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <section id="api-keys" className="docs-section">
+      <div className="bg-white">
         {/* Header Section */}
         <div className="text-left mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             API Keys & Credentials
           </h2>
-          <p className="text-lg text-gray-600 max-w-4xl">
+          <p className="text-lg text-gray-600 max-w-4xl mb-6">
             Secure your FirstChekout integration with proper API key management. Learn how to obtain, configure, 
             and safely use your authentication credentials across different environments.
           </p>
         </div>
 
         {/* Quick Start Guide */}
-        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-8">
+        <div className="bg-blue-50 border border-bank-blue rounded-lg p-6 mb-8">
           <div className="flex items-center mb-4">
-            <Zap className="h-6 w-6 text-emerald-600 mr-3" />
-            <h3 className="text-lg font-semibold text-emerald-900">Quick Start Guide</h3>
+            <Zap className="h-6 w-6 text-bank-blue mr-3" />
+            <h3 className="text-lg font-semibold text-bank-blue">Quick Start Guide</h3>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <CodeBlock language="text" code={quickStartGuide} />
             </div>
             <div className="space-y-4">
-              <div className="bg-white rounded-lg p-4 border border-emerald-200">
-                <h4 className="font-semibold text-emerald-900 mb-2">🎯 Key Benefits</h4>
-                <ul className="text-sm text-emerald-800 space-y-1">
+              <div className="bg-white rounded-lg p-4 border border-bank-blue">
+                <h4 className="font-semibold text-bank-blue mb-2">🎯 Key Benefits</h4>
+                <ul className="text-sm text-gray-700 space-y-1">
                   <li>• Secure authentication for all API calls</li>
                   <li>• Separate sandbox and production environments</li>
                   <li>• Easy key rotation and management</li>
                   <li>• Comprehensive access control</li>
                 </ul>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-emerald-200">
-                <h4 className="font-semibold text-emerald-900 mb-2">⚡ Next Steps</h4>
-                <ul className="text-sm text-emerald-800 space-y-1">
-                  <li>• <Link to="/registration" className="text-blue-600 underline">Complete registration</Link> if not done</li>
-                  <li>• <Link to="/api-sdk" className="text-blue-600 underline">Start API integration</Link></li>
-                  <li>• <Link to="/testing" className="text-blue-600 underline">Test in sandbox</Link></li>
-                  <li>• <Link to="/support" className="text-blue-600 underline">Get support</Link> if needed</li>
+              <div className="bg-white rounded-lg p-4 border border-bank-blue">
+                <h4 className="font-semibold text-bank-blue mb-2">⚡ Next Steps</h4>
+                <ul className="text-sm text-gray-700 space-y-1">
+                  <li>• <Link to="/registration" className="text-bank-blue underline">Complete registration</Link> if not done</li>
+                  <li>• <Link to="/api" className="text-bank-blue underline">Start API integration</Link></li>
+                  <li>• <Link to="/testing" className="text-bank-blue underline">Test in sandbox</Link></li>
+                  <li>• <Link to="/support" className="text-bank-blue underline">Get support</Link> if needed</li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
         {/* Key Management Overview */}
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
+        <div className="bg-yellow-50 border border-bank-gold rounded-lg p-6 mb-8">
           <div className="flex items-center mb-4">
-            <AlertTriangle className="h-6 w-6 text-amber-600 mr-3" />
-            <h3 className="text-lg font-semibold text-amber-900">Key Management Requirements</h3>
+            <AlertTriangle className="h-6 w-6 text-bank-gold mr-3" />
+            <h3 className="text-lg font-semibold text-bank-gold">Key Management Requirements</h3>
           </div>
-          <p className="text-amber-800 mb-4">
+          <p className="text-gray-700 mb-4">
             <strong>Important:</strong> Only merchants that have fully onboarded on the platform and are live can use this service as 
             expected. Proceed to the API Key Sections to fetch necessary keys to be used for integration.
           </p>
-          <div className="bg-amber-100 p-4 rounded-md">
-            <p className="text-amber-900 text-sm">
+          <div className="bg-yellow-100 p-4 rounded-md">
+            <p className="text-gray-800 text-sm">
               Take note of the Public Key, Secret Key, and Encryption Key - each of these keys have specific use cases 
               in the integration process. The Live environment must be turned ON or OFF for transactions to go through 
               or be initiated in test mode.
