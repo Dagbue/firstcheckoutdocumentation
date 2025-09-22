@@ -193,6 +193,25 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
   "message": "Transaction not found"
 }`;
 
+  const querySuccessResponse = `{
+  "status": "success",
+  "data": {
+    "transactionRef": "1234567890",
+    "amount": 10000,
+    "currency": "NGN",
+    "status": "completed",
+    "createdAt": "2024-06-01T12:34:56Z",
+    "updatedAt": "2024-06-01T12:35:56Z",
+    "customer": {
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "metadata": {
+      "orderId": "ORD-001"
+    }
+  }
+}`;
+
   const quickStartItems = [
     {
       title: 'Initialize Transaction',
@@ -554,7 +573,8 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
       {/* Query Transaction */}
       <section id="query" className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Query Transaction</h2>
-        
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div>
             <div className="flex items-center mb-4">
@@ -754,11 +774,21 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
 
       {/* Getting Started CTA */}
       <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
-        <div className="max-w-3xl">
-          <h2 className="text-2xl font-bold mb-4">Ready to start processing transactions?</h2>
+              <span className="api-method get bg-blue-100 text-blue-800">GET</span>
+              <span className="api-url-path">/api/v1/transactions/referenceId/{"{{transactionRef}}"}</span>
+            </div>
+            <a 
+              href="https://documenter.getpostman.com/view/48285548/2sB3HnLLUZ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-500 hover:text-gray-700 flex items-center"
+            >
+              <ExternalLink className="w-3 h-3 mr-1" />
+              View in Postman
+            </a>
           <p className="text-blue-100 mb-6 leading-relaxed">
             Use the Transactions API to create, query, and manage payments in your application. 
-            Our comprehensive endpoints provide everything you need for robust payment processing.
+            Retrieves the details of a specific transaction using its unique reference ID. This endpoint is typically used to check the status, metadata, and result of a payment or transaction processed through the FirstChekout Payment Gateway.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">
@@ -784,5 +814,239 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
         </div>
       </div>
     </div>
-  );
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Request Details</h3>
+            
+            <div className="space-y-4 mb-6">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Method:</h4>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">URL:</h4>
+                <code className="text-sm bg-gray-100 px-2 py-1 rounded">{"{{GatewayBaseAddress}}"}/api/v1/transactions/referenceId/{"{{transactionRef}}"}</code>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">URL Path Variables</h3>
+            
+            <div className="space-y-4 mb-6">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">{"{{GatewayBaseAddress}}"}</span>
+                    <div className="text-xs text-gray-500 mt-1">string</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The base URL for the payment gateway API, set in your environment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">{"{{transactionRef}}"}</span>
+                    <div className="text-xs text-gray-500 mt-1">string</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The unique reference ID of the transaction you want to query. This should be set as an environment or collection variable before sending the request.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Required Headers</h3>
+            
+            <div className="space-y-4 mb-6">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-28">
+                    <span className="text-sm font-semibold text-gray-900">Merchant-Id</span>
+                    <div className="text-xs text-gray-500 mt-1">string</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{merchantId}}"}</code> in your environment or collection variables.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-28">
+                    <span className="text-sm font-semibold text-gray-900">Secret-Key</span>
+                    <div className="text-xs text-gray-500 mt-1">string</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{secret-key}}"}</code> in your environment or collection variables.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Authentication</h3>
+            <p className="text-gray-600 mb-4">
+              This endpoint requires valid merchant credentials via the headers above. Ensure your <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Merchant-Id</code> and <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Secret-Key</code> are correct and active.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Example Request</h3>
+            
+            <div className="language-tabs">
+              {Object.keys(queryCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <div className="paystack-code-block mb-6">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Query Transaction Request</span>
+                <button
+                  onClick={() => copyToClipboard(queryCode[activeLanguage], 'query-request')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'query-request' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <pre><code>{queryCode[activeLanguage]}</code></pre>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">HTTP Request Example:</h4>
+              <div className="bg-white rounded p-3 border">
+                <div className="text-sm text-gray-700 mb-2">
+                  <strong>Method:</strong> GET
+                </div>
+                <div className="text-sm text-gray-700 mb-2">
+                  <strong>URL:</strong> <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{GatewayBaseAddress}}"}/api/v1/transactions/referenceId/{"{{transactionRef}}"}</code>
+                </div>
+                <div className="text-sm text-gray-700 mb-2">
+                  <strong>Headers:</strong>
+                </div>
+                <div className="ml-4 space-y-1">
+                  <div className="text-sm text-gray-600">
+                    <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Merchant-Id: {"{{merchantId}}"}</code>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Secret-Key: {"{{secret-key}}"}</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Expected Response</h3>
+            
+            <div className="space-y-4 mb-6">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Success (200):</h4>
+                <p className="text-sm text-gray-600 mb-3">
+                  Returns a JSON object containing transaction details, such as status, amount, currency, timestamps, and any additional metadata.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Error Codes:</h4>
+                <ul className="space-y-1 text-sm text-gray-600 ml-4">
+                  <li>• <strong>401 Unauthorized</strong>: Invalid or missing credentials.</li>
+                  <li>• <strong>404 Not Found</strong>: Transaction with the given reference ID does not exist.</li>
+                  <li>• <strong>500 Internal Server Error</strong>: Unexpected server error.</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Example Success Response</h3>
+            
+            <div className="paystack-code-block mb-6">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Success Response (200 OK)</span>
+                <button
+                  onClick={() => copyToClipboard(querySuccessResponse, 'query-success-response')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'query-success-response' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <CodeBlock language="json" code={querySuccessResponse} />
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Example Error Response</h3>
+            
+            <div className="paystack-code-block mb-6">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Error Response (404 Not Found)</span>
+                <button
+                  onClick={() => copyToClipboard(queryErrorResponse, 'query-error-response')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'query-error-response' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <CodeBlock language="json" code={queryErrorResponse} />
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Authorization</h3>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <h4 className="text-sm font-semibold text-blue-900 mb-3">Bearer Token</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-blue-900">Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Merchant-Id</span>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">{"{{merchantId}}"}</code>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Secret-Key</span>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">{"{{secret-key}}"}</code>
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Notes</h3>
+            
+            <ul className="space-y-2 text-gray-700">
+              <li className="flex items-start">
+                <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+                <span>Ensure all variables are set in your environment before sending the request.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+                <span>Use this endpoint to programmatically verify transaction outcomes or troubleshoot payment issues.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+                <span>For more information, refer to the FirstChekout Payment Gateway collection documentation.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 };
