@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe } from 'lucide-react';
+import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe, Code, ChevronRight } from 'lucide-react';
 
 const navigationItems = [
   { 
@@ -107,7 +107,7 @@ const apiEndpoints = [
 
 export const ApiSidebar: React.FC = () => {
   const location = useLocation();
-  const [expandedItems, setExpandedItems] = React.useState<string[]>(['transactions']);
+  const [expandedItems, setExpandedItems] = React.useState<string[]>(['endpoints']);
 
   const toggleExpanded = (itemId: string) => {
     setExpandedItems(prev => 
@@ -127,73 +127,88 @@ export const ApiSidebar: React.FC = () => {
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 lg:fixed lg:inset-y-0 lg:top-14 lg:z-40">
-      <div className="flex flex-col w-64 api-sidebar">
-        <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-3 pb-4 overflow-y-auto">
-          <nav className="mt-2 flex-1 px-3 space-y-0.5">
+      <div className="flex flex-col w-72">
+        <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
+          <nav className="mt-5 flex-1 px-4 space-y-1">
             {/* Basic sections */}
-            <div className="sidebar-section">
+            <div>
               {navigationItems.map((item) => (
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
+                  className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    isActive(item.path)
+                      ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-3 border-bank-gold'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
                 >
-                  <item.icon className="sidebar-icon" />
-                  {item.label}
+                  <item.icon className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
+                  <div className="flex-1 text-left">
+                    <div className="font-semibold text-sm lg:text-base">{item.label}</div>
+                  </div>
                 </Link>
               ))}
             </div>
             
             {/* API Endpoints section */}
-            <div className="pt-3">
-              <h3 className="sidebar-section-title">
-                API ENDPOINTS
-              </h3>
-              <div className="space-y-0.5">
-                {apiEndpoints.map((item) => (
-                  <div key={item.id}>
-                    <button
-                      onClick={() => toggleExpanded(item.id)}
-                      className={`w-full sidebar-item ${
-                        isActive(item.path) || isChildActive(item.children)
-                          ? 'active'
-                          : ''
-                      }`}
-                    >
-                      <item.icon className="sidebar-icon" />
-                      <span className="flex-1 text-left">{item.label}</span>
+            <div>
+              <button
+                onClick={() => toggleExpanded('endpoints')}
+                className={`w-full group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  expandedItems.includes('endpoints')
+                    ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-r-3 border-bank-gold'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+              >
+                <Code className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
+                <div className="flex-1 text-left">
+                  <div className="font-semibold text-sm lg:text-base">API Endpoints</div>
+                  <div className="text-xs text-gray-500 mt-0.5 hidden lg:block">Payment processing endpoints</div>
+                </div>
+                <ChevronRight className={`ml-2 h-4 w-4 transition-transform duration-200 ${
+                  expandedItems.includes('endpoints') ? 'rotate-90' : ''
+                }`} />
+              </button>
+              
+              {expandedItems.includes('endpoints') && (
+                <div className="mt-2 ml-8 space-y-1">
+                  {apiEndpoints.map((item) => (
+                    <div key={item.id}>
+                      <Link
+                        to={item.path}
+                        className={`w-full group flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
+                          isActive(item.path) || isChildActive(item.children)
+                            ? 'bg-bank-blue bg-opacity-10 text-bank-blue border-l-2 border-bank-gold'
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                        }`}
+                      >
+                        <item.icon className="mr-3 h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
+                        <div className="text-left">
+                          <div className="font-medium text-xs lg:text-sm">{item.label}</div>
+                        </div>
+                      </Link>
+                      
                       {item.children && (
-                        <svg 
-                          className={`w-3 h-3 transition-transform ${
-                            expandedItems.includes(item.id) ? 'rotate-90' : ''
-                          }`} 
-                          fill="currentColor" 
-                          viewBox="0 0 20 20"
-                        >
-                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                        </svg>
+                        <div className="ml-6 space-y-0.5 mt-1">
+                          {item.children.map((child) => (
+                            <a
+                              key={child.id}
+                              href={child.path}
+                              className={`block px-2 py-1 text-xs rounded transition-colors ${
+                                location.pathname + location.hash === child.path
+                                  ? 'text-bank-blue bg-blue-50'
+                                  : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                            >
+                              {child.label}
+                            </a>
+                          ))}
+                        </div>
                       )}
-                    </button>
-                    
-                    {item.children && expandedItems.includes(item.id) && (
-                      <div className="ml-8 space-y-0.5 mt-0.5">
-                        {item.children.map((child) => (
-                          <a
-                            key={child.id}
-                            href={child.path}
-                            className={`block px-2 py-1 text-xs text-gray-600 hover:text-gray-900 rounded transition-colors ${
-                              location.pathname + location.hash === child.path
-                                ? 'text-blue-600 bg-blue-50'
-                                : ''
-                            }`}
-                          >
-                            {child.label}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  ))}
+                </div>
+              )}
               </div>
             </div>
           </nav>
