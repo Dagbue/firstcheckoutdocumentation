@@ -12,18 +12,17 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: 'kern' 1, 'liga' 1;
-  box-sizing: border-box;
 }
 
-/* Base font sizes */
+/* Base font sizes - much smaller like Paystack */
 html {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @media (min-width: 640px) {
   html {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
@@ -35,183 +34,98 @@ html {
 
 @media (min-width: 1024px) {
   html {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
-/* Typography scale */
+/* Typography scale - smaller like Paystack */
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa;
-  box-sizing: border-box;
-  color: #0E4687;
+  line-height: 1.5;
+  color: #374151;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
-  line-height: 24px;
-  margin: 0;
-  padding: 0;
-  text-rendering: optimizeLegibility;
-}
-
-/* Main content padding */
-main {
-  padding: 0 20px 20px;
-}
-
-/* Navigation link styling */
-.nav__link {
-  align-items: center;
-  display: flex;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-size: 1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.25;
   color: #111827;
   letter-spacing: -0.025em;
 }
 
-/* Specific heading sizes */
+/* Much smaller heading sizes like Paystack */
 h1 {
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
-  line-height: 1.2;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.3;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 1.25rem;
   font-weight: 600;
-  line-height: 1.3;
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 1.125rem;
   font-weight: 600;
-  line-height: 1.4;
 }
 
 h5 {
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.4;
 }
 
 h6 {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1.4;
 }
 
-/* Paragraph styling */
-p {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
-  line-height: 24px;
-  margin-bottom: 1rem;
-  color: #374151;
-}
-
-/* Desktop heading sizes */
+/* Desktop heading sizes - keep smaller */
 @media (min-width: 768px) {
   h1 {
-    font-size: 30px;
+    font-size: 2.25rem;
     font-weight: 700;
   }
   
   h2 {
-    font-size: 18px;
+    font-size: 1.875rem;
     font-weight: 600;
   }
   
   h3 {
-    font-size: 18px;
+    font-size: 1.5rem;
     font-weight: 600;
   }
   
   h4 {
-    font-size: 16px;
+    font-size: 1.25rem;
     font-weight: 600;
   }
   
   h5 {
-    font-size: 15px;
+    font-size: 1.125rem;
     font-weight: 600;
   }
   
   h6 {
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 600;
   }
 }
 
-/* Remove borders from docs sections */
-.docs-section {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin-bottom: 2rem;
-}
-
-.docs-section > div {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-}
-
-/* Sidebar improvements with bank colors */
-.sidebar-nav-item {
-  font-size: 15px;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  transition: all 0.2s ease;
-  color: #374151;
-}
-
-.sidebar-nav-item:hover {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.1) 0%, rgba(14, 70, 135, 0.05) 100%);
-  color: #0E4687;
-  border-right: 3px solid #E4C144;
-}
-
-.sidebar-nav-item.active {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.15) 0%, rgba(14, 70, 135, 0.08) 100%);
-  color: #0E4687;
-  border-right: 3px solid #E4C144;
-  font-weight: 600;
-}
-
-.sidebar-nav-subitem {
-  font-size: 14px;
-  padding: 0.375rem 0.75rem;
-  margin-left: 1rem;
-  transition: all 0.2s ease;
-  color: #6b7280;
-}
-
-.sidebar-nav-subitem:hover {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.08) 0%, rgba(14, 70, 135, 0.03) 100%);
-  color: #0E4687;
-  border-right: 2px solid #E4C144;
-}
-
-.sidebar-nav-subitem.active {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.12) 0%, rgba(14, 70, 135, 0.05) 100%);
-  color: #0E4687;
-  border-right: 2px solid #E4C144;
-  font-weight: 500;
+/* Improved text elements */
+p {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
 }
 
 /* Button typography */
@@ -219,26 +133,26 @@ button, .btn {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Input typography */
 input, textarea, select {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
-/* Code typography */
+/* Code typography - smaller */
 code, pre {
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 0.875rem;
 }
 
 /* API-specific code blocks */
 .api-code-block {
-  font-size: 13px;
+  font-size: 0.875rem;
   line-height: 1.4;
 }
 
@@ -247,7 +161,7 @@ code, pre {
   width: 100%;
   border-collapse: collapse;
   margin: 0.75rem 0;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .responsive-table th,
@@ -261,13 +175,13 @@ code, pre {
   background-color: #f9fafb;
   font-weight: 600;
   color: #374151;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Mobile table styles */
 @media (max-width: 640px) {
   .responsive-table {
-    font-size: 13px;
+    font-size: 0.875rem;
   }
   
   .responsive-table th,
@@ -278,23 +192,23 @@ code, pre {
 
 /* API Documentation specific styles */
 .api-endpoint-badge {
-  font-size: 13px;
+  font-size: 0.875rem;
   font-weight: 600;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
 }
 
 .api-parameter-table {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .api-parameter-table th {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
 .api-parameter-table td {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Code block improvements */
@@ -308,7 +222,7 @@ code, pre {
   background-color: #1f2937;
   color: white;
   padding: 0.5rem 1rem;
-  font-size: 13px;
+  font-size: 0.875rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -319,8 +233,21 @@ code, pre {
   color: #f3f4f6;
   padding: 1rem;
   overflow-x: auto;
-  font-size: 13px;
+  font-size: 0.875rem;
   line-height: 1.4;
+}
+
+/* Sidebar improvements */
+.sidebar-nav-item {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.sidebar-nav-subitem {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  margin-left: 1rem;
 }
 
 /* Header improvements */
@@ -329,7 +256,7 @@ code, pre {
 }
 
 .header-search {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Content spacing */
@@ -343,7 +270,7 @@ code, pre {
 
 /* API specific improvements */
 .api-method-badge {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
@@ -352,7 +279,7 @@ code, pre {
 
 .api-url-path {
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #6b7280;
 }
 
@@ -367,13 +294,13 @@ code, pre {
 
 /* Table of contents */
 .toc-item {
-  font-size: 14px;
+  font-size: 0.875rem;
   padding: 0.25rem 0;
 }
 
 /* Status badges */
 .status-badge {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
@@ -387,18 +314,18 @@ code, pre {
 }
 
 .info-card h4 {
-  font-size: 16px;
+  font-size: 1rem;
   margin-bottom: 0.375rem;
 }
 
 .info-card p {
-  font-size: 15px;
+  font-size: 0.875rem;
   margin-bottom: 0;
 }
 
 /* List improvements */
 ul, ol {
-  font-size: 15px;
+  font-size: 0.875rem;
 }
 
 li {
@@ -412,7 +339,7 @@ a {
 
 /* Form elements */
 label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -427,19 +354,19 @@ label {
   }
   
   h1 {
-    font-size: 26px;
+    font-size: 1.5rem;
   }
   
   h2 {
-    font-size: 16px;
+    font-size: 1.25rem;
   }
   
   h3 {
-    font-size: 16px;
+    font-size: 1.125rem;
   }
   
   p {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -463,7 +390,7 @@ label {
 .paystack-code-content {
   padding: 1rem;
   overflow-x: auto;
-  font-size: 13px;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: #e5e5e5;
 }
@@ -477,7 +404,7 @@ label {
 
 .language-tab {
   padding: 0.5rem 1rem;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   border-bottom: 2px solid transparent;
   cursor: pointer;
@@ -504,7 +431,7 @@ label {
 .api-method {
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  font-size: 13px;
+  font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -533,7 +460,7 @@ label {
 .param-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 1rem 0;
 }
 
@@ -542,7 +469,7 @@ label {
   padding: 0.75rem;
   text-align: left;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -561,7 +488,7 @@ label {
 
 .param-type {
   font-family: 'SF Mono', monospace;
-  font-size: 13px;
+  font-size: 0.875rem;
   color: #6b7280;
 }
 
@@ -589,7 +516,7 @@ label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -611,7 +538,7 @@ label {
   border: none;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  font-size: 13px;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -638,7 +565,7 @@ label {
 }
 
 .sidebar-section-title {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -651,23 +578,21 @@ label {
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 15px;
+  font-size: 0.875rem;
   color: #374151;
   text-decoration: none;
   transition: all 0.2s;
 }
 
 .sidebar-item:hover {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.1) 0%, rgba(14, 70, 135, 0.05) 100%);
-  color: #0E4687;
-  border-right: 3px solid #E4C144;
+  background: #f3f4f6;
+  color: #1f2937;
 }
 
 .sidebar-item.active {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.15) 0%, rgba(14, 70, 135, 0.08) 100%);
+  background: #f0f9ff;
   color: #0E4687;
-  border-right: 3px solid #E4C144;
-  font-weight: 600;
+  border-right: 2px solid #0E4687;
 }
 
 .sidebar-icon {
@@ -704,7 +629,7 @@ label {
 .hljs {
   background: #1a1a1a !important;
   color: #e5e5e5 !important;
-  font-size: 13px !important;
+  font-size: 0.875rem !important;
   line-height: 1.5 !important;
 }
 
@@ -712,7 +637,7 @@ label {
 .api-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 1rem 0;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
@@ -724,7 +649,7 @@ label {
   padding: 0.75rem;
   text-align: left;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -766,7 +691,7 @@ label {
 }
 
 .api-right-sidebar h4 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #1f2937;
@@ -783,7 +708,7 @@ label {
 }
 
 .api-right-sidebar a {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #6b7280;
   text-decoration: none;
   transition: color 0.2s;
@@ -829,7 +754,7 @@ label {
   background: #f3f4f6;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e5e7eb;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
 }
