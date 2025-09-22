@@ -34,22 +34,22 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
 
   return (
     <>
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 header-height">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center">
               <button
-                  onClick={onMenuToggle}
-                  className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-bank-blue"
+                onClick={onMenuToggle}
+                className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-bank-blue"
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-4 w-4" />
               </button>
 
               <div className="flex items-center ml-2 lg:ml-0">
                 <img
-                    src={Logo}
-                    alt="FirstCheckout Logo"
-                    className="h-6 w-auto mr-2"
+                  src={Logo}
+                  alt="FirstCheckout Logo"
+                  className="h-6 w-auto mr-2"
                 />
                 <div className="flex items-center space-x-1">
                   <span className="text-lg font-bold text-gray-900">docs</span>
@@ -60,20 +60,20 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
             <div className="flex items-center space-x-4">
               <form onSubmit={handleSearchSubmit} className="relative hidden md:block">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-gray-400" />
+                  <Search className="h-3 w-3 text-gray-400" />
                 </div>
                 <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setIsSearchOpen(true)}
-                    placeholder="Search documentation..."
-                    className="block w-80 pl-10 pr-12 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-bank-blue focus:border-bank-blue text-sm"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchOpen(true)}
+                  placeholder="Search documentation..."
+                  className="block w-80 pl-8 pr-10 py-1.5 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-bank-blue focus:border-bank-blue text-xs header-search"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <div className="flex items-center space-x-1 text-xs text-gray-400">
-                    <Command className="h-3 w-3" />
-                    <span>K</span>
+                    <Command className="h-2.5 w-2.5" />
+                    <span className="text-xs">K</span>
                   </div>
                 </div>
               </form>
@@ -89,13 +89,13 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/"
-                  className="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
                 >
                   Docs
                 </Link>
                 <Link
                   to="/api"
-                  className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
                 >
                   API
                 </Link>
