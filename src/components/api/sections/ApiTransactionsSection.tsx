@@ -14,27 +14,27 @@ export const ApiTransactionsSection: React.FC = () => {
   };
 
   const initializeCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate' \\
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
 --header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {access_token}' \\
+--header 'Authorization: Bearer {{Access-Token}}' \\
 --data-raw '{
   "Amount": 100,
   "PayerEmail": "thomas.edison@outlook.com",
   "PayerName": "Thomas Edison",
   "Purpose": "UAT",
   "PublicKey": "sb-pk-mVa4TcjuSqTSiyyxjEF1Bc1EbZ29yE45Y3K",
-  "PaymentReference": "FjWnMSUZajh1k224lXks39728874560476"
+  "paymentReference": "FjWnMSUZajh1k224lXks39728874560476"
 }'`,
     nodejs: `const axios = require('axios');
 
 async function initializeTransaction(accessToken) {
-  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate', {
+  const response = await axios.post(process.env.GATEWAY_BASE_ADDRESS + '/api/v1/transactions/initiate', {
     Amount: 100,
     PayerEmail: "thomas.edison@outlook.com",
     PayerName: "Thomas Edison",
     Purpose: "UAT",
-    PublicKey: process.env.FIRSTCHEKOUT_PUBLIC_KEY,
-    PaymentReference: "unique-ref-" + Date.now()
+    PublicKey: "{{merchantPublicKey}}",
+    paymentReference: "c34a107b-cb01-4fc6-ab33-3683e902891e"
   }, {
     headers: {
       'Authorization': \`Bearer \${accessToken}\`,
@@ -49,7 +49,7 @@ function initializeTransaction($accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate',
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/initiate',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
@@ -57,8 +57,8 @@ function initializeTransaction($accessToken) {
         'PayerEmail' => 'thomas.edison@outlook.com',
         'PayerName' => 'Thomas Edison',
         'Purpose' => 'UAT',
-        'PublicKey' => $_ENV['FIRSTCHEKOUT_PUBLIC_KEY'],
-        'PaymentReference' => 'unique-ref-' . time()
+        'PublicKey' => $_ENV['MERCHANT_PUBLIC_KEY'],
+        'paymentReference' => 'c34a107b-cb01-4fc6-ab33-3683e902891e'
       ]),
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer ' . $accessToken,
@@ -74,18 +74,17 @@ function initializeTransaction($accessToken) {
 ?>`,
     python: `import requests
 import os
-import time
 
 def initialize_transaction(access_token):
-    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate"
+    url = os.getenv('GATEWAY_BASE_ADDRESS') + "/api/v1/transactions/initiate"
     
     payload = {
         "Amount": 100,
         "PayerEmail": "thomas.edison@outlook.com",
         "PayerName": "Thomas Edison",
         "Purpose": "UAT",
-        "PublicKey": os.getenv('FIRSTCHEKOUT_PUBLIC_KEY'),
-        "PaymentReference": f"unique-ref-{int(time.time())}"
+        "PublicKey": os.getenv('MERCHANT_PUBLIC_KEY'),
+        "paymentReference": "c34a107b-cb01-4fc6-ab33-3683e902891e"
     }
     
     headers = {
@@ -100,14 +99,14 @@ def initialize_transaction(access_token):
   };
 
   const queryCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/referenceId/{transactionRef}' \\
---header 'Merchant-Id: {merchantId}' \\
---header 'Secret-Key: {secret-key}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}' \\
+--header 'Merchant-Id: {{merchantId}}' \\
+--header 'Secret-Key: {{secret-key}}'`,
     nodejs: `const axios = require('axios');
 
 async function queryTransaction(transactionRef, merchantId, secretKey) {
   const response = await axios.get(
-    \`${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/referenceId/\${transactionRef}\`,
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/referenceId/\${transactionRef}\`,
     {
       headers: {
         'Merchant-Id': merchantId,
@@ -123,7 +122,7 @@ function queryTransaction($transactionRef, $merchantId, $secretKey) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/referenceId/' . $transactionRef,
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/referenceId/' . $transactionRef,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_HTTPHEADER => array(
         'Merchant-Id: ' . $merchantId,
@@ -140,7 +139,7 @@ function queryTransaction($transactionRef, $merchantId, $secretKey) {
     python: `import requests
 
 def query_transaction(transaction_ref, merchant_id, secret_key):
-    url = f"${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/referenceId/{transaction_ref}"
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/transactions/referenceId/{transaction_ref}"
     
     headers = {
         'Merchant-Id': merchant_id,
@@ -154,13 +153,13 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
   };
 
   const verifyCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/{PaymentReference}' \\
---header 'Authorization: Bearer {access_token}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/status/{{PaymentReference}}' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
     nodejs: `const axios = require('axios');
 
 async function verifyTransaction(paymentReference, accessToken) {
   const response = await axios.get(
-    \`${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/\${paymentReference}\`,
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/status/\${paymentReference}\`,
     {
       headers: {
         'Authorization': \`Bearer \${accessToken}\`
@@ -175,7 +174,7 @@ function verifyTransaction($paymentReference, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/' . $paymentReference,
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/status/' . $paymentReference,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer ' . $accessToken
@@ -191,7 +190,7 @@ function verifyTransaction($paymentReference, $accessToken) {
     python: `import requests
 
 def verify_transaction(payment_reference, access_token):
-    url = f"${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/status/{payment_reference}"
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/transactions/status/{payment_reference}"
     
     headers = {
         'Authorization': f'Bearer {access_token}'
@@ -204,12 +203,12 @@ def verify_transaction(payment_reference, access_token):
   };
 
   const listCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions?page=1&perPage=50' \\
---header 'Authorization: Bearer {access_token}'`,
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions?page=1&perPage=50' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
     nodejs: `const axios = require('axios');
 
 async function listTransactions(accessToken, page = 1, perPage = 50) {
-  const response = await axios.get('${API_CONFIG.gatewayBaseAddress}/api/v1/transactions', {
+  const response = await axios.get(process.env.GATEWAY_BASE_ADDRESS + '/api/v1/transactions', {
     params: { page, perPage },
     headers: {
       'Authorization': \`Bearer \${accessToken}\`
@@ -220,7 +219,7 @@ async function listTransactions(accessToken, page = 1, perPage = 50) {
 }`,
     php: `<?php
 function listTransactions($accessToken, $page = 1, $perPage = 50) {
-    $url = '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions?' . http_build_query([
+    $url = $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions?' . http_build_query([
         'page' => $page,
         'perPage' => $perPage
     ]);
@@ -243,7 +242,7 @@ function listTransactions($accessToken, $page = 1, $perPage = 50) {
     python: `import requests
 
 def list_transactions(access_token, page=1, per_page=50):
-    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/transactions"
+    url = os.getenv('GATEWAY_BASE_ADDRESS') + "/api/v1/transactions"
     
     params = {
         'page': page,
@@ -270,15 +269,15 @@ def list_transactions(access_token, page=1, per_page=50):
   const queryResponse = `{
   "status": "success",
   "data": {
-    "transactionRef": "FjWnMSUZajh1k224lXks39728874560476",
+    "transactionRef": "1234567890",
     "amount": 10000,
     "currency": "NGN",
     "status": "completed",
     "createdAt": "2024-06-01T12:34:56Z",
     "updatedAt": "2024-06-01T12:35:56Z",
     "customer": {
-      "name": "Thomas Edison",
-      "email": "thomas.edison@outlook.com"
+      "name": "John Doe",
+      "email": "john.doe@example.com"
     },
     "metadata": {
       "orderId": "ORD-001"
@@ -483,9 +482,9 @@ def list_transactions(access_token, page=1, per_page=50):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      The amount of money to be transacted (minimum: 100 NGN).
+                      The amount of money to be transacted.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: 100</p>
+                    <p className="text-xs text-gray-500 mt-1">Example: 100 //in naira Hundred Naira</p>
                   </div>
                 </div>
               </div>
@@ -500,7 +499,7 @@ def list_transactions(access_token, page=1, per_page=50):
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The email address of the payer.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: thomas.edison@outlook.com</p>
+                    <p className="text-xs text-gray-500 mt-1">Example: example@example.com</p>
                   </div>
                 </div>
               </div>
@@ -515,7 +514,7 @@ def list_transactions(access_token, page=1, per_page=50):
                     <p className="text-sm text-gray-700 leading-relaxed">
                       The name of the payer.
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">Example: Thomas Edison</p>
+                    <p className="text-xs text-gray-500 mt-1">Example: John Doe</p>
                   </div>
                 </div>
               </div>
@@ -553,7 +552,7 @@ def list_transactions(access_token, page=1, per_page=50):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">PaymentReference</span>
+                    <span className="text-sm font-semibold text-gray-900">paymentReference</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -610,9 +609,9 @@ def list_transactions(access_token, page=1, per_page=50):
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h4 className="text-sm font-semibold text-blue-900 mb-2">Important Notes</h4>
           <ul className="text-sm text-blue-800 space-y-1">
-            <li>• Ensure all required fields are included in the request body for successful transaction initiation</li>
-            <li>• The <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">accessCode</code> in the response can be used for subsequent steps in the payment process</li>
-            <li>• Review the <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">status</code> field to determine the outcome of the transaction initiation</li>
+            <li>• Ensure that all required fields are included in the request body for successful transaction initiation.</li>
+            <li>• The <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">accessCode</code> in the response can be used for subsequent steps in the payment process, such as confirming the transaction or redirecting the user to a payment gateway.</li>
+            <li>• Review the <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">status</code> field to determine the outcome of the transaction initiation, and handle errors appropriately based on the status returned.</li>
           </ul>
         </div>
       </section>
@@ -625,7 +624,7 @@ def list_transactions(access_token, page=1, per_page=50):
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/:transactionRef</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/{{transactionRef}}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -640,7 +639,7 @@ def list_transactions(access_token, page=1, per_page=50):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-32">
-                    <span className="text-sm font-semibold text-gray-900">GatewayBaseAddress</span>
+                    <span className="text-sm font-semibold text-gray-900">{{GatewayBaseAddress}}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -654,7 +653,7 @@ def list_transactions(access_token, page=1, per_page=50):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-32">
-                    <span className="text-sm font-semibold text-gray-900">transactionRef</span>
+                    <span className="text-sm font-semibold text-gray-900">{{transactionRef}}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -678,7 +677,7 @@ def list_transactions(access_token, page=1, per_page=50):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">merchantId</code> in your environment or collection variables.
+                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{merchantId}}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -692,7 +691,7 @@ def list_transactions(access_token, page=1, per_page=50):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">secret-key</code> in your environment or collection variables.
+                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{secret-key}}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -757,7 +756,7 @@ def list_transactions(access_token, page=1, per_page=50):
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/status/:reference</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/status/{{PaymentReference}}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -771,7 +770,7 @@ def list_transactions(access_token, page=1, per_page=50):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">reference</span>
+                    <span className="text-sm font-semibold text-gray-900">{{PaymentReference}}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
