@@ -14,241 +14,249 @@ export const ApiTransactionsSection: React.FC = () => {
   };
 
   const initializeCode = {
-    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/transactions/initiate\' \\\n' +
-'--header \'Content-Type: application/json\' \\\n' +
-'--header \'Authorization: Bearer {{Access-Token}}\' \\\n' +
-'--data-raw \'{\n' +
-'  "Amount": 100,\n' +
-'  "PayerEmail": "thomas.edison@outlook.com",\n' +
-'  "PayerName": "Thomas Edison",\n' +
-'  "Purpose": "UAT",\n' +
-'  "PublicKey": "{{merchantPublicKey}}",\n' +
-'  "paymentReference": "{{paymentReference}}"\n' +
-'}\'',
-    nodejs: 'const axios = require(\'axios\');\n\n' +
-'async function initializeTransaction(accessToken) {\n' +
-'  const response = await axios.post(process.env.GATEWAY_BASE_ADDRESS + \'/api/v1/transactions/initiate\', {\n' +
-'    Amount: 100,\n' +
-'    PayerEmail: "thomas.edison@outlook.com",\n' +
-'    PayerName: "Thomas Edison",\n' +
-'    Purpose: "UAT",\n' +
-'    PublicKey: "{{merchantPublicKey}}",\n' +
-'    paymentReference: "c34a107b-cb01-4fc6-ab33-3683e902891e"\n' +
-'  }, {\n' +
-'    headers: {\n' +
-'      \'Authorization\': `Bearer ${accessToken}`,\n' +
-'      \'Content-Type\': \'application/json\'\n' +
-'    }\n' +
-'  });\n' +
-'  \n' +
-'  return response.data;\n' +
-'}',
-    php: '<?php\n' +
-'function initializeTransaction($accessToken) {\n' +
-'    $curl = curl_init();\n' +
-'    \n' +
-'    curl_setopt_array($curl, array(\n' +
-'      CURLOPT_URL => $_ENV[\'GATEWAY_BASE_ADDRESS\'] . \'/api/v1/transactions/initiate\',\n' +
-'      CURLOPT_RETURNTRANSFER => true,\n' +
-'      CURLOPT_POST => true,\n' +
-'      CURLOPT_POSTFIELDS => json_encode([\n' +
-'        \'Amount\' => 100,\n' +
-'        \'PayerEmail\' => \'thomas.edison@outlook.com\',\n' +
-'        \'PayerName\' => \'Thomas Edison\',\n' +
-'        \'Purpose\' => \'UAT\',\n' +
-'        \'PublicKey\' => $_ENV[\'MERCHANT_PUBLIC_KEY\'],\n' +
-'        \'paymentReference\' => \'c34a107b-cb01-4fc6-ab33-3683e902891e\'\n' +
-'      ]),\n' +
-'      CURLOPT_HTTPHEADER => array(\n' +
-'        \'Authorization: Bearer \' . $accessToken,\n' +
-'        \'Content-Type: application/json\'\n' +
-'      ),\n' +
-'    ));\n' +
-'    \n' +
-'    $response = curl_exec($curl);\n' +
-'    curl_close($curl);\n' +
-'    \n' +
-'    return json_decode($response, true);\n' +
-'}\n' +
-'?>',
-    python: 'import requests\n' +
-'import os\n\n' +
-'def initialize_transaction(access_token):\n' +
-'    url = os.getenv(\'GATEWAY_BASE_ADDRESS\') + "/api/v1/transactions/initiate"\n' +
-'    \n' +
-'    payload = {\n' +
-'        "Amount": 100,\n' +
-'        "PayerEmail": "thomas.edison@outlook.com",\n' +
-'        "PayerName": "Thomas Edison",\n' +
-'        "Purpose": "UAT",\n' +
-'        "PublicKey": os.getenv(\'MERCHANT_PUBLIC_KEY\'),\n' +
-'        "paymentReference": "c34a107b-cb01-4fc6-ab33-3683e902891e"\n' +
-'    }\n' +
-'    \n' +
-'    headers = {\n' +
-'        \'Authorization\': f\'Bearer {access_token}\',\n' +
-'        \'Content-Type\': \'application/json\'\n' +
-'    }\n' +
-'    \n' +
-'    response = requests.post(url, json=payload, headers=headers)\n' +
-'    response.raise_for_status()\n' +
-'    \n' +
-'    return response.json()'
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/initiate' \\
+--header 'Content-Type: application/json' \\
+--header 'Authorization: Bearer {{Access-Token}}' \\
+--data-raw '{
+  "Amount": 100,
+  "PayerEmail": "thomas.edison@outlook.com",
+  "PayerName": "Thomas Edison",
+  "Purpose": "UAT",
+  "PublicKey": "{{merchantPublicKey}}",
+  "paymentReference": "{{paymentReference}}"
+}'`,
+    nodejs: `const axios = require('axios');
+
+async function initializeTransaction(accessToken) {
+  const response = await axios.post(process.env.GATEWAY_BASE_ADDRESS + '/api/v1/transactions/initiate', {
+    Amount: 100,
+    PayerEmail: "thomas.edison@outlook.com",
+    PayerName: "Thomas Edison",
+    Purpose: "UAT",
+    PublicKey: "{" + "{merchantPublicKey}" + "}",
+    paymentReference: "c34a107b-cb01-4fc6-ab33-3683e902891e"
+  }, {
+    headers: {
+      'Authorization': \`Bearer \${accessToken}\`,
+      'Content-Type': 'application/json'
+    }
+  });
+  
+  return response.data;
+}`,
+    php: `<?php
+function initializeTransaction($accessToken) {
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/initiate',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+        'Amount' => 100,
+        'PayerEmail' => 'thomas.edison@outlook.com',
+        'PayerName' => 'Thomas Edison',
+        'Purpose' => 'UAT',
+        'PublicKey' => $_ENV['MERCHANT_PUBLIC_KEY'],
+        'paymentReference' => 'c34a107b-cb01-4fc6-ab33-3683e902891e'
+      ]),
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $accessToken,
+        'Content-Type: application/json'
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
+?>`,
+    python: `import requests
+import os
+
+def initialize_transaction(access_token):
+    url = os.getenv('GATEWAY_BASE_ADDRESS') + "/api/v1/transactions/initiate"
+    
+    payload = {
+        "Amount": 100,
+        "PayerEmail": "thomas.edison@outlook.com",
+        "PayerName": "Thomas Edison",
+        "Purpose": "UAT",
+        "PublicKey": os.getenv('MERCHANT_PUBLIC_KEY'),
+        "paymentReference": "c34a107b-cb01-4fc6-ab33-3683e902891e"
+    }
+    
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()`
   };
 
   const queryCode = {
-    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}\' \\\n' +
-'--header \'Merchant-Id: {{merchantId}}\' \\\n' +
-'--header \'Secret-Key: {{secret-key}}\'',
-    nodejs: 'const axios = require(\'axios\');\n\n' +
-'async function queryTransaction(transactionRef, merchantId, secretKey) {\n' +
-'  const response = await axios.get(\n' +
-'    `${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/referenceId/${transactionRef}`,\n' +
-'    {\n' +
-'      headers: {\n' +
-'        \'Merchant-Id\': merchantId,\n' +
-'        \'Secret-Key\': secretKey\n' +
-'      }\n' +
-'    }\n' +
-'  );\n' +
-'  \n' +
-'  return response.data;\n' +
-'}',
-    php: '<?php\n' +
-'function queryTransaction($transactionRef, $merchantId, $secretKey) {\n' +
-'    $curl = curl_init();\n' +
-'    \n' +
-'    curl_setopt_array($curl, array(\n' +
-'      CURLOPT_URL => $_ENV[\'GATEWAY_BASE_ADDRESS\'] . \'/api/v1/transactions/referenceId/\' . $transactionRef,\n' +
-'      CURLOPT_RETURNTRANSFER => true,\n' +
-'      CURLOPT_HTTPHEADER => array(\n' +
-'        \'Merchant-Id: \' . $merchantId,\n' +
-'        \'Secret-Key: \' . $secretKey\n' +
-'      ),\n' +
-'    ));\n' +
-'    \n' +
-'    $response = curl_exec($curl);\n' +
-'    curl_close($curl);\n' +
-'    \n' +
-'    return json_decode($response, true);\n' +
-'}\n' +
-'?>',
-    python: 'import requests\n\n' +
-'def query_transaction(transaction_ref, merchant_id, secret_key):\n' +
-'    url = f"{os.getenv(\'GATEWAY_BASE_ADDRESS\')}/api/v1/transactions/referenceId/{transaction_ref}"\n' +
-'    \n' +
-'    headers = {\n' +
-'        \'Merchant-Id\': merchant_id,\n' +
-'        \'Secret-Key\': secret_key\n' +
-'    }\n' +
-'    \n' +
-'    response = requests.get(url, headers=headers)\n' +
-'    response.raise_for_status()\n' +
-'    \n' +
-'    return response.json()'
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}' \\
+--header 'Merchant-Id: {{merchantId}}' \\
+--header 'Secret-Key: {{secret-key}}'`,
+    nodejs: `const axios = require('axios');
+
+async function queryTransaction(transactionRef, merchantId, secretKey) {
+  const response = await axios.get(
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/referenceId/\${transactionRef}\`,
+    {
+      headers: {
+        'Merchant-Id': merchantId,
+        'Secret-Key': secretKey
+      }
+    }
+  );
+  
+  return response.data;
+}`,
+    php: `<?php
+function queryTransaction($transactionRef, $merchantId, $secretKey) {
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/referenceId/' . $transactionRef,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => array(
+        'Merchant-Id: ' . $merchantId,
+        'Secret-Key: ' . $secretKey
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
+?>`,
+    python: `import requests
+
+def query_transaction(transaction_ref, merchant_id, secret_key):
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/transactions/referenceId/{transaction_ref}"
+    
+    headers = {
+        'Merchant-Id': merchant_id,
+        'Secret-Key': secret_key
+    }
+    
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()`
   };
 
   const verifyCode = {
-    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/transactions/status/{{PaymentReference}}\' \\\n' +
-'--header \'Authorization: Bearer {{Access-Token}}\'',
-    nodejs: 'const axios = require(\'axios\');\n\n' +
-'async function verifyTransaction(paymentReference, accessToken) {\n' +
-'  const response = await axios.get(\n' +
-'    `${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/status/${paymentReference}`,\n' +
-'    {\n' +
-'      headers: {\n' +
-'        \'Authorization\': `Bearer ${accessToken}`\n' +
-'      }\n' +
-'    }\n' +
-'  );\n' +
-'  \n' +
-'  return response.data;\n' +
-'}',
-    php: '<?php\n' +
-'function verifyTransaction($paymentReference, $accessToken) {\n' +
-'    $curl = curl_init();\n' +
-'    \n' +
-'    curl_setopt_array($curl, array(\n' +
-'      CURLOPT_URL => $_ENV[\'GATEWAY_BASE_ADDRESS\'] . \'/api/v1/transactions/status/\' . $paymentReference,\n' +
-'      CURLOPT_RETURNTRANSFER => true,\n' +
-'      CURLOPT_HTTPHEADER => array(\n' +
-'        \'Authorization: Bearer \' . $accessToken\n' +
-'      ),\n' +
-'    ));\n' +
-'    \n' +
-'    $response = curl_exec($curl);\n' +
-'    curl_close($curl);\n' +
-'    \n' +
-'    return json_decode($response, true);\n' +
-'}\n' +
-'?>',
-    python: 'import requests\n\n' +
-'def verify_transaction(payment_reference, access_token):\n' +
-'    url = f"{os.getenv(\'GATEWAY_BASE_ADDRESS\')}/api/v1/transactions/status/{payment_reference}"\n' +
-'    \n' +
-'    headers = {\n' +
-'        \'Authorization\': f\'Bearer {access_token}\'\n' +
-'    }\n' +
-'    \n' +
-'    response = requests.get(url, headers=headers)\n' +
-'    response.raise_for_status()\n' +
-'    \n' +
-'    return response.json()'
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions/status/{{PaymentReference}}' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
+    nodejs: `const axios = require('axios');
+
+async function verifyTransaction(paymentReference, accessToken) {
+  const response = await axios.get(
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/transactions/status/\${paymentReference}\`,
+    {
+      headers: {
+        'Authorization': \`Bearer \${accessToken}\`
+      }
+    }
+  );
+  
+  return response.data;
+}`,
+    php: `<?php
+function verifyTransaction($paymentReference, $accessToken) {
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions/status/' . $paymentReference,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $accessToken
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
+?>`,
+    python: `import requests
+
+def verify_transaction(payment_reference, access_token):
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/transactions/status/{payment_reference}"
+    
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+    
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()`
   };
 
   const listCode = {
-    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/transactions?page=1&perPage=50\' \\\n' +
-'--header \'Authorization: Bearer {{Access-Token}}\'',
-    nodejs: 'const axios = require(\'axios\');\n\n' +
-'async function listTransactions(accessToken, page = 1, perPage = 50) {\n' +
-'  const response = await axios.get(process.env.GATEWAY_BASE_ADDRESS + \'/api/v1/transactions\', {\n' +
-'    params: { page, perPage },\n' +
-'    headers: {\n' +
-'      \'Authorization\': `Bearer ${accessToken}`\n' +
-'    }\n' +
-'  });\n' +
-'  \n' +
-'  return response.data;\n' +
-'}',
-    php: '<?php\n' +
-'function listTransactions($accessToken, $page = 1, $perPage = 50) {\n' +
-'    $url = $_ENV[\'GATEWAY_BASE_ADDRESS\'] . \'/api/v1/transactions?\' . http_build_query([\n' +
-'        \'page\' => $page,\n' +
-'        \'perPage\' => $perPage\n' +
-'    ]);\n' +
-'    \n' +
-'    $curl = curl_init();\n' +
-'    curl_setopt_array($curl, array(\n' +
-'        CURLOPT_URL => $url,\n' +
-'        CURLOPT_RETURNTRANSFER => true,\n' +
-'        CURLOPT_HTTPHEADER => array(\n' +
-'            \'Authorization: Bearer \' . $accessToken\n' +
-'        ),\n' +
-'    ));\n' +
-'    \n' +
-'    $response = curl_exec($curl);\n' +
-'    curl_close($curl);\n' +
-'    \n' +
-'    return json_decode($response, true);\n' +
-'}\n' +
-'?>',
-    python: 'import requests\n\n' +
-'def list_transactions(access_token, page=1, per_page=50):\n' +
-'    url = os.getenv(\'GATEWAY_BASE_ADDRESS\') + "/api/v1/transactions"\n' +
-'    \n' +
-'    params = {\n' +
-'        \'page\': page,\n' +
-'        \'perPage\': per_page\n' +
-'    }\n' +
-'    \n' +
-'    headers = {\n' +
-'        \'Authorization\': f\'Bearer {access_token}\'\n' +
-'    }\n' +
-'    \n' +
-'    response = requests.get(url, params=params, headers=headers)\n' +
-'    response.raise_for_status()\n' +
-'    \n' +
-'    return response.json()'
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/transactions?page=1&perPage=50' \\
+--header 'Authorization: Bearer {{Access-Token}}'`,
+    nodejs: `const axios = require('axios');
+
+async function listTransactions(accessToken, page = 1, perPage = 50) {
+  const response = await axios.get(process.env.GATEWAY_BASE_ADDRESS + '/api/v1/transactions', {
+    params: { page, perPage },
+    headers: {
+      'Authorization': \`Bearer \${accessToken}\`
+    }
+  });
+  
+  return response.data;
+}`,
+    php: `<?php
+function listTransactions($accessToken, $page = 1, $perPage = 50) {
+    $url = $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/transactions?' . http_build_query([
+        'page' => $page,
+        'perPage' => $perPage
+    ]);
+    
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer ' . $accessToken
+        ),
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
+?>`,
+    python: `import requests
+
+def list_transactions(access_token, page=1, per_page=50):
+    url = os.getenv('GATEWAY_BASE_ADDRESS') + "/api/v1/transactions"
+    
+    params = {
+        'page': page,
+        'perPage': per_page
+    }
+    
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+    
+    response = requests.get(url, params=params, headers=headers)
+    response.raise_for_status()
+    
+    return response.json()`
   };
 
   const initializeResponse = `{
@@ -621,7 +629,7 @@ export const ApiTransactionsSection: React.FC = () => {
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/{{transactionRef}}</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">{'/api/v1/transactions/referenceId/{{transactionRef}}'}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -762,7 +770,7 @@ export const ApiTransactionsSection: React.FC = () => {
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/status/{{PaymentReference}}</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">{'/api/v1/transactions/status/{{PaymentReference}}'}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -776,7 +784,7 @@ export const ApiTransactionsSection: React.FC = () => {
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">{{PaymentReference}}</span>
+                    <span className="text-sm font-semibold text-gray-900">{'{{PaymentReference}}'}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
