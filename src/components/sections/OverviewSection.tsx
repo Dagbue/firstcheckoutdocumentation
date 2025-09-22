@@ -384,14 +384,14 @@ graph TD
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
             <Link
-              to="/registration"
+              to="/docs/registration"
               className="inline-flex items-center justify-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"
             >
               Create Account
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
-              to="/api"
+              to="/"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-lg"
             >
               <Code className="mr-2 h-5 w-5" />

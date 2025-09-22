@@ -172,9 +172,9 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                 <h4 className="font-semibold text-bank-blue mb-2">⚡ Next Steps</h4>
                 <ul className="text-sm text-gray-700 space-y-1">
                   <li>• <Link to="/registration" className="text-bank-blue underline">Complete registration</Link> if not done</li>
-                  <li>• <Link to="/api" className="text-bank-blue underline">Start API integration</Link></li>
-                  <li>• <Link to="/testing" className="text-bank-blue underline">Test in sandbox</Link></li>
-                  <li>• <Link to="/support" className="text-bank-blue underline">Get support</Link> if needed</li>
+                  <li>• <Link to="/" className="text-bank-blue underline">Start API integration</Link></li>
+                  <li>• <Link to="/docs/testing" className="text-bank-blue underline">Test in sandbox</Link></li>
+                  <li>• <Link to="/docs/support" className="text-bank-blue underline">Get support</Link> if needed</li>
                 </ul>
               </div>
             </div>
