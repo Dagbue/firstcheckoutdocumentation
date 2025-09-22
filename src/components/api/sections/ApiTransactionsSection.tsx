@@ -545,7 +545,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
           <div className="space-y-2">
             <div className="flex items-center space-x-4">
               <span className="text-sm font-medium text-blue-900">Bearer Token</span>
-              <span className="text-sm text-blue-800">Token: <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">{{Access-Token}}</code></span>
+              <span className="text-sm text-blue-800">Token: <code className="bg-blue-100 px-1 py-0.5 rounded text-xs">{"{{Access-Token}}"}</code></span>
             </div>
           </div>
         </div>
