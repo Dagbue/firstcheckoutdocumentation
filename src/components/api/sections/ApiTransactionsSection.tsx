@@ -559,7 +559,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
           <div>
             <div className="flex items-center mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium">GET</span>
-              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/{{transactionRef}}</span>
+              <span className="text-gray-600 font-mono text-sm ml-3">/api/v1/transactions/referenceId/{"{{transactionRef}}"}</span>
             </div>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -574,7 +574,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">{{GatewayBaseAddress}}</span>
+                    <span className="text-sm font-semibold text-gray-900">{"{{GatewayBaseAddress}}"}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -588,7 +588,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">{{transactionRef}}</span>
+                    <span className="text-sm font-semibold text-gray-900">{"{{transactionRef}}"}</span>
                     <div className="text-xs text-gray-500 mt-1">string</div>
                   </div>
                   <div className="flex-1">
@@ -612,7 +612,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{merchantId}}</code> in your environment or collection variables.
+                      Your unique merchant identifier. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{merchantId}}"}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -626,7 +626,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{secret-key}}</code> in your environment or collection variables.
+                      Your API secret key. Set as <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{secret-key}}"}</code> in your environment or collection variables.
                     </p>
                   </div>
                 </div>
@@ -694,7 +694,7 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
               <strong>Method:</strong> GET
             </div>
             <div className="text-sm text-gray-700 mb-2">
-              <strong>URL:</strong> <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{{GatewayBaseAddress}}/api/v1/transactions/referenceId/{{transactionRef}}</code>
+              <strong>URL:</strong> <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{"{{GatewayBaseAddress}}"}/api/v1/transactions/referenceId/{"{{transactionRef}}"}</code>
             </div>
           </div>
         </div>
