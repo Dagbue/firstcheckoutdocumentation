@@ -89,8 +89,8 @@ function AppContent() {
         )}
         
         <main className="flex-1 ml-0 lg:ml-72 relative z-0 overflow-y-auto focus:outline-none min-h-screen">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div>
+            <div>
               <Routes>
                 {/* API Routes */}
                 <Route path="/" element={<ApiIntroductionPage />} />
