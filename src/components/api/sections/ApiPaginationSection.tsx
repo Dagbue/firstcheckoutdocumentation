@@ -445,7 +445,7 @@ print(f"Page: {transactions['meta']['page']}")`
               <h4 className="text-sm font-semibold text-emerald-900 mb-3">Pagination Logic</h4>
               <ul className="text-sm text-emerald-800 space-y-2">
                 <li>• <strong>Previous:</strong> Enabled when page > 1</li>
-                <li>• <strong>Next:</strong> Enabled when page < pageCount</li>
+                <li>• <strong>Next:</strong> Enabled when page &lt; pageCount</li>
                 <li>• <strong>Page Info:</strong> Show current page and total</li>
                 <li>• <strong>Results Info:</strong> Display range of items shown</li>
               </ul>
