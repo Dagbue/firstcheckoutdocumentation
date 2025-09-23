@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe } from 'lucide-react';
+import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe, QrCode } from 'lucide-react';
 
 const navigationItems = [
   { 
@@ -59,6 +59,15 @@ const apiEndpoints = [
     children: [
       { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
       { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/card#complete' }
+    ]
+  },
+  { 
+    id: 'qr', 
+    label: 'QR Payments', 
+    icon: QrCode, 
+    path: '/qr',
+    children: [
+      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/qr#initiate' }
     ]
   },
   { 
