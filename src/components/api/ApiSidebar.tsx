@@ -71,6 +71,15 @@ const apiEndpoints = [
     ]
   },
   { 
+    id: 'payattitude', 
+    label: 'PAYATTITUDE', 
+    icon: Smartphone, 
+    path: '/payattitude',
+    children: [
+      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/payattitude#initiate' }
+    ]
+  },
+  { 
     id: 'transfer', 
     label: 'Bank Transfer', 
     icon: Building, 

@@ -41,6 +41,7 @@ import { ApiWebhooksPage } from './pages/api/ApiWebhooksPage';
 import { ApiCustomersPage } from './pages/api/ApiCustomersPage';
 import { ApiVirtualAccountsPage } from './pages/api/ApiVirtualAccountsPage';
 import { ApiQrPage } from './pages/api/ApiQrPage';
+import { ApiPayattitudePage } from './pages/api/ApiPayattitudePage';
 
 // Scroll to top component
 function ScrollToTop() {
@@ -109,6 +110,7 @@ function AppContent() {
                 <Route path="/ussd" element={<ApiUssdPage />} />
                 <Route path="/card" element={<ApiCardPage />} />
                 <Route path="/qr" element={<ApiQrPage />} />
+                <Route path="/payattitude" element={<ApiPayattitudePage />} />
                 <Route path="/transfer" element={<ApiTransferPage />} />
                 <Route path="/webhooks" element={<ApiWebhooksPage />} />
                 <Route path="/customers" element={<ApiCustomersPage />} />
