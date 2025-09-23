@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Shield, AlertCircle, CreditCard, Users, Building, Smartphone, Layers,
-  // Webhook,
   QrCode } from 'lucide-react';
 
 const navigationItems = [
@@ -36,94 +35,85 @@ const apiEndpoints = [
     id: 'transactions', 
     label: 'Transactions', 
     icon: CreditCard, 
-    path: '/onlinedoc/transactions',
+    path: '/transactions',
     children: [
-      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/onlinedoc/transactions#initialize' },
-      { id: 'query-transaction', label: 'Query Transaction', path: '/onlinedoc/transactions#query' }
+      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/transactions#initialize' },
+      { id: 'query-transaction', label: 'Query Transaction', path: '/transactions#query' }
     ]
   },
   { 
     id: 'ussd', 
     label: 'USSD', 
     icon: Smartphone, 
-    path: '/onlinedoc/ussd',
+    path: '/ussd',
     children: [
-      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/onlinedoc/ussd#query' },
-      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/onlinedoc/ussd#initiate' },
-      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/onlinedoc/ussd#institutions' }
+      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/ussd#query' },
+      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' },
+      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/ussd#institutions' }
     ]
   },
   { 
     id: 'card', 
     label: 'Card Payments', 
     icon: CreditCard, 
-    path: '/onlinedoc/card',
+    path: '/card',
     children: [
-      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/onlinedoc/card#initiate' },
-      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/onlinedoc/card#complete' }
+      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
+      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/card#complete' }
     ]
   },
   { 
     id: 'qr', 
     label: 'QR Payments', 
     icon: QrCode, 
-    path: '/onlinedoc/qr',
+    path: '/qr',
     children: [
-      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/onlinedoc/qr#initiate' }
+      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/qr#initiate' }
     ]
   },
   { 
     id: 'payattitude', 
     label: 'PAYATTITUDE', 
     icon: Smartphone, 
-    path: '/onlinedoc/payattitude',
+    path: '/payattitude',
     children: [
-      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/onlinedoc/payattitude#initiate' }
+      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/payattitude#initiate' }
     ]
   },
   { 
     id: 'bnpl', 
     label: 'BNPL', 
     icon: CreditCard, 
-    path: '/onlinedoc/bnpl',
+    path: '/bnpl',
     children: [
-      { id: 'initiate-bnpl', label: 'Initiate', path: '/onlinedoc/bnpl#initiate' },
-      { id: 'validate-otp', label: 'Validate OTP', path: '/onlinedoc/bnpl#validate-otp' },
-      { id: 'validate', label: 'Validate', path: '/onlinedoc/bnpl#validate' },
-      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/onlinedoc/bnpl#validate-token' },
-      { id: 'update-offer', label: 'Update Offer', path: '/onlinedoc/bnpl#update-offer' },
-      { id: 'book', label: 'Book', path: '/onlinedoc/bnpl#book' }
+      { id: 'initiate-bnpl', label: 'Initiate', path: '/bnpl#initiate' },
+      { id: 'validate-otp', label: 'Validate OTP', path: '/bnpl#validate-otp' },
+      { id: 'validate', label: 'Validate', path: '/bnpl#validate' },
+      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/bnpl#validate-token' },
+      { id: 'update-offer', label: 'Update Offer', path: '/bnpl#update-offer' },
+      { id: 'book', label: 'Book', path: '/bnpl#book' }
     ]
   },
   { 
     id: 'transfer', 
     label: 'Pay With Transfer', 
     icon: Building, 
-    path: '/onlinedoc/transfer',
+    path: '/transfer',
     children: [
-      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/onlinedoc/transfer#initiate' },
-      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/onlinedoc/transfer#confirm' }
+      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/transfer#initiate' },
+      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/transfer#confirm' }
     ]
   },
   { 
     id: 'merchant', 
     label: 'Merchant', 
     icon: Users, 
-    path: '/onlinedoc/merchant',
+    path: '/merchant',
     children: [
-      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/onlinedoc/merchant#enquiry' }
+      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/merchant#enquiry' },
+      { id: 'access-token', label: 'AccessToken Endpoint V2', path: '/merchant#access-token' }
     ]
   },
-  // {
-  //   id: 'webhooks',
-  //   label: 'Webhooks',
-  //   icon: Webhook,
-  //   path: '/onlinedoc/webhooks',
-  //   children: [
-  //     { id: 'webhook-events', label: 'Webhook Events', path: '/onlinedoc/webhooks#events' },
-  //     { id: 'webhook-verification', label: 'Signature Verification', path: '/onlinedoc/webhooks#verification' }
-  //   ]
-  // }
 ];
 
 export const ApiSidebar: React.FC = () => {
@@ -145,8 +135,6 @@ export const ApiSidebar: React.FC = () => {
   const isChildActive = (children: any[]) => {
     return children?.some(child => location.pathname + location.hash === child.path);
   };
-
-  console.log(location.pathname)
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 lg:fixed lg:inset-y-0 lg:top-14 lg:z-40">
@@ -204,7 +192,7 @@ export const ApiSidebar: React.FC = () => {
                           <a
                             key={child.id}
                             href={child.path}
-                            className={`block px-2 py-1 text-xs text-gray-600 hover:text-gray-900 rounded transition-colors ${
+                            className={`block px-2 py-1 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors ${
                               location.pathname + location.hash === child.path
                                 ? 'text-blue-600 bg-blue-50'
                                 : ''

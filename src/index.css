@@ -181,15 +181,14 @@ p {
 }
 
 .sidebar-nav-item:hover {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.1) 0%, rgba(14, 70, 135, 0.05) 100%);
-  color: #0E4687;
-  border-right: 3px solid #E4C144;
+  background: #dbeafe;
+  color: #2563eb;
 }
 
 .sidebar-nav-item.active {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.15) 0%, rgba(14, 70, 135, 0.08) 100%);
-  color: #0E4687;
-  border-right: 3px solid #E4C144;
+  background: #dbeafe;
+  color: #2563eb;
+  border-right: 2px solid #2563eb;
   font-weight: 600;
 }
 
@@ -202,15 +201,14 @@ p {
 }
 
 .sidebar-nav-subitem:hover {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.08) 0%, rgba(14, 70, 135, 0.03) 100%);
-  color: #0E4687;
-  border-right: 2px solid #E4C144;
+  background: #dbeafe;
+  color: #2563eb;
 }
 
 .sidebar-nav-subitem.active {
-  background: linear-gradient(90deg, rgba(14, 70, 135, 0.12) 0%, rgba(14, 70, 135, 0.05) 100%);
-  color: #0E4687;
-  border-right: 2px solid #E4C144;
+  background: #dbeafe;
+  color: #2563eb;
+  border-right: 2px solid #2563eb;
   font-weight: 500;
 }
 

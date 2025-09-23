@@ -1,16 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-
-// Import docs components
-import { DocsHeader } from './components/docs/DocsHeader';
-import { DocsSidebar } from './components/docs/DocsSidebar';
-import { DocsMobileMenu } from './components/docs/DocsMobileMenu';
-
-// Import API components
-import { ApiHeader } from './components/api/ApiHeader';
-import { ApiSidebar } from './components/api/ApiSidebar';
-import { ApiMobileMenu } from './components/api/ApiMobileMenu';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ScrollToTop } from './components/layout/ScrollToTop';
+import { ApiLayout } from './components/layout/ApiLayout';
+import { DocsLayout } from './components/layout/DocsLayout';
+import { AppRoutes } from './routes';
 
 // Import all docs page components
 import { OverviewPage } from './pages/OverviewPage';
@@ -42,107 +35,46 @@ import { ApiPayattitudePage } from './pages/api/ApiPayattitudePage';
 import { ApiBnplPage } from './pages/api/ApiBnplPage';
 import { ApiMerchantPage } from './pages/api/ApiMerchantPage';
 
-// Scroll to top component
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
-
-function AppContent() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  // const location = useLocation();
-  // const navigate = useNavigate();
-  
-  // Determine if we're in docs section based on URL
-  const isDocsSection = window.location.pathname.startsWith('/docs');
-  const isApiSection = !isDocsSection; // API is the default/main context
-
-  // Handle navigation for both sections
-  // const handleNavigation = (path: string) => {
-  //   navigate(path);
-  //   setIsMobileMenuOpen(false);
-  // };
-
-  return (
-      <Router basename="/onlinedoc">
-    <div className="min-h-screen bg-white">
-      <ScrollToTop />
-      
-      {/* Conditional Header */}
-      {isApiSection ? (
-        <ApiHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-      ) : (
-        <DocsHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-      )}
-      
-      <div className="flex">
-        {/* Conditional Sidebar */}
-        {isApiSection ? <ApiSidebar /> : <DocsSidebar />}
-        
-        {/* Conditional Mobile Menu */}
-        {isApiSection ? (
-          <ApiMobileMenu 
-            isOpen={isMobileMenuOpen} 
-            onClose={() => setIsMobileMenuOpen(false)}
-            // onNavigate={handleNavigation}
-          />
-        ) : (
-          <DocsMobileMenu 
-            isOpen={isMobileMenuOpen} 
-            onClose={() => setIsMobileMenuOpen(false)}
-            // onNavigate={handleNavigation}
-          />
-        )}
-        
-        <main className="flex-1 ml-0 lg:ml-64 relative z-0 overflow-y-auto focus:outline-none min-h-screen">
-          <div className="py-6 px-4 sm:px-6 md:px-8">
-            <div className="max-w-7xl mx-auto">
-              <Routes>
-                {/* API Routes (Main Context) */}
-                <Route path="/" element={<ApiIntroductionPage />} />
-                <Route path="/authentication" element={<ApiAuthenticationPage />} />
-                <Route path="/transactions" element={<ApiTransactionsPage />} />
-                <Route path="/ussd" element={<ApiUssdPage />} />
-                <Route path="/card" element={<ApiCardPage />} />
-                <Route path="/qr" element={<ApiQrPage />} />
-                <Route path="/payattitude" element={<ApiPayattitudePage />} />
-                <Route path="/bnpl" element={<ApiBnplPage />} />
-                <Route path="/merchant" element={<ApiMerchantPage />} />
-                <Route path="/transfer" element={<ApiTransferPage />} />
-                <Route path="/errors" element={<ApiErrorsPage />} />
-                <Route path="/pagination" element={<ApiPaginationPage />} />
-                
-                {/* Docs Routes (Secondary Context) */}
-                <Route path="/docs" element={<OverviewPage />} />
-                <Route path="/docs/overview" element={<OverviewPage />} />
-                <Route path="/docs/prerequisites" element={<PrerequisitesPage />} />
-                <Route path="/docs/registration" element={<RegistrationPage />} />
-                <Route path="/docs/api-keys" element={<ApiKeysPage />} />
-                <Route path="/docs/npm-package" element={<NpmPackagePage />} />
-                <Route path="/docs/cdn-script" element={<CdnScriptPage />} />
-                <Route path="/docs/wordpress" element={<WordPressPage />} />
-                <Route path="/docs/payment-links" element={<PaymentLinksPage />} />
-                <Route path="/docs/payment-methods" element={<PaymentMethodsPage />} />
-                <Route path="/docs/testing" element={<TestingPage />} />
-                <Route path="/docs/security" element={<SecurityPage />} />
-                <Route path="/docs/troubleshooting" element={<TroubleshootingPage />} />
-                <Route path="/docs/faq" element={<FaqPage />} />
-                <Route path="/docs/support" element={<SupportPage />} />
-              </Routes>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-      </Router>
-  );
-}
-
 export default function App() {
-  return <AppContent />;
+  return (
+    <Router basename="/onlinedoc">
+      <ScrollToTop />
+      <Routes>
+        {/* API Routes (Main Context) - Use ApiLayout */}
+        <Route path="/" element={<ApiLayout />}>
+          <Route index element={<ApiIntroductionPage />} />
+          <Route path="authentication" element={<ApiAuthenticationPage />} />
+          <Route path="transactions" element={<ApiTransactionsPage />} />
+          <Route path="ussd" element={<ApiUssdPage />} />
+          <Route path="card" element={<ApiCardPage />} />
+          <Route path="qr" element={<ApiQrPage />} />
+          <Route path="payattitude" element={<ApiPayattitudePage />} />
+          <Route path="bnpl" element={<ApiBnplPage />} />
+          <Route path="merchant" element={<ApiMerchantPage />} />
+          <Route path="transfer" element={<ApiTransferPage />} />
+          <Route path="errors" element={<ApiErrorsPage />} />
+          <Route path="pagination" element={<ApiPaginationPage />} />
+        </Route>
+        
+        {/* Docs Routes (Secondary Context) - Use DocsLayout */}
+        <Route path="/docs" element={<DocsLayout />}>
+          <Route index element={<OverviewPage />} />
+          <Route path="overview" element={<OverviewPage />} />
+          <Route path="prerequisites" element={<PrerequisitesPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="api-keys" element={<ApiKeysPage />} />
+          <Route path="npm-package" element={<NpmPackagePage />} />
+          <Route path="cdn-script" element={<CdnScriptPage />} />
+          <Route path="wordpress" element={<WordPressPage />} />
+          <Route path="payment-links" element={<PaymentLinksPage />} />
+          <Route path="payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="testing" element={<TestingPage />} />
+          <Route path="security" element={<SecurityPage />} />
+          <Route path="troubleshooting" element={<TroubleshootingPage />} />
+          <Route path="faq" element={<FaqPage />} />
+          <Route path="support" element={<SupportPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
