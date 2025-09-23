@@ -104,6 +104,15 @@ const apiEndpoints = [
     ]
   },
   { 
+    id: 'merchant', 
+    label: 'Merchant', 
+    icon: Users, 
+    path: '/merchant',
+    children: [
+      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/merchant#enquiry' }
+    ]
+  },
+  { 
     id: 'webhooks', 
     label: 'Webhooks', 
     icon: Webhook, 

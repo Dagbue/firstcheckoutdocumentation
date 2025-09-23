@@ -17,6 +17,7 @@ const navigationItems = [
   { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/ussd' },
   { id: 'payattitude', label: 'PAYATTITUDE', icon: Smartphone, path: '/payattitude' },
   { id: 'bnpl', label: 'BNPL', icon: CreditCard, path: '/bnpl' }
+  { id: 'merchant', label: 'Merchant', icon: Users, path: '/merchant' },
 ];
 
 export const ApiMobileMenu: React.FC<ApiMobileMenuProps> = ({ isOpen, onClose }) => {
