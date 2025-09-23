@@ -605,35 +605,35 @@ def initiate_transaction():
       </div>
 
       {/* Getting Started CTA */}
-      <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
-        <div className="max-w-3xl">
-          <h2 className="text-2xl font-bold mb-4">Ready to authenticate?</h2>
-          <p className="text-blue-100 mb-6 leading-relaxed">
-            Get your API credentials from the merchant dashboard and start making authenticated requests 
-            to the FirstChekout API. Our comprehensive guides will help you implement secure authentication.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="https://www.firstchekout.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-            >
-              <Key className="mr-2 h-4 w-4" />
-              Get API Keys
-              <ExternalLink className="ml-2 h-4 w-4" />
-            </a>
-            <a
-              href="/transactions"
-              className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"
-            >
-              <Code className="mr-2 h-4 w-4" />
-              Start Building
-            </a>
-          </div>
-        </div>
-      </div>
+      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
+      {/*  <div className="max-w-3xl">*/}
+      {/*    <h2 className="text-2xl font-bold mb-4">Ready to authenticate?</h2>*/}
+      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
+      {/*      Get your API credentials from the merchant dashboard and start making authenticated requests */}
+      {/*      to the FirstChekout API. Our comprehensive guides will help you implement secure authentication.*/}
+      {/*    </p>*/}
+      {/*    */}
+      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
+      {/*      <a*/}
+      {/*        href="https://www.firstchekout.com/"*/}
+      {/*        target="_blank"*/}
+      {/*        rel="noopener noreferrer"*/}
+      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
+      {/*      >*/}
+      {/*        <Key className="mr-2 h-4 w-4" />*/}
+      {/*        Get API Keys*/}
+      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
+      {/*      </a>*/}
+      {/*      <a*/}
+      {/*        href="/transactions"*/}
+      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
+      {/*      >*/}
+      {/*        <Code className="mr-2 h-4 w-4" />*/}
+      {/*        Start Building*/}
+      {/*      </a>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 };

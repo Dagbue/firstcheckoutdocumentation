@@ -556,34 +556,34 @@ print(f"Page: {transactions['meta']['page']}")`
       </div>
 
       {/* Getting Started CTA */}
-      <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
-        <div className="max-w-3xl">
-          <h2 className="text-2xl font-bold mb-4">Ready to implement pagination?</h2>
-          <p className="text-blue-100 mb-6 leading-relaxed">
-            Start building efficient data navigation in your application. Use our pagination system 
-            to provide smooth user experiences when working with large datasets.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="/transactions"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-            >
-              <Layers className="mr-2 h-4 w-4" />
-              Try with Transactions API
-            </a>
-            <a
-              href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"
-            >
-              View in Postman
-              <ExternalLink className="ml-2 h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </div>
+      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
+      {/*  <div className="max-w-3xl">*/}
+      {/*    <h2 className="text-2xl font-bold mb-4">Ready to implement pagination?</h2>*/}
+      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
+      {/*      Start building efficient data navigation in your application. Use our pagination system */}
+      {/*      to provide smooth user experiences when working with large datasets.*/}
+      {/*    </p>*/}
+      {/*    */}
+      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
+      {/*      <a*/}
+      {/*        href="/transactions"*/}
+      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
+      {/*      >*/}
+      {/*        <Layers className="mr-2 h-4 w-4" />*/}
+      {/*        Try with Transactions API*/}
+      {/*      </a>*/}
+      {/*      <a*/}
+      {/*        href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
+      {/*        target="_blank"*/}
+      {/*        rel="noopener noreferrer"*/}
+      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
+      {/*      >*/}
+      {/*        View in Postman*/}
+      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
+      {/*      </a>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 };
