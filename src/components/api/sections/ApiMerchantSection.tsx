@@ -634,7 +634,6 @@ def get_access_token():
             resources. Handle the response carefully, especially checking the isSuccess and isFailure flags to 
             determine the outcome of your request.
           </p>
-        </div>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="text-sm font-semibold text-blue-900 mb-2">Request Details</h4>
