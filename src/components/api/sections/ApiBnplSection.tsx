@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, Copy, Check, ExternalLink, Smartphone, Shield, Clock, DollarSign, CheckCircle, AlertTriangle } from 'lucide-react';
+import { CreditCard, Shield, Clock, Copy, Check, ExternalLink, DollarSign, User, CheckCircle } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 
@@ -13,24 +13,23 @@ export const ApiBnplSection: React.FC = () => {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const initiateCode = {
+  // Initiate BNPL
+  const initiateBnplCode = {
     curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/initiate' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
     "TransactionReference": "{"{{transactionRef}}"}",
-    "Amount": "40000",
-    "CustomerPhoneNumber": "08139507763"
+    "AccountNumber": "3078237253"
 }'`,
     nodejs: `const axios = require('axios');
 
-async function initiateBnplPayment(transactionRef, amount, phoneNumber, accessToken) {
+async function initiateBnpl(transactionRef, accountNumber, accessToken) {
   const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/initiate', {
     TransactionReference: transactionRef,
-    Amount: amount,
-    CustomerPhoneNumber: phoneNumber
+    AccountNumber: accountNumber
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -38,7 +37,7 @@ async function initiateBnplPayment(transactionRef, amount, phoneNumber, accessTo
   return response.data;
 }`,
     php: `<?php
-function initiateBnplPayment($transactionRef, $amount, $phoneNumber, $accessToken) {
+function initiateBnpl($transactionRef, $accountNumber, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
@@ -47,11 +46,10 @@ function initiateBnplPayment($transactionRef, $amount, $phoneNumber, $accessToke
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
         'TransactionReference' => $transactionRef,
-        'Amount' => $amount,
-        'CustomerPhoneNumber' => $phoneNumber
+        'AccountNumber' => $accountNumber
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -65,18 +63,17 @@ function initiateBnplPayment($transactionRef, $amount, $phoneNumber, $accessToke
     python: `import requests
 import os
 
-def initiate_bnpl_payment(transaction_ref, amount, phone_number, access_token):
-    """Initiate BNPL payment transaction"""
+def initiate_bnpl(transaction_ref, account_number, access_token):
+    """Initiate a Buy Now Pay Later (BNPL) transaction"""
     url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/initiate"
     
     payload = {
         "TransactionReference": transaction_ref,
-        "Amount": amount,
-        "CustomerPhoneNumber": phone_number
+        "AccountNumber": account_number
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -86,22 +83,25 @@ def initiate_bnpl_payment(transaction_ref, amount, phone_number, access_token):
     return response.json()`
   };
 
+  // Validate OTP
   const validateOtpCode = {
-    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateOTP' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateOtp' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
-    "TransactionReference": "{"{{transactionRef}}"}",
-    "OTP": "123456"
+    "TransactionRef": "{"{{transactionRef}}"}",
+    "AccountNumber": "3078237253",
+    "OTP": "111111"
 }'`,
     nodejs: `const axios = require('axios');
 
-async function validateBnplOtp(transactionRef, otp, accessToken) {
-  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/validateOTP', {
-    TransactionReference: transactionRef,
+async function validateBnplOtp(transactionRef, accountNumber, otp, accessToken) {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/validateOtp', {
+    TransactionRef: transactionRef,
+    AccountNumber: accountNumber,
     OTP: otp
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -109,19 +109,20 @@ async function validateBnplOtp(transactionRef, otp, accessToken) {
   return response.data;
 }`,
     php: `<?php
-function validateBnplOtp($transactionRef, $otp, $accessToken) {
+function validateBnplOtp($transactionRef, $accountNumber, $otp, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/BNPL/validateOTP',
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/BNPL/validateOtp',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'TransactionReference' => $transactionRef,
+        'TransactionRef' => $transactionRef,
+        'AccountNumber' => $accountNumber,
         'OTP' => $otp
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -135,17 +136,18 @@ function validateBnplOtp($transactionRef, $otp, $accessToken) {
     python: `import requests
 import os
 
-def validate_bnpl_otp(transaction_ref, otp, access_token):
+def validate_bnpl_otp(transaction_ref, account_number, otp, access_token):
     """Validate OTP for BNPL transaction"""
-    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/validateOTP"
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/validateOtp"
     
     payload = {
-        "TransactionReference": transaction_ref,
+        "TransactionRef": transaction_ref,
+        "AccountNumber": account_number,
         "OTP": otp
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -155,22 +157,29 @@ def validate_bnpl_otp(transaction_ref, otp, access_token):
     return response.json()`
   };
 
+  // Validate
   const validateCode = {
     curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/validate' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
-    "TransactionReference": "{"{{transactionRef}}"}",
-    "ValidationData": "customer_validation_data"
+    "TransactionRef": "{"{{transactionRef}}"}",
+    "AccountNumber": "3078237253",
+    "Tenure": "3",
+    "Amount": "40000",
+    "AmountDue": "0"
 }'`,
     nodejs: `const axios = require('axios');
 
-async function validateBnplTransaction(transactionRef, validationData, accessToken) {
+async function validateBnpl(transactionRef, accountNumber, tenure, amount, amountDue, accessToken) {
   const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/validate', {
-    TransactionReference: transactionRef,
-    ValidationData: validationData
+    TransactionRef: transactionRef,
+    AccountNumber: accountNumber,
+    Tenure: tenure,
+    Amount: amount,
+    AmountDue: amountDue
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -178,7 +187,7 @@ async function validateBnplTransaction(transactionRef, validationData, accessTok
   return response.data;
 }`,
     php: `<?php
-function validateBnplTransaction($transactionRef, $validationData, $accessToken) {
+function validateBnpl($transactionRef, $accountNumber, $tenure, $amount, $amountDue, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
@@ -186,11 +195,14 @@ function validateBnplTransaction($transactionRef, $validationData, $accessToken)
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'TransactionReference' => $transactionRef,
-        'ValidationData' => $validationData
+        'TransactionRef' => $transactionRef,
+        'AccountNumber' => $accountNumber,
+        'Tenure' => $tenure,
+        'Amount' => $amount,
+        'AmountDue' => $amountDue
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -204,17 +216,20 @@ function validateBnplTransaction($transactionRef, $validationData, $accessToken)
     python: `import requests
 import os
 
-def validate_bnpl_transaction(transaction_ref, validation_data, access_token):
-    """Validate BNPL transaction"""
+def validate_bnpl(transaction_ref, account_number, tenure, amount, amount_due, access_token):
+    """Validate BNPL transaction before proceeding"""
     url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/validate"
     
     payload = {
-        "TransactionReference": transaction_ref,
-        "ValidationData": validation_data
+        "TransactionRef": transaction_ref,
+        "AccountNumber": account_number,
+        "Tenure": tenure,
+        "Amount": amount,
+        "AmountDue": amount_due
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -224,22 +239,25 @@ def validate_bnpl_transaction(transaction_ref, validation_data, access_token):
     return response.json()`
   };
 
+  // Validate Token (Prod)
   const validateTokenCode = {
-    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateToken' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/validatetoken' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
-    "TransactionReference": "{"{{transactionRef}}"}",
-    "Token": "production_validation_token"
+    "TransactionRef": "{"{{transactionRef}}"}",
+    "CustomerId": "3078237253",
+    "TokenCode": "001122"
 }'`,
     nodejs: `const axios = require('axios');
 
-async function validateBnplToken(transactionRef, token, accessToken) {
-  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/validateToken', {
-    TransactionReference: transactionRef,
-    Token: token
+async function validateBnplToken(transactionRef, customerId, tokenCode, accessToken) {
+  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/validatetoken', {
+    TransactionRef: transactionRef,
+    CustomerId: customerId,
+    TokenCode: tokenCode
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -247,19 +265,20 @@ async function validateBnplToken(transactionRef, token, accessToken) {
   return response.data;
 }`,
     php: `<?php
-function validateBnplToken($transactionRef, $token, $accessToken) {
+function validateBnplToken($transactionRef, $customerId, $tokenCode, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/BNPL/validateToken',
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/BNPL/validatetoken',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'TransactionReference' => $transactionRef,
-        'Token' => $token
+        'TransactionRef' => $transactionRef,
+        'CustomerId' => $customerId,
+        'TokenCode' => $tokenCode
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -273,17 +292,18 @@ function validateBnplToken($transactionRef, $token, $accessToken) {
     python: `import requests
 import os
 
-def validate_bnpl_token(transaction_ref, token, access_token):
-    """Validate token for BNPL transaction (Production)"""
-    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/validateToken"
+def validate_bnpl_token(transaction_ref, customer_id, token_code, access_token):
+    """Validate token for BNPL transaction to ensure authenticity"""
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/validatetoken"
     
     payload = {
-        "TransactionReference": transaction_ref,
-        "Token": token
+        "TransactionRef": transaction_ref,
+        "CustomerId": customer_id,
+        "TokenCode": token_code
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -293,22 +313,29 @@ def validate_bnpl_token(transaction_ref, token, access_token):
     return response.json()`
   };
 
+  // Update Offer
   const updateOfferCode = {
     curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/updateOffer' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
-    "TransactionReference": "{"{{transactionRef}}"}",
-    "OfferDetails": "updated_offer_information"
+    "TransactionRef": "{"{{transactionRef}}"}",
+    "AccountNumber": "3078237253",
+    "Tenure": "3",
+    "Amount": "40000",
+    "AmountDue": "2000"
 }'`,
     nodejs: `const axios = require('axios');
 
-async function updateBnplOffer(transactionRef, offerDetails, accessToken) {
+async function updateBnplOffer(transactionRef, accountNumber, tenure, amount, amountDue, accessToken) {
   const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/updateOffer', {
-    TransactionReference: transactionRef,
-    OfferDetails: offerDetails
+    TransactionRef: transactionRef,
+    AccountNumber: accountNumber,
+    Tenure: tenure,
+    Amount: amount,
+    AmountDue: amountDue
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -316,7 +343,7 @@ async function updateBnplOffer(transactionRef, offerDetails, accessToken) {
   return response.data;
 }`,
     php: `<?php
-function updateBnplOffer($transactionRef, $offerDetails, $accessToken) {
+function updateBnplOffer($transactionRef, $accountNumber, $tenure, $amount, $amountDue, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
@@ -324,11 +351,14 @@ function updateBnplOffer($transactionRef, $offerDetails, $accessToken) {
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'TransactionReference' => $transactionRef,
-        'OfferDetails' => $offerDetails
+        'TransactionRef' => $transactionRef,
+        'AccountNumber' => $accountNumber,
+        'Tenure' => $tenure,
+        'Amount' => $amount,
+        'AmountDue' => $amountDue
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -342,17 +372,20 @@ function updateBnplOffer($transactionRef, $offerDetails, $accessToken) {
     python: `import requests
 import os
 
-def update_bnpl_offer(transaction_ref, offer_details, access_token):
-    """Update BNPL offer details"""
+def update_bnpl_offer(transaction_ref, account_number, tenure, amount, amount_due, access_token):
+    """Update an existing Buy Now Pay Later (BNPL) offer"""
     url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/updateOffer"
     
     payload = {
-        "TransactionReference": transaction_ref,
-        "OfferDetails": offer_details
+        "TransactionRef": transaction_ref,
+        "AccountNumber": account_number,
+        "Tenure": tenure,
+        "Amount": amount,
+        "AmountDue": amount_due
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -362,9 +395,10 @@ def update_bnpl_offer(transaction_ref, offer_details, access_token):
     return response.json()`
   };
 
+  // Book
   const bookCode = {
     curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/BNPL/book' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+--header 'Access-Token: {"{{Access-Token}}"}' \\
 --data '{
     "TransactionRef": "{"{{transactionRef}}"}",
     "AccountNumber": "3078237253",
@@ -372,14 +406,14 @@ def update_bnpl_offer(transaction_ref, offer_details, access_token):
 }'`,
     nodejs: `const axios = require('axios');
 
-async function bookBnplTransaction(transactionRef, accountNumber, amount, accessToken) {
+async function bookBnpl(transactionRef, accountNumber, amount, accessToken) {
   const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/BNPL/book', {
     TransactionRef: transactionRef,
     AccountNumber: accountNumber,
     Amount: amount
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -387,7 +421,7 @@ async function bookBnplTransaction(transactionRef, accountNumber, amount, access
   return response.data;
 }`,
     php: `<?php
-function bookBnplTransaction($transactionRef, $accountNumber, $amount, $accessToken) {
+function bookBnpl($transactionRef, $accountNumber, $amount, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
@@ -400,7 +434,7 @@ function bookBnplTransaction($transactionRef, $accountNumber, $amount, $accessTo
         'Amount' => $amount
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -414,8 +448,8 @@ function bookBnplTransaction($transactionRef, $accountNumber, $amount, $accessTo
     python: `import requests
 import os
 
-def book_bnpl_transaction(transaction_ref, account_number, amount, access_token):
-    """Book BNPL transaction"""
+def book_bnpl(transaction_ref, account_number, amount, access_token):
+    """Book a Buy Now Pay Later (BNPL) transaction"""
     url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/BNPL/book"
     
     payload = {
@@ -425,7 +459,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -435,70 +469,50 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     return response.json()`
   };
 
+  // Request bodies
   const initiateRequestBody = `{
-    "TransactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "Amount": "40000",
-    "CustomerPhoneNumber": "08139507763"
+    "TransactionReference": "{{transactionRef}}",
+    "AccountNumber": "3078237253"
 }`;
 
   const validateOtpRequestBody = `{
-    "TransactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "OTP": "123456"
+    "TransactionRef": "{{transactionRef}}",
+    "AccountNumber": "3078237253",
+    "OTP": "111111"
 }`;
 
   const validateRequestBody = `{
-    "TransactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "ValidationData": "customer_validation_data"
+    "TransactionRef": "{{transactionRef}}",
+    "AccountNumber": "3078237253",
+    "Tenure": "3",
+    "Amount": "40000",
+    "AmountDue": "0"
 }`;
 
   const validateTokenRequestBody = `{
-    "TransactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "Token": "production_validation_token"
+    "TransactionRef": "{{transactionRef}}",
+    "CustomerId": "3078237253",
+    "TokenCode": "001122"
 }`;
 
   const updateOfferRequestBody = `{
-    "TransactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "OfferDetails": "updated_offer_information"
+    "TransactionRef": "{{transactionRef}}",
+    "AccountNumber": "3078237253",
+    "Tenure": "3",
+    "Amount": "40000",
+    "AmountDue": "2000"
 }`;
 
   const bookRequestBody = `{
-    "TransactionRef": "FTWSUZA22IV1",
+    "TransactionRef": "{{transactionRef}}",
     "AccountNumber": "3078237253",
     "Amount": "40000"
 }`;
 
-  const bnplSuccessResponse = `{
-  "status": true,
-  "message": "BNPL transaction initiated successfully",
-  "data": {
-    "transactionReference": "TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C",
-    "amount": "40000",
-    "customerPhoneNumber": "08139507763",
-    "status": "PENDING",
-    "statusCode": "01",
-    "statusMessage": "PENDING",
-    "bnplProvider": "FirstChekout BNPL",
-    "offerDetails": {
-      "installmentPlan": "3 months",
-      "interestRate": "0%",
-      "firstPayment": "13333.33",
-      "monthlyPayment": "13333.33"
-    },
-    "expiryTime": "2024-01-15T11:00:00Z"
-  }
-}`;
-
-  const bnplErrorResponses = {
-    badRequest: `{ "error": "Invalid phone number format or missing parameters." }`,
-    unauthorized: `{ "error": "Unauthorized. Invalid or expired token." }`,
-    conflict: `{ "error": "Transaction reference already exists." }`,
-    serverError: `{ "error": "Internal server error. Please try again later." }`
-  };
-
   const quickStartItems = [
     {
-      title: 'Initiate BNPL Payment',
-      description: 'Start a Buy Now Pay Later transaction with customer phone number',
+      title: 'Initiate BNPL',
+      description: 'Start a Buy Now Pay Later transaction for a customer',
       icon: CreditCard,
       color: 'blue',
       link: '#initiate',
@@ -506,15 +520,15 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     },
     {
       title: 'Validate OTP',
-      description: 'Validate OTP sent to customer for BNPL verification',
-      icon: Smartphone,
+      description: 'Validate customer OTP for BNPL transaction verification',
+      icon: Shield,
       color: 'emerald',
       link: '#validate-otp',
       time: '1 minute'
     },
     {
       title: 'Validate Transaction',
-      description: 'Validate BNPL transaction with customer data',
+      description: 'Validate BNPL transaction details before proceeding',
       icon: CheckCircle,
       color: 'purple',
       link: '#validate',
@@ -522,7 +536,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     },
     {
       title: 'Validate Token (Prod)',
-      description: 'Production token validation for BNPL transactions',
+      description: 'Validate token for production BNPL transactions',
       icon: Shield,
       color: 'amber',
       link: '#validate-token',
@@ -530,7 +544,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     },
     {
       title: 'Update Offer',
-      description: 'Update BNPL offer details and terms',
+      description: 'Update existing BNPL offer terms and conditions',
       icon: DollarSign,
       color: 'indigo',
       link: '#update-offer',
@@ -539,8 +553,8 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
     {
       title: 'Book Transaction',
       description: 'Book and finalize the BNPL transaction',
-      icon: CheckCircle,
-      color: 'green',
+      icon: User,
+      color: 'pink',
       link: '#book',
       time: '1 minute'
     }
@@ -571,6 +585,43 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
             <p className="text-blue-800 leading-relaxed">
               This folder is using Bearer Token from collection FirstChekout Payment Gateway
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* BNPL Process Overview */}
+      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-8">
+        <h3 className="text-lg font-semibold text-emerald-900 mb-4">BNPL Process Flow</h3>
+        <div className="grid md:grid-cols-6 gap-4">
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">1</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Initiate</h4>
+            <p className="text-xs text-emerald-700">Start BNPL transaction</p>
+          </div>
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">2</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Validate OTP</h4>
+            <p className="text-xs text-emerald-700">Customer verification</p>
+          </div>
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">3</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Validate</h4>
+            <p className="text-xs text-emerald-700">Check eligibility</p>
+          </div>
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">4</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Validate Token</h4>
+            <p className="text-xs text-emerald-700">Production validation</p>
+          </div>
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">5</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Update Offer</h4>
+            <p className="text-xs text-emerald-700">Modify terms</p>
+          </div>
+          <div className="text-center">
+            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">6</div>
+            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Book</h4>
+            <p className="text-xs text-emerald-700">Finalize transaction</p>
           </div>
         </div>
       </div>
@@ -621,44 +672,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         </div>
       </div>
 
-      {/* BNPL Process Overview */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-8">
-        <h3 className="text-lg font-semibold text-emerald-900 mb-4">BNPL Process Flow</h3>
-        <div className="grid md:grid-cols-6 gap-4">
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">1</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Initiate</h4>
-            <p className="text-xs text-emerald-700">Start BNPL transaction</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">2</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Validate OTP</h4>
-            <p className="text-xs text-emerald-700">Verify customer identity</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">3</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Validate</h4>
-            <p className="text-xs text-emerald-700">Validate customer data</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">4</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Token (Prod)</h4>
-            <p className="text-xs text-emerald-700">Production validation</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">5</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Update Offer</h4>
-            <p className="text-xs text-emerald-700">Modify offer terms</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-semibold">6</div>
-            <h4 className="text-xs font-semibold text-emerald-900 mb-1">Book</h4>
-            <p className="text-xs text-emerald-700">Finalize transaction</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Initiate BNPL Payment */}
+      {/* Initiate BNPL */}
       <section id="initiate" className="mb-16">
         <div className="flex items-center mb-6">
           <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-3">POST</span>
@@ -674,23 +688,51 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request initiates a Buy Now Pay Later (BNPL) payment transaction through the FirstChekout Payment Gateway API.
+            This POST request is used to initiate a Buy Now Pay Later (BNPL) transaction via the payment gateway API. 
+            It is typically called by client applications to start the BNPL process for a customer.
           </p>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Headers</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Endpoint</h3>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <code className="text-sm text-blue-600">{"{{GatewayBaseAddress}}"}/api/v1/BNPL/initiate</code>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
           <div className="bg-gray-50 rounded-lg p-6">
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">authToken</span>
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
                     <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      A JWT token required for authentication and authorization.
+                      Unique reference for the transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FTWSUZA22IV2</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AccountNumber</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Customer's account number.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
                     </p>
                   </div>
                 </div>
@@ -700,61 +742,35 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Request Body Parameters</h3>
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-6">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">TransactionReference</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      A unique reference ID for the transaction.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"TX-2CA09EBA0DA34F5B9B6D4BD0694A4B4C"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Details</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The request body must be sent as raw JSON with both parameters included.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Ensure the <strong>Access-Token</strong> header is set for authentication.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>This endpoint is part of the BNPL workflow and should be called before any subsequent BNPL actions.</span>
+            </li>
+          </ul>
+        </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">Amount</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The amount for the BNPL transaction.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"40000"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">CustomerPhoneNumber</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The customer's phone number for BNPL verification and communication.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"08139507763"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Expected Behavior</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>On success, the API responds with confirmation that the BNPL transaction has been initiated.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>If required parameters are missing or invalid, or if authentication fails, an error response is returned with details.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -778,7 +794,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
 
           <div>
             <div className="language-tabs">
-              {Object.keys(initiateCode).map((lang) => (
+              {Object.keys(initiateBnplCode).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setActiveLanguage(lang)}
@@ -793,24 +809,24 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
               <div className="paystack-code-header">
                 <span className="text-sm font-medium">Example Request</span>
                 <button
-                  onClick={() => copyToClipboard(initiateCode[activeLanguage], 'initiate-bnpl')}
+                  onClick={() => copyToClipboard(initiateBnplCode[activeLanguage], 'initiate-bnpl')}
                   className="copy-button"
                 >
                   {copiedCode === 'initiate-bnpl' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 </button>
               </div>
               <div className="paystack-code-content">
-                <pre><code>{initiateCode[activeLanguage]}</code></pre>
+                <pre><code>{initiateBnplCode[activeLanguage]}</code></pre>
               </div>
             </div>
 
             <div className="response-container mt-4">
               <div className="response-header">
                 <span>Example Response</span>
-                <span className="status-200">200 OK</span>
+                <span className="text-gray-500">No response body</span>
               </div>
               <div className="response-body">
-                <CodeBlock language="json" code={bnplSuccessResponse} />
+                <p className="text-sm text-gray-600">This request doesn't return any response body</p>
               </div>
             </div>
           </div>
@@ -826,15 +842,104 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
 
         <div className="mb-6">
           <div className="bg-gray-100 rounded-lg p-3 font-mono text-sm text-gray-700">
-            {"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateOTP
+            {"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateOtp
           </div>
         </div>
 
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request validates the OTP (One-Time Password) sent to the customer for BNPL transaction verification.
+            This POST request validates a user's One-Time Password (OTP) for a Buy Now Pay Later (BNPL) transaction.
           </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Unique reference identifier for the transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FPQ39P281118</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AccountNumber</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      User's account number associated with the transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">OTP</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The One-Time Password sent to the user for validation.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">111111</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Headers</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-24">
+                    <span className="text-sm font-semibold text-gray-900">Access-Token</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Bearer token for authenticating the request.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>All request body parameters are mandatory and must be correctly formatted.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -913,8 +1018,132 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request validates the BNPL transaction with customer validation data.
+            This POST request validates a user's Buy Now Pay Later (BNPL) transaction before proceeding. 
+            It checks the provided transaction details for eligibility and correctness.
           </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Unique reference for the transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FTWSUZA22IV2</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AccountNumber</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The user's account number.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">Tenure</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Number of months for repayment.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">Amount</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The transaction amount.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">40000</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AmountDue</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Amount due at the time of validation.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">0</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Headers</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-24">
+                    <span className="text-sm font-semibold text-gray-900">Access-Token</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Bearer token for authenticating the request. Must be included in the request headers.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>All body parameters are required and must be provided as strings.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -986,15 +1215,109 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
 
         <div className="mb-6">
           <div className="bg-gray-100 rounded-lg p-3 font-mono text-sm text-gray-700">
-            {"{{GatewayBaseAddress}}"}/api/v1/BNPL/validateToken
+            {"{{GatewayBaseAddress}}"}/api/v1/BNPL/validatetoken
           </div>
         </div>
 
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request validates the production token for BNPL transactions in the live environment.
+            This POST request validates a token for a Buy Now Pay Later (BNPL) transaction to ensure the token's 
+            authenticity and association with the given transaction and customer.
           </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Reference identifier for the BNPL transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FTQ39P381318</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">CustomerId</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Unique identifier for the customer.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TokenCode</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      The token code to be validated.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">001122</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Headers</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-24">
+                    <span className="text-sm font-semibold text-gray-900">Access-Token</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Bearer token for authenticating the request.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>All request body parameters are mandatory and must match the expected formats.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The Access-Token header must be included for authentication and authorization.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -1073,8 +1396,139 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request updates the BNPL offer details and terms for a specific transaction.
+            This POST request updates an existing Buy Now Pay Later (BNPL) offer in the system.
           </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Unique reference for the transaction.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FTWSUZA22IV1</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AccountNumber</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Customer's account number.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">Tenure</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Duration of the offer in months.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">Amount</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Total amount of the offer.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">40000</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-40">
+                    <span className="text-sm font-semibold text-gray-900">AmountDue</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Amount currently due.
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">2000</code>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Headers</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-24">
+                    <span className="text-sm font-semibold text-gray-900">Access-Token</span>
+                    <div className="text-xs text-gray-500 mt-1">(string)</div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      Bearer token for authentication and authorization.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>All parameters in the request body are required and must be valid strings.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The Access-Token header must be included for the request to be authorized.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Ensure the TransactionRef corresponds to an existing offer to update.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -1137,7 +1591,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         </div>
       </section>
 
-      {/* Book Transaction */}
+      {/* Book */}
       <section id="book" className="mb-16">
         <div className="flex items-center mb-6">
           <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-3">POST</span>
@@ -1167,10 +1621,10 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Request Body Parameters</h3>
           <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-32">
+                  <div className="flex-shrink-0 w-40">
                     <span className="text-sm font-semibold text-gray-900">TransactionRef</span>
                     <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
@@ -1179,7 +1633,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
                       Unique reference for the transaction.
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"FTWSUZA22IV1"</code>
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">FTWSUZA22IV1</code>
                     </p>
                   </div>
                 </div>
@@ -1187,7 +1641,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-32">
+                  <div className="flex-shrink-0 w-40">
                     <span className="text-sm font-semibold text-gray-900">AccountNumber</span>
                     <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
@@ -1196,7 +1650,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
                       The account number to be debited.
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"3078237253"</code>
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">3078237253</code>
                     </p>
                   </div>
                 </div>
@@ -1204,7 +1658,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
 
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-32">
+                  <div className="flex-shrink-0 w-40">
                     <span className="text-sm font-semibold text-gray-900">Amount</span>
                     <div className="text-xs text-gray-500 mt-1">(string)</div>
                   </div>
@@ -1213,7 +1667,7 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
                       The amount to be booked for the transaction.
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"40000"</code>
+                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">40000</code>
                     </p>
                   </div>
                 </div>
@@ -1378,11 +1832,11 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
             <h4 className="text-sm font-semibold text-emerald-900 mb-3">✅ Customer Benefits</h4>
             <ul className="text-sm text-emerald-800 space-y-2">
               <li>• Purchase items immediately without full payment</li>
-              <li>• Flexible installment payment options</li>
-              <li>• No upfront interest charges</li>
-              <li>• Simple phone number-based verification</li>
-              <li>• Instant approval for eligible customers</li>
-              <li>• Secure transaction processing</li>
+              <li>• Flexible repayment terms (3, 6, 12 months)</li>
+              <li>• No upfront fees or hidden charges</li>
+              <li>• Simple OTP verification process</li>
+              <li>• Automatic payment scheduling</li>
+              <li>• Credit building opportunities</li>
             </ul>
           </div>
 
@@ -1392,9 +1846,9 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
               <li>• Immediate payment upon customer purchase</li>
               <li>• Increased conversion rates and average order value</li>
               <li>• Risk management handled by BNPL provider</li>
-              <li>• Comprehensive transaction tracking</li>
-              <li>• Integration with existing payment flows</li>
+              <li>• Easy integration with existing payment flows</li>
               <li>• Real-time transaction status updates</li>
+              <li>• Comprehensive reporting and analytics</li>
             </ul>
           </div>
         </div>
@@ -1408,24 +1862,24 @@ def book_bnpl_transaction(transaction_ref, account_number, amount, access_token)
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
             <h4 className="text-sm font-semibold text-emerald-900 mb-3">✅ Recommended Practices</h4>
             <ul className="text-sm text-emerald-800 space-y-2">
-              <li>• Validate customer phone numbers before initiation</li>
-              <li>• Implement proper OTP handling and validation</li>
-              <li>• Use unique transaction references for each BNPL request</li>
-              <li>• Handle all validation steps in sequence</li>
-              <li>• Implement proper error handling for each endpoint</li>
-              <li>• Test the complete BNPL flow in sandbox environment</li>
+              <li>• Follow the complete BNPL workflow sequence</li>
+              <li>• Validate customer eligibility before offering BNPL</li>
+              <li>• Implement proper error handling for each step</li>
+              <li>• Use secure token management practices</li>
+              <li>• Monitor transaction status throughout the process</li>
+              <li>• Provide clear terms and conditions to customers</li>
             </ul>
           </div>
 
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
             <h4 className="text-sm font-semibold text-amber-900 mb-3">⚠️ Important Considerations</h4>
             <ul className="text-sm text-amber-800 space-y-2">
-              <li>• BNPL requires customer eligibility verification</li>
-              <li>• OTP validation must be completed within time limits</li>
-              <li>• Production token validation is required for live transactions</li>
-              <li>• Account numbers must be valid and active</li>
-              <li>• Amount validation is critical for booking transactions</li>
-              <li>• Monitor transaction status throughout the process</li>
+              <li>• BNPL requires customer credit assessment</li>
+              <li>• OTP validation has time limits</li>
+              <li>• Token validation is required for production</li>
+              <li>• Offer updates must maintain data consistency</li>
+              <li>• Booking finalizes the transaction commitment</li>
+              <li>• Consider regulatory compliance requirements</li>
             </ul>
           </div>
         </div>
