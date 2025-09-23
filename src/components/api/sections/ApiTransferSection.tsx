@@ -18,7 +18,7 @@ export const ApiTransferSection: React.FC = () => {
 --header 'Content-Type: application/json' \\
 --header 'Access-Token: {{Access-Token}}' \\
 --data '{
-    "TransactionReference": "TX-DD17B24E8A6E420A8421548DC5E0D3FC",
+    "TransactionReference": "{{transactionRef}}",
     "TypeId": 2
 }'`,
     nodejs: `const axios = require('axios');
@@ -84,14 +84,14 @@ def initiate_pay_with_transfer(transaction_ref, type_id, access_token):
   };
 
   const confirmTransferCode = {
-    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/paywithtransfer/complete' \\
---header 'Access-Token: {{Access-Token}}' \\
---header 'Content-Type: application/json' \\
---data '{
+    curl: `curl -X POST "{{GatewayBaseAddress}}/api/v1/paywithtransfer/complete" \\
+  -H "Access-Token: {{Access-Token}}" \\
+  -H "Content-Type: application/json" \\
+  -d '{
     "UniqueReference": "{{transactionRef}}",
     "VirtualAccountNo": "{{virtualAccountNo}}",
     "VirtualAccountToken": "{{virtualAccountToken}}"
-}'`,
+  }'`,
     nodejs: `const axios = require('axios');
 
 async function confirmPayWithTransfer(uniqueReference, virtualAccountNo, virtualAccountToken, accessToken) {
@@ -154,7 +154,25 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
     response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     
-    return response.json()`
+    return response.json()`,
+    javascript: `const url = \`\${process.env.GatewayBaseAddress}/api/v1/paywithtransfer/complete\`;
+const headers = {
+  "Access-Token": process.env.Access_Token,
+  "Content-Type": "application/json"
+};
+const body = JSON.stringify({
+  UniqueReference: process.env.transactionRef,
+  VirtualAccountNo: process.env.virtualAccountNo,
+  VirtualAccountToken: process.env.virtualAccountToken
+});
+fetch(url, {
+  method: "POST",
+  headers,
+  body
+})
+  .then(res => res.json())
+  .then(console.log)
+  .catch(console.error);`
   };
 
   const initiateTransferRequestBody = `{
@@ -163,9 +181,9 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
 }`;
 
   const confirmTransferRequestBody = `{
-    "UniqueReference": "{{transactionRef}}",
-    "VirtualAccountNo": "{{virtualAccountNo}}",
-    "VirtualAccountToken": "{{virtualAccountToken}}"
+    "UniqueReference": "{{transactionRef}}", // Transaction reference from transfer payment initiation
+    "VirtualAccountNo": "9101724738", // Virtual account number from transfer payment initiation
+    "VirtualAccountToken": "<token>" // Virtual account token from transfer payment initiation
 }`;
 
   const initiateTransferSuccessResponse = `{
@@ -201,7 +219,7 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
   "status": "success",
   "message": "Payment confirmed successfully.",
   "data": {
-    "transactionRef": "TX-F2E2FC1B8CE142B790C95AE57CD99466",
+    "transactionRef": "{{transactionRef}}",
     "amount": 5000,
     "currency": "NGN",
     "confirmedAt": "2024-06-01T12:34:56Z"
@@ -677,11 +695,7 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Request Body Schema</h3>
           <div className="bg-gray-50 rounded-lg p-6">
-            <CodeBlock language="json" code={`{
-  "UniqueReference": "{{transactionRef}}", // Transaction reference from transfer payment initiation
-  "VirtualAccountNo": "{{virtualAccountNo}}", // Virtual account number from transfer payment initiation
-  "VirtualAccountToken": "{{virtualAccountToken}}" // Virtual account token from transfer payment initiation
-}`} />
+            <CodeBlock language="json" code={confirmTransferRequestBody} />
           </div>
         </div>
 
@@ -727,28 +741,14 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
                 <div className="paystack-code-header">
                   <span className="text-sm font-medium">cURL Request</span>
                   <button
-                    onClick={() => copyToClipboard(`curl -X POST "{{GatewayBaseAddress}}/api/v1/paywithtransfer/complete" \\
-  -H "Access-Token: {{Access-Token}}" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "UniqueReference": "{{transactionRef}}",
-    "VirtualAccountNo": "{{virtualAccountNo}}",
-    "VirtualAccountToken": "{{virtualAccountToken}}"
-  }'`, 'curl-confirm')}
+                    onClick={() => copyToClipboard(confirmTransferCode.curl, 'curl-confirm')}
                     className="copy-button"
                   >
                     {copiedCode === 'curl-confirm' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                   </button>
                 </div>
                 <div className="paystack-code-content">
-                  <CodeBlock language="bash" code={`curl -X POST "{{GatewayBaseAddress}}/api/v1/paywithtransfer/complete" \\
-  -H "Access-Token: {{Access-Token}}" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "UniqueReference": "{{transactionRef}}",
-    "VirtualAccountNo": "{{virtualAccountNo}}",
-    "VirtualAccountToken": "{{virtualAccountToken}}"
-  }'`} />
+                  <CodeBlock language="bash" code={confirmTransferCode.curl} />
                 </div>
               </div>
             </div>
@@ -759,42 +759,14 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
                 <div className="paystack-code-header">
                   <span className="text-sm font-medium">Python Implementation</span>
                   <button
-                    onClick={() => copyToClipboard(`import requests
-import os
-
-url = f"{os.environ.get('GatewayBaseAddress')}/api/v1/paywithtransfer/complete"
-headers = {
-    "Access-Token": os.environ.get('Access-Token'),
-    "Content-Type": "application/json"
-}
-data = {
-    "UniqueReference": os.environ.get('transactionRef'),
-    "VirtualAccountNo": os.environ.get('virtualAccountNo'),
-    "VirtualAccountToken": os.environ.get('virtualAccountToken')
-}
-response = requests.post(url, json=data, headers=headers)
-print(response.json())`, 'python-confirm')}
+                    onClick={() => copyToClipboard(confirmTransferCode.python, 'python-confirm')}
                     className="copy-button"
                   >
                     {copiedCode === 'python-confirm' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                   </button>
                 </div>
                 <div className="paystack-code-content">
-                  <CodeBlock language="python" code={`import requests
-import os
-
-url = f"{os.environ.get('GatewayBaseAddress')}/api/v1/paywithtransfer/complete"
-headers = {
-    "Access-Token": os.environ.get('Access-Token'),
-    "Content-Type": "application/json"
-}
-data = {
-    "UniqueReference": os.environ.get('transactionRef'),
-    "VirtualAccountNo": os.environ.get('virtualAccountNo'),
-    "VirtualAccountToken": os.environ.get('virtualAccountToken')
-}
-response = requests.post(url, json=data, headers=headers)
-print(response.json())`} />
+                  <CodeBlock language="python" code={confirmTransferCode.python} />
                 </div>
               </div>
             </div>
@@ -805,48 +777,14 @@ print(response.json())`} />
                 <div className="paystack-code-header">
                   <span className="text-sm font-medium">JavaScript Implementation</span>
                   <button
-                    onClick={() => copyToClipboard(`const url = \`\${process.env.GatewayBaseAddress}/api/v1/paywithtransfer/complete\`;
-const headers = {
-  "Access-Token": process.env.Access_Token,
-  "Content-Type": "application/json"
-};
-const body = JSON.stringify({
-  UniqueReference: process.env.transactionRef,
-  VirtualAccountNo: process.env.virtualAccountNo,
-  VirtualAccountToken: process.env.virtualAccountToken
-});
-fetch(url, {
-  method: "POST",
-  headers,
-  body
-})
-  .then(res => res.json())
-  .then(console.log)
-  .catch(console.error);`, 'js-confirm')}
+                    onClick={() => copyToClipboard(confirmTransferCode.javascript, 'js-confirm')}
                     className="copy-button"
                   >
                     {copiedCode === 'js-confirm' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                   </button>
                 </div>
                 <div className="paystack-code-content">
-                  <CodeBlock language="javascript" code={`const url = \`\${process.env.GatewayBaseAddress}/api/v1/paywithtransfer/complete\`;
-const headers = {
-  "Access-Token": process.env.Access_Token,
-  "Content-Type": "application/json"
-};
-const body = JSON.stringify({
-  UniqueReference: process.env.transactionRef,
-  VirtualAccountNo: process.env.virtualAccountNo,
-  VirtualAccountToken: process.env.virtualAccountToken
-});
-fetch(url, {
-  method: "POST",
-  headers,
-  body
-})
-  .then(res => res.json())
-  .then(console.log)
-  .catch(console.error);`} />
+                  <CodeBlock language="javascript" code={confirmTransferCode.javascript} />
                 </div>
               </div>
             </div>
@@ -921,6 +859,20 @@ fetch(url, {
               <div className="flex items-center space-x-4">
                 <span className="text-sm font-medium text-gray-700">Token:</span>
                 <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
+            <div className="space-y-2">
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-gray-700">Access-Token:</span>
+                <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+              </div>
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-gray-700">Content-Type:</span>
+                <code className="bg-blue-100 px-2 py-1 rounded text-xs">application/json</code>
               </div>
             </div>
           </div>
