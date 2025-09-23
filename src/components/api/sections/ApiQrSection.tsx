@@ -137,7 +137,7 @@ def initiate_qr_payment(transaction_ref, access_token):
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-blue-900 mb-2">AUTHORIZATION - Bearer Token</h3>
             <p className="text-blue-800 leading-relaxed">
-              This endpoint uses Bearer Token from collection FirstChekout Payment Gateway
+              This folder is using Bearer Token from collection FirstChekout Payment Gateway
             </p>
           </div>
         </div>
@@ -332,16 +332,6 @@ def initiate_qr_payment(transaction_ref, access_token):
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-4 mb-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm font-medium text-gray-700">authToken:</span>
-                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
-                </div>
-              </div>
-            </div>
-
             <div className="bg-gray-50 rounded-lg p-4">
               <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
               <CodeBlock language="json" code={qrRequestBody} />
@@ -379,10 +369,10 @@ def initiate_qr_payment(transaction_ref, access_token):
             <div className="response-container mt-4">
               <div className="response-header">
                 <span>Example Response</span>
-                <span className="status-200">200 OK</span>
+                <span className="text-gray-500">No response body</span>
               </div>
               <div className="response-body">
-                <CodeBlock language="json" code={qrSuccessResponse} />
+                <p className="text-sm text-gray-600">This request doesn't return any response body</p>
               </div>
             </div>
           </div>
