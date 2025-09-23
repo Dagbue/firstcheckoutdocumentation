@@ -578,7 +578,7 @@ def fetch_ussd_institutions():
           <div className="bg-gray-50 rounded-lg p-4">
             <p className="text-gray-700 mb-3">
               <strong>AuthToken:</strong> A required header for authentication, using the environment variable 
-              "{"{{Access-Token}}"}\" to provide the access token.
+              "{"{{Access-Token}}"}" to provide the access token.
             </p>
           </div>
         </div>
@@ -727,30 +727,31 @@ def fetch_ussd_institutions():
                   {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
                 </button>
               ))}
-          </div>
+            </div>
 
-          <div className="paystack-code-block">
-            <div className="paystack-code-header">
-              <span className="text-sm font-medium">Example Request</span>
-              <button
-                onClick={() => copyToClipboard(fetchInstitutionCode[activeLanguage], 'fetch-institution')}
-                className="copy-button"
-              >
-                {copiedCode === 'fetch-institution' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-              </button>
+            <div className="paystack-code-block">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Example Request</span>
+                <button
+                  onClick={() => copyToClipboard(fetchInstitutionCode[activeLanguage], 'fetch-institution')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'fetch-institution' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <pre><code>{fetchInstitutionCode[activeLanguage]}</code></pre>
+              </div>
             </div>
-            <div className="paystack-code-content">
-              <pre><code>{fetchInstitutionCode[activeLanguage]}</code></pre>
-            </div>
-          </div>
 
-          <div className="response-container mt-4">
-            <div className="response-header">
-              <span>Example Response</span>
-              <span className="text-gray-500">No response body</span>
-            </div>
-            <div className="response-body">
-              <p className="text-sm text-gray-600">This request doesn't return any response body</p>
+            <div className="response-container mt-4">
+              <div className="response-header">
+                <span>Example Response</span>
+                <span className="text-gray-500">No response body</span>
+              </div>
+              <div className="response-body">
+                <p className="text-sm text-gray-600">This request doesn't return any response body</p>
+              </div>
             </div>
           </div>
         </div>
