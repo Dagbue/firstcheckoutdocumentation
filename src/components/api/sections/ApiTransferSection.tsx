@@ -613,10 +613,10 @@ fetch(url, {
             <div className="response-container mt-4">
               <div className="response-header">
                 <span>Example Response</span>
-                <span className="text-gray-500">No response body</span>
+                <span className="status-200">200 OK</span>
               </div>
               <div className="response-body">
-                <p className="text-sm text-gray-600">This request doesn't return any response body</p>
+                <CodeBlock language="json" code={initiateTransferSuccessResponse} />
               </div>
             </div>
           </div>
@@ -851,35 +851,76 @@ fetch(url, {
           </div>
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
-            <div className="space-y-2">
-              <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-gray-700">Token:</span>
-                <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
               </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Access-Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Content-Type:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">application/json</code>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 bg-gray-50 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
+              <CodeBlock language="json" code={confirmTransferRequestBody} />
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
-            <div className="space-y-2">
-              <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-gray-700">Access-Token:</span>
-                <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+          <div>
+            <div className="language-tabs">
+              {Object.keys(confirmTransferCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <div className="paystack-code-block">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Example Request</span>
+                <button
+                  onClick={() => copyToClipboard(confirmTransferCode[activeLanguage], 'confirm-transfer')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'confirm-transfer' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
               </div>
-              <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-gray-700">Content-Type:</span>
-                <code className="bg-blue-100 px-2 py-1 rounded text-xs">application/json</code>
+              <div className="paystack-code-content">
+                <pre><code>{confirmTransferCode[activeLanguage]}</code></pre>
               </div>
             </div>
-          </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
-            <CodeBlock language="json" code={confirmTransferRequestBody} />
+            <div className="response-container mt-4">
+              <div className="response-header">
+                <span>Example Response</span>
+                <span className="status-200">200 OK</span>
+              </div>
+              <div className="response-body">
+                <CodeBlock language="json" code={confirmTransferSuccessResponse} />
+              </div>
+            </div>
           </div>
         </div>
       </section>
