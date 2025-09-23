@@ -16,7 +16,7 @@ const navigationItems = [
   { id: 'transfer', label: 'Pay With Transfer', icon: Building, path: '/transfer' },
   { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/ussd' },
   { id: 'payattitude', label: 'PAYATTITUDE', icon: Smartphone, path: '/payattitude' },
-  { id: 'bnpl', label: 'BNPL', icon: CreditCard, path: '/bnpl' }
+  { id: 'bnpl', label: 'BNPL', icon: CreditCard, path: '/bnpl' },
   { id: 'merchant', label: 'Merchant', icon: Users, path: '/merchant' },
 ];
 
