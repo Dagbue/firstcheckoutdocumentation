@@ -8,20 +8,20 @@ interface DocsMobileMenuProps {
 }
 
 const navigationItems = [
-  { id: 'home', label: 'Home', icon: Home, path: '/' },
-  { id: 'prerequisites', label: 'Prerequisites', icon: Settings, path: '/prerequisites' },
-  { id: 'registration', label: 'Registration', icon: FileText, path: '/registration' },
-  { id: 'api-keys', label: 'API Keys', icon: Key, path: '/api-keys' },
-  { id: 'npm-package', label: 'NPM Package', icon: Package, path: '/npm-package' },
-  { id: 'cdn-script', label: 'CDN Script', icon: Globe, path: '/cdn-script' },
-  { id: 'wordpress', label: 'WordPress', icon: Wordpress, path: '/wordpress' },
-  { id: 'payment-links', label: 'Payment Links', icon: Link2, path: '/payment-links' },
-  { id: 'payment-methods', label: 'Payment Methods', icon: CreditCard, path: '/payment-methods' },
-  { id: 'testing', label: 'Testing', icon: TestTube, path: '/testing' },
-  { id: 'security', label: 'Security', icon: Shield, path: '/security' },
-  { id: 'troubleshooting', label: 'Troubleshooting', icon: Bug, path: '/troubleshooting' },
-  { id: 'faq', label: 'FAQ', icon: HelpCircle, path: '/faq' },
-  { id: 'support', label: 'Support', icon: Phone, path: '/support' }
+  { id: 'overview', label: 'Overview', icon: Home, path: '/docs/overview' },
+  { id: 'prerequisites', label: 'Prerequisites', icon: Settings, path: '/docs/prerequisites' },
+  { id: 'registration', label: 'Registration', icon: FileText, path: '/docs/registration' },
+  { id: 'api-keys', label: 'API Keys', icon: Key, path: '/docs/api-keys' },
+  { id: 'npm-package', label: 'NPM Package', icon: Package, path: '/docs/npm-package' },
+  { id: 'cdn-script', label: 'CDN Script', icon: Globe, path: '/docs/cdn-script' },
+  { id: 'wordpress', label: 'WordPress', icon: Wordpress, path: '/docs/wordpress' },
+  { id: 'payment-links', label: 'Payment Links', icon: Link2, path: '/docs/payment-links' },
+  { id: 'payment-methods', label: 'Payment Methods', icon: CreditCard, path: '/docs/payment-methods' },
+  { id: 'testing', label: 'Testing', icon: TestTube, path: '/docs/testing' },
+  { id: 'security', label: 'Security', icon: Shield, path: '/docs/security' },
+  { id: 'troubleshooting', label: 'Troubleshooting', icon: Bug, path: '/docs/troubleshooting' },
+  { id: 'faq', label: 'FAQ', icon: HelpCircle, path: '/docs/faq' },
+  { id: 'support', label: 'Support', icon: Phone, path: '/docs/support' }
 ];
 
 export const DocsMobileMenu: React.FC<DocsMobileMenuProps> = ({ isOpen, onClose }) => {

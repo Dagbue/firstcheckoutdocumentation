@@ -51,9 +51,6 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
                   alt="FirstCheckout Logo"
                   className="h-6 w-auto mr-2"
                 />
-                <div className="flex items-center space-x-1">
-                  <span className="text-lg font-bold text-gray-900">docs</span>
-                </div>
               </div>
             </div>
 
@@ -89,15 +86,15 @@ export const DocsHeader: React.FC<DocsHeaderProps> = ({ onMenuToggle }) => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/"
-                  className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
-                >
-                  Docs
-                </Link>
-                <Link
-                  to="/api"
                   className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
                 >
                   API
+                </Link>
+                <Link
+                  to="/docs"
+                  className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
+                >
+                  Docs
                 </Link>
               </div>
             </div>

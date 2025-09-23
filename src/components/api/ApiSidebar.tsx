@@ -1,31 +1,31 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe } from 'lucide-react';
+import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe, QrCode } from 'lucide-react';
 
 const navigationItems = [
   { 
     id: 'introduction', 
     label: 'Introduction', 
     icon: Home, 
-    path: '/api/introduction'
+    path: '/introduction'
   },
   { 
     id: 'authentication', 
     label: 'Authentication', 
     icon: Shield, 
-    path: '/api/authentication'
+    path: '/authentication'
   },
   { 
     id: 'pagination', 
     label: 'Pagination', 
     icon: Layers, 
-    path: '/api/pagination'
+    path: '/pagination'
   },
   { 
     id: 'errors', 
     label: 'Errors', 
     icon: AlertCircle, 
-    path: '/api/errors'
+    path: '/errors'
   }
 ];
 
@@ -34,73 +34,92 @@ const apiEndpoints = [
     id: 'transactions', 
     label: 'Transactions', 
     icon: CreditCard, 
-    path: '/api/transactions',
+    path: '/transactions',
     children: [
-      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/api/transactions#initialize' },
-      { id: 'verify-transaction', label: 'Verify Transaction', path: '/api/transactions#verify' },
-      { id: 'list-transactions', label: 'List Transactions', path: '/api/transactions#list' },
-      { id: 'fetch-transaction', label: 'Fetch Transaction', path: '/api/transactions#fetch' }
+      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/transactions#initialize' },
+      { id: 'query-transaction', label: 'Query Transaction', path: '/transactions#query' }
     ]
   },
   { 
     id: 'ussd', 
     label: 'USSD', 
     icon: Smartphone, 
-    path: '/api/ussd',
+    path: '/ussd',
     children: [
-      { id: 'get-institutions', label: 'Get Financial Institutions', path: '/api/ussd#institutions' },
-      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/api/ussd#initiate' }
+      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/ussd#query' },
+      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' },
+      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/ussd#institutions' }
     ]
   },
   { 
     id: 'card', 
     label: 'Card Payments', 
     icon: CreditCard, 
-    path: '/api/card',
+    path: '/card',
     children: [
-      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/api/card#initiate' },
-      { id: 'verify-otp', label: 'Verify OTP', path: '/api/card#otp' }
+      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
+      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/card#complete' }
+    ]
+  },
+  { 
+    id: 'qr', 
+    label: 'QR Payments', 
+    icon: QrCode, 
+    path: '/qr',
+    children: [
+      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/qr#initiate' }
+    ]
+  },
+  { 
+    id: 'payattitude', 
+    label: 'PAYATTITUDE', 
+    icon: Smartphone, 
+    path: '/payattitude',
+    children: [
+      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/payattitude#initiate' }
+    ]
+  },
+  { 
+    id: 'bnpl', 
+    label: 'BNPL', 
+    icon: CreditCard, 
+    path: '/bnpl',
+    children: [
+      { id: 'initiate-bnpl', label: 'Initiate', path: '/bnpl#initiate' },
+      { id: 'validate-otp', label: 'Validate OTP', path: '/bnpl#validate-otp' },
+      { id: 'validate', label: 'Validate', path: '/bnpl#validate' },
+      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/bnpl#validate-token' },
+      { id: 'update-offer', label: 'Update Offer', path: '/bnpl#update-offer' },
+      { id: 'book', label: 'Book', path: '/bnpl#book' }
     ]
   },
   { 
     id: 'transfer', 
-    label: 'Bank Transfer', 
+    label: 'Pay With Transfer', 
     icon: Building, 
-    path: '/api/transfer',
+    path: '/transfer',
     children: [
-      { id: 'initiate-transfer', label: 'Initiate Transfer', path: '/api/transfer#initiate' },
-      { id: 'query-transfer', label: 'Query Transfer Status', path: '/api/transfer#query' }
+      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/transfer#initiate' },
+      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/transfer#confirm' }
     ]
   },
   { 
-    id: 'customers', 
-    label: 'Customers', 
+    id: 'merchant', 
+    label: 'Merchant', 
     icon: Users, 
-    path: '/api/customers',
+    path: '/merchant',
     children: [
-      { id: 'create-customer', label: 'Create Customer', path: '/api/customers#create' },
-      { id: 'fetch-customer', label: 'Fetch Customer', path: '/api/customers#fetch' },
-      { id: 'list-customers', label: 'List Customers', path: '/api/customers#list' }
-    ]
-  },
-  { 
-    id: 'virtual-accounts', 
-    label: 'Virtual Accounts', 
-    icon: Building, 
-    path: '/api/virtual-accounts',
-    children: [
-      { id: 'create-virtual-account', label: 'Create Virtual Account', path: '/api/virtual-accounts#create' },
-      { id: 'list-virtual-accounts', label: 'List Virtual Accounts', path: '/api/virtual-accounts#list' }
+      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/merchant#enquiry' }
     ]
   },
   { 
     id: 'webhooks', 
     label: 'Webhooks', 
     icon: Webhook, 
-    path: '/api/webhooks',
+    path: '/webhooks',
     children: [
-      { id: 'webhook-events', label: 'Webhook Events', path: '/api/webhooks#events' },
-      { id: 'webhook-verification', label: 'Signature Verification', path: '/api/webhooks#verification' }
+      { id: 'webhook-events', label: 'Webhook Events', path: '/webhooks#events' },
+      { id: 'webhook-verification', label: 'Signature Verification', path: '/webhooks#verification' }
     ]
   }
 ];
@@ -118,7 +137,7 @@ export const ApiSidebar: React.FC = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || (path === '/api/introduction' && location.pathname === '/api');
+    return location.pathname === path || (path === '/' && location.pathname === '/');
   };
 
   const isChildActive = (children: any[]) => {
