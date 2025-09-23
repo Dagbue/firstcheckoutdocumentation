@@ -16,7 +16,8 @@ const navigationItems = [
   { id: 'customers', label: 'Customers', icon: Users, path: '/customers' },
   { id: 'virtual-accounts', label: 'Virtual Accounts', icon: Building, path: '/virtual-accounts' },
   { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/ussd' },
-  { id: 'payattitude', label: 'PAYATTITUDE', icon: Smartphone, path: '/payattitude' }
+  { id: 'payattitude', label: 'PAYATTITUDE', icon: Smartphone, path: '/payattitude' },
+  { id: 'bnpl', label: 'BNPL', icon: CreditCard, path: '/bnpl' }
 ];
 
 export const ApiMobileMenu: React.FC<ApiMobileMenuProps> = ({ isOpen, onClose }) => {

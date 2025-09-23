@@ -80,6 +80,20 @@ const apiEndpoints = [
     ]
   },
   { 
+    id: 'bnpl', 
+    label: 'BNPL', 
+    icon: CreditCard, 
+    path: '/bnpl',
+    children: [
+      { id: 'initiate-bnpl', label: 'Initiate', path: '/bnpl#initiate' },
+      { id: 'validate-otp', label: 'Validate OTP', path: '/bnpl#validate-otp' },
+      { id: 'validate', label: 'Validate', path: '/bnpl#validate' },
+      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/bnpl#validate-token' },
+      { id: 'update-offer', label: 'Update Offer', path: '/bnpl#update-offer' },
+      { id: 'book', label: 'Book', path: '/bnpl#book' }
+    ]
+  },
+  { 
     id: 'transfer', 
     label: 'Bank Transfer', 
     icon: Building, 
