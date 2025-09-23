@@ -14,19 +14,22 @@ export const ApiTransferSection: React.FC = () => {
   };
 
   const initiateTransferCode = {
-    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/paywithtransfer/initiate' \\
---header 'authToken: {"{{Access-Token}}"}' \\
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/paywithtransfer/initiate' \\
+--header 'Content-Type: application/json' \\
+--header 'Access-Token: {{Access-Token}}' \\
 --data '{
-    "TransactionReference": "{"{{transactionRef}}"}"
+    "TransactionReference": "TX-DD17B24E8A6E420A8421548DC5E0D3FC",
+    "TypeId": 2
 }'`,
     nodejs: `const axios = require('axios');
 
-async function initiatePayWithTransfer(transactionRef, accessToken) {
+async function initiatePayWithTransfer(transactionRef, typeId, accessToken) {
   const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/paywithtransfer/initiate', {
-    TransactionReference: transactionRef
+    TransactionReference: transactionRef,
+    TypeId: typeId
   }, {
     headers: {
-      'authToken': accessToken,
+      'Access-Token': accessToken,
       'Content-Type': 'application/json'
     }
   });
@@ -34,7 +37,7 @@ async function initiatePayWithTransfer(transactionRef, accessToken) {
   return response.data;
 }`,
     php: `<?php
-function initiatePayWithTransfer($transactionRef, $accessToken) {
+function initiatePayWithTransfer($transactionRef, $typeId, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
@@ -42,10 +45,11 @@ function initiatePayWithTransfer($transactionRef, $accessToken) {
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'TransactionReference' => $transactionRef
+        'TransactionReference' => $transactionRef,
+        'TypeId' => $typeId
       ]),
       CURLOPT_HTTPHEADER => array(
-        'authToken: ' . $accessToken,
+        'Access-Token: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -59,16 +63,17 @@ function initiatePayWithTransfer($transactionRef, $accessToken) {
     python: `import requests
 import os
 
-def initiate_pay_with_transfer(transaction_ref, access_token):
+def initiate_pay_with_transfer(transaction_ref, type_id, access_token):
     """Initiate Pay with Transfer transaction"""
     url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/paywithtransfer/initiate"
     
     payload = {
-        "TransactionReference": transaction_ref
+        "TransactionReference": transaction_ref,
+        "TypeId": type_id
     }
     
     headers = {
-        'authToken': access_token,
+        'Access-Token': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -79,13 +84,13 @@ def initiate_pay_with_transfer(transaction_ref, access_token):
   };
 
   const confirmTransferCode = {
-    curl: `curl --location -g '{"{{GatewayBaseAddress}}"}/api/v1/paywithtransfer/complete' \\
---header 'Access-Token: {"{{Access-Token}}"}' \\
+    curl: `curl --location -g '{{GatewayBaseAddress}}/api/v1/paywithtransfer/complete' \\
+--header 'Access-Token: {{Access-Token}}' \\
 --header 'Content-Type: application/json' \\
 --data '{
-    "UniqueReference": "{"{{transactionRef}}"}",
-    "VirtualAccountNo": "{"{{virtualAccountNo}}"}",
-    "VirtualAccountToken": "{"{{virtualAccountToken}}"}"
+    "UniqueReference": "{{transactionRef}}",
+    "VirtualAccountNo": "{{virtualAccountNo}}",
+    "VirtualAccountToken": "{{virtualAccountToken}}"
 }'`,
     nodejs: `const axios = require('axios');
 
@@ -153,7 +158,8 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
   };
 
   const initiateTransferRequestBody = `{
-    "TransactionReference": "TX-F2E2FC1B8CE142B790C95AE57CD99466"
+    "TransactionReference": "{{transactionRef}}",
+    "TypeId": 2
 }`;
 
   const confirmTransferRequestBody = `{
@@ -163,23 +169,33 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
 }`;
 
   const initiateTransferSuccessResponse = `{
-  "status": true,
-  "message": "Pay with Transfer initiated successfully",
+  "status": "success",
+  "message": "Payment initiated successfully.",
   "data": {
-    "transactionReference": "TX-F2E2FC1B8CE142B790C95AE57CD99466",
-    "virtualAccountNo": "9101724738",
-    "virtualAccountToken": "va_token_abc123xyz",
-    "bankName": "First Bank of Nigeria",
-    "bankCode": "011",
-    "accountName": "FIRSTCHEKOUT/MERCHANT NAME",
-    "amount": 5000,
-    "currency": "NGN",
-    "expiryTime": "2024-01-15T11:00:00Z",
-    "status": "PENDING",
-    "statusCode": "01",
-    "statusMessage": "PENDING"
+    "transactionReference": "TX-DD17B24E8A6E420A8421548DC5E0D3FC",
+    "paymentInstructions": {
+      "TransferNumber": "1234567890",
+      "bankName": "First Bank",
+      "amount": 10000,
+      "expiry": "2024-12-31T23:59:59Z"
+    }
   }
 }`;
+
+  const initiateTransferErrorResponses = {
+    badRequest: `{
+  "status": "error",
+  "message": "Invalid request body. Please check your parameters."
+}`,
+    unauthorized: `{
+  "status": "error",
+  "message": "Access token is missing or invalid."
+}`,
+    serverError: `{
+  "status": "error",
+  "message": "An unexpected error occurred. Please try again later."
+}`
+  };
 
   const confirmTransferSuccessResponse = `{
   "status": "success",
@@ -234,7 +250,7 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
     <div className="max-w-none">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Pay With Transfer</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">PayWithTransfer</h1>
         <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
           Pay With Transfer allows customers to make payments via direct bank transfer using dynamically 
           generated virtual account numbers. This payment method provides high success rates and works 
@@ -337,99 +353,196 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Initiate Pay with Transfer Payment</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            Initiates a Pay with Transfer payment transaction by generating virtual account details for the customer to transfer funds to.
+            Initiates a payment process using the Pay with Transfer method via the FirstChekout Payment 
+            Gateway API. This endpoint is typically the first step in the Transfer-based payment workflow, 
+            generating a transaction reference and preparing the gateway for subsequent confirmation.
           </p>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Request Body Parameter</h3>
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-4">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">TransactionReference</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      A unique identifier for the transaction to be initiated.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">TX-F2E2FC1B8CE142B790C95AE57CD99466</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Endpoint</h3>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded font-medium">POST</span>
+              <code className="text-sm text-blue-600">{"{{GatewayBaseAddress}}"}/api/v1/paywithtransfer/initiate</code>
             </div>
           </div>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Required Header</h3>
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-4">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">authToken</span>
-                    <div className="text-xs text-gray-500 mt-1">(string)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      A valid authentication token is required in the request headers to authorize the transaction.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <ul className="space-y-3 text-gray-700">
             <li className="flex items-start">
               <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
-              <span>Ensure that the <strong>TransactionReference</strong> is unique for each transaction to prevent duplication or conflicts.</span>
+              <span>To start a payment transaction using an Transfer transfer method.</span>
             </li>
             <li className="flex items-start">
               <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
-              <span>The <strong>authToken</strong> must be valid and not expired; otherwise, the request will be rejected.</span>
+              <span>Returns a response containing transaction details required for the next steps in the payment process.</span>
             </li>
           </ul>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Expected Responses</h3>
-          <div className="space-y-4">
-            <div>
-              <div className="flex items-center mb-3">
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-2">Success (200 OK)</span>
-                <span className="text-gray-700">Virtual account details generated successfully.</span>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Prerequisites</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>A valid Access-Token must be available in your environment.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The GatewayBaseAddress should be configured to point to the correct environment.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Headers</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-200 rounded-lg">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Key</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Value</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 text-sm font-mono text-gray-900">Content-Type</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">application/json</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Specifies the request body format.</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 text-sm font-mono text-gray-900">Access-Token</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">{"{{Access-Token}}"}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Bearer token for authentication.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Request Body</h3>
+          <p className="text-gray-700 mb-4">Send as raw JSON:</p>
+          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+            <CodeBlock language="json" code={initiateTransferRequestBody} />
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Parameters</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-200 rounded-lg">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Type</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Required</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 text-sm font-mono text-gray-900">TransactionReference</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">string</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Yes</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Unique identifier for the transaction.</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 text-sm font-mono text-gray-900">TypeId</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">integer</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Yes</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">Payment type identifier (2 for Transfer transfer).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Example Request</h3>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded font-medium">POST</span>
+                <code className="text-sm text-blue-600">{"{{GatewayBaseAddress}}"}/api/v1/paywithtransfer/initiate</code>
               </div>
+              <div className="text-sm text-gray-700">Content-Type: application/json</div>
+              <div className="text-sm text-gray-700">Access-Token: {"{{Access-Token}}"}</div>
             </div>
+            <div className="mt-4">
+              <CodeBlock language="json" code={`{
+    "TransactionReference": "TX-DD17B24E8A6E420A8421548DC5E0D3FC",
+    "TypeId": 2
+}`} />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Example Success Response</h3>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <CodeBlock language="json" code={initiateTransferSuccessResponse} />
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Possible Error Responses</h3>
+          
+          <div className="space-y-6">
             <div>
               <div className="flex items-center mb-3">
                 <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">400 Bad Request</span>
-                <span className="text-gray-700">Missing or invalid parameters.</span>
+                <span className="text-gray-700">Invalid request body or missing parameters.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <CodeBlock language="json" code={initiateTransferErrorResponses.badRequest} />
               </div>
             </div>
+
             <div>
               <div className="flex items-center mb-3">
                 <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">401 Unauthorized</span>
-                <span className="text-gray-700">Authentication failure.</span>
+                <span className="text-gray-700">Access token is missing or invalid.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <CodeBlock language="json" code={initiateTransferErrorResponses.unauthorized} />
               </div>
             </div>
+
             <div>
               <div className="flex items-center mb-3">
                 <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">500 Internal Server Error</span>
                 <span className="text-gray-700">Unexpected server error.</span>
               </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <CodeBlock language="json" code={initiateTransferErrorResponses.serverError} />
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Important Notes</h3>
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Ensure the <strong>transactionRef</strong> is unique for each transaction to avoid duplication.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>The <strong>TypeId</strong> must be set to 2 for Transfer transfer payments.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
+              <span>Ensure your environment variables are correctly configured before making requests.</span>
+            </li>
+          </ul>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -482,10 +595,10 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
             <div className="response-container mt-4">
               <div className="response-header">
                 <span>Example Response</span>
-                <span className="status-200">200 OK</span>
+                <span className="text-gray-500">No response body</span>
               </div>
               <div className="response-body">
-                <CodeBlock language="json" code={initiateTransferSuccessResponse} />
+                <p className="text-sm text-gray-600">This request doesn't return any response body</p>
               </div>
             </div>
           </div>
@@ -506,7 +619,7 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Confirm Paywith Transfer Payment</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
             This endpoint allows you to confirm a payment made via transfer using the FirstChekout Payment Gateway. 
             Use this after a customer has completed a transfer to the provided virtual account, and you need to 
@@ -564,173 +677,16 @@ def confirm_pay_with_transfer(unique_reference, virtual_account_no, virtual_acco
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Request Body Schema</h3>
           <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-6">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">UniqueReference</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The unique transaction reference from the transfer initiation.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"{"{{transactionRef}}"}"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">VirtualAccountNo</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The virtual account number provided for the transfer.
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"9101724738"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-40">
-                    <span className="text-sm font-semibold text-gray-900">VirtualAccountToken</span>
-                    <div className="text-xs text-gray-500 mt-1">(string, required)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The token associated with the virtual account (from initiation).
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <strong>Example:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"&lt;token&gt;"</code>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
-            <div className="bg-gray-50 rounded-lg p-4 mb-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm font-medium text-gray-700">Token:</span>
-                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
-              <CodeBlock language="json" code={confirmTransferRequestBody} />
-            </div>
-          </div>
-
-          <div>
-            <div className="language-tabs">
-              {Object.keys(confirmTransferCode).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLanguage(lang)}
-                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
-                >
-                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
-                </button>
-              ))}
-            </div>
-
-            <div className="paystack-code-block">
-              <div className="paystack-code-header">
-                <span className="text-sm font-medium">Example Request</span>
-                <button
-                  onClick={() => copyToClipboard(confirmTransferCode[activeLanguage], 'confirm-transfer')}
-                  className="copy-button"
-                >
-                  {copiedCode === 'confirm-transfer' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                </button>
-              </div>
-              <div className="paystack-code-content">
-                <pre><code>{confirmTransferCode[activeLanguage]}</code></pre>
-              </div>
-            </div>
-
-            <div className="response-container mt-4">
-              <div className="response-header">
-                <span>Example Response</span>
-                <span className="status-200">200 OK</span>
-              </div>
-              <div className="response-body">
-                <CodeBlock language="json" code={confirmTransferSuccessResponse} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Example Responses</h3>
-          
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-center mb-3">
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-2">Success (200)</span>
-                <span className="text-gray-700">Payment confirmed successfully.</span>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
-                <CodeBlock language="json" code={confirmTransferSuccessResponse} />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center mb-3">
-                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Invalid Token (401)</span>
-                <span className="text-gray-700">Invalid or expired virtual account token.</span>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
-                <CodeBlock language="json" code={confirmTransferErrorResponses.unauthorized} />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center mb-3">
-                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Not Found (404)</span>
-                <span className="text-gray-700">Transaction reference not found.</span>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
-                <CodeBlock language="json" code={confirmTransferErrorResponses.notFound} />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center mb-3">
-                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Already Confirmed (409)</span>
-                <span className="text-gray-700">This transaction has already been confirmed.</span>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
-                <CodeBlock language="json" code={confirmTransferErrorResponses.conflict} />
-              </div>
-            </div>
+            <CodeBlock language="json" code={`{
+  "UniqueReference": "{{transactionRef}}", // Transaction reference from transfer payment initiation
+  "VirtualAccountNo": "{{virtualAccountNo}}", // Virtual account number from transfer payment initiation
+  "VirtualAccountToken": "{{virtualAccountToken}}" // Virtual account token from transfer payment initiation
+}`} />
           </div>
         </div>
 
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Field Descriptions</h3>
-          
           <div className="overflow-x-auto">
             <table className="min-w-full border border-gray-200 rounded-lg">
               <thead className="bg-gray-50">
@@ -894,6 +850,84 @@ fetch(url, {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Example Responses</h3>
+          
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-2">Success (200)</span>
+                <span className="text-gray-700">Payment confirmed successfully.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={confirmTransferSuccessResponse} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Invalid Token (401)</span>
+                <span className="text-gray-700">Invalid or expired virtual account token.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={confirmTransferErrorResponses.unauthorized} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Not Found (404)</span>
+                <span className="text-gray-700">Transaction reference not found.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={confirmTransferErrorResponses.notFound} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">Error: Already Confirmed (409)</span>
+                <span className="text-gray-700">This transaction has already been confirmed.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={confirmTransferErrorResponses.conflict} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Related Endpoints</h3>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• <a href="#initiate" className="text-blue-600 hover:text-blue-700 underline">Initiate Pay with Transfer</a></li>
+              <li>• For more details, refer to the FirstChekout Payment Gateway collection documentation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
+            <div className="space-y-2">
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-gray-700">Token:</span>
+                <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
+            <CodeBlock language="json" code={confirmTransferRequestBody} />
           </div>
         </div>
       </section>
