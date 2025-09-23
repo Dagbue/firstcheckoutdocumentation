@@ -563,26 +563,6 @@ def get_access_token():
           </div>
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage</h3>
-          <p className="text-gray-700 mb-4 leading-relaxed">
-            To use this endpoint effectively, ensure that you provide the correct grant_type in the request body. 
-            Upon successful authentication, you will receive an access token that you can use to access protected 
-            resources. Handle the response carefully, especially checking the isSuccess and isFailure flags to 
-            determine the outcome of your request.
-          </p>
-        </div>
-
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="text-sm font-semibold text-blue-900 mb-2">Request Details</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>• Method: POST</li>
-              <li>• URL: {"{{IdenityServerAddress}}"}api/v2/authenticate/token</li>
-              <li>• Content-Type: application/x-www-form-urlencoded</li>
-            </ul>
-          </div>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
@@ -647,139 +627,132 @@ def get_access_token():
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Response Structure</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage</h3>
+          <p className="text-gray-700 mb-4 leading-relaxed">
+            To use this endpoint effectively, ensure that you provide the correct grant_type in the request body. 
+            Upon successful authentication, you will receive an access token that you can use to access protected 
+            resources. Handle the response carefully, especially checking the isSuccess and isFailure flags to 
+            determine the outcome of your request.
+          </p>
+        </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-blue-900 mb-2">Request Details</h4>
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• Method: POST</li>
+              <li>• URL: {"{{IdenityServerAddress}}"}api/v2/authenticate/token</li>
+              <li>• Content-Type: application/x-www-form-urlencoded</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Response</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
             Upon a successful request, the server responds with a JSON object that contains the following structure:
           </p>
           
-          <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-4">Response Parameters</h4>
-            <div className="space-y-4">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">value</span>
-                    <div className="text-xs text-gray-500 mt-1">(object)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      An object containing the authentication details.
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Response Structure</h4>
+            <CodeBlock language="json" code={`{
+  "value": {
+    "access_token": "",
+    "token_type": "",
+    "expires_in": 0
+  },
+  "isSuccess": true,
+  "error": null,
+  "timestamp": "",
+  "isFailure": false,
+  "statusCode": ""
+}`} />
+          </div>
+        </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">access_token</span>
-                    <div className="text-xs text-gray-500 mt-1">(string)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The token that can be used for authorization in subsequent requests.
-                    </p>
-                  </div>
-                </div>
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (urlencoded)</h4>
+              <div className="space-y-2 text-sm">
+                <div><strong>grant_type:</strong> client_credentials</div>
+                <div><strong>client_Id:</strong> {"{{ClientId}}"}</div>
+                <div><strong>client_Secret:</strong> {"{{ClientSecret}}"}</div>
               </div>
+            </div>
+          </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">token_type</span>
-                    <div className="text-xs text-gray-500 mt-1">(string)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The type of token issued (e.g., Bearer).
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div>
+            <div className="language-tabs">
+              {Object.keys(accessTokenCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">expires_in</span>
-                    <div className="text-xs text-gray-500 mt-1">(number)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The duration in seconds for which the token is valid (36000 seconds = 10 hours).
-                    </p>
-                  </div>
-                </div>
+            <div className="paystack-code-block">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Example Request</span>
+                <button
+                  onClick={() => copyToClipboard(accessTokenCode[activeLanguage], 'access-token')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'access-token' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
               </div>
+              <div className="paystack-code-content">
+                <pre><code>{accessTokenCode[activeLanguage]}</code></pre>
+              </div>
+            </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">isSuccess</span>
-                    <div className="text-xs text-gray-500 mt-1">(boolean)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      A boolean indicating whether the request was successful.
-                    </p>
-                  </div>
-                </div>
+            <div className="response-container mt-4">
+              <div className="response-header">
+                <span>Example Response</span>
+                <span className="status-200">200 OK</span>
               </div>
+              <div className="response-body">
+                <CodeBlock language="json" code={accessTokenSuccessResponse} />
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">error</span>
-                    <div className="text-xs text-gray-500 mt-1">(object)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      Contains error information if the request failed; otherwise, it is null.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">timestamp</span>
-                    <div className="text-xs text-gray-500 mt-1">(string)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The time at which the response was generated.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">isFailure</span>
-                    <div className="text-xs text-gray-500 mt-1">(boolean)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      A boolean indicating whether the request failed.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-sm font-semibold text-gray-900">statusCode</span>
-                    <div className="text-xs text-gray-500 mt-1">(string)</div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      The HTTP status code of the response.
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Response Parameters</h3>
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">value</h4>
+              <p className="text-sm text-gray-600 mb-2">An object containing the authentication details.</p>
+              <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                <li>• <strong>access_token:</strong> The token that can be used for authorization in subsequent requests.</li>
+                <li>• <strong>token_type:</strong> The type of token issued (e.g., Bearer).</li>
+                <li>• <strong>expires_in:</strong> The duration in seconds for which the token is valid.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">isSuccess</h4>
+              <p className="text-sm text-gray-600">A boolean indicating whether the request was successful.</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">error</h4>
+              <p className="text-sm text-gray-600">Contains error information if the request failed; otherwise, it is null.</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">timestamp</h4>
+              <p className="text-sm text-gray-600">The time at which the response was generated.</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">isFailure</h4>
+              <p className="text-sm text-gray-600">A boolean indicating whether the request failed.</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">statusCode</h4>
+              <p className="text-sm text-gray-600">The HTTP status code of the response.</p>
             </div>
           </div>
         </div>
