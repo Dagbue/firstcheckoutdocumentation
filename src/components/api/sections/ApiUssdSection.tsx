@@ -578,7 +578,7 @@ def fetch_ussd_institutions():
           <div className="bg-gray-50 rounded-lg p-4">
             <p className="text-gray-700 mb-3">
               <strong>AuthToken:</strong> A required header for authentication, using the environment variable 
-              "{"{{Access-Token}}"}" to provide the access token.
+              "{"{{Access-Token}}"}\" to provide the access token.
             </p>
           </div>
         </div>
