@@ -727,7 +727,6 @@ def fetch_ussd_institutions():
                   {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
                 </button>
               ))}
-            </nav>
           </div>
 
           <div className="paystack-code-block">
