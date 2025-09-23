@@ -146,10 +146,10 @@ export const DocsSidebar: React.FC = () => {
                           <Link
                             key={child.id}
                             to={child.path}
-                            className={`group flex items-center px-2 py-1 text-xs rounded-md transition-colors sidebar-nav-subitem ${
+                            className={`group flex items-center px-2 py-1 text-xs rounded-md transition-colors hover:text-blue-600 hover:bg-blue-50 ${
                               isActive(child.path)
-                                ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
+                                : 'text-gray-600'
                             }`}
                           >
                             <child.icon className="mr-2 h-3 w-3 flex-shrink-0" />
@@ -162,10 +162,10 @@ export const DocsSidebar: React.FC = () => {
                 ) : (
                   <Link
                     to={item.path}
-                    className={`group flex items-center px-2 py-1.5 text-xs font-medium rounded-md transition-colors sidebar-nav-item ${
+                    className={`group flex items-center px-2 py-1.5 text-xs font-medium rounded-md transition-colors hover:text-blue-600 hover:bg-blue-50 ${
                       isActive(item.path)
-                        ? 'bg-blue-50 text-blue-700 border-r-2 border-bank-gold'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
+                        : 'text-gray-700'
                     }`}
                   >
                     <item.icon className="mr-2 h-3 w-3 flex-shrink-0" />
