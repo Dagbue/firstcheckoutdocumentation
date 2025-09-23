@@ -95,33 +95,12 @@ const apiEndpoints = [
   },
   { 
     id: 'transfer', 
-    label: 'Bank Transfer', 
+    label: 'Pay With Transfer', 
     icon: Building, 
     path: '/transfer',
     children: [
-      { id: 'initiate-transfer', label: 'Initiate Transfer', path: '/transfer#initiate' },
-      { id: 'query-transfer', label: 'Query Transfer Status', path: '/transfer#query' }
-    ]
-  },
-  { 
-    id: 'customers', 
-    label: 'Customers', 
-    icon: Users, 
-    path: '/customers',
-    children: [
-      { id: 'create-customer', label: 'Create Customer', path: '/customers#create' },
-      { id: 'fetch-customer', label: 'Fetch Customer', path: '/customers#fetch' },
-      { id: 'list-customers', label: 'List Customers', path: '/customers#list' }
-    ]
-  },
-  { 
-    id: 'virtual-accounts', 
-    label: 'Virtual Accounts', 
-    icon: Building, 
-    path: '/virtual-accounts',
-    children: [
-      { id: 'create-virtual-account', label: 'Create Virtual Account', path: '/virtual-accounts#create' },
-      { id: 'list-virtual-accounts', label: 'List Virtual Accounts', path: '/virtual-accounts#list' }
+      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/transfer#initiate' },
+      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/transfer#confirm' }
     ]
   },
   { 

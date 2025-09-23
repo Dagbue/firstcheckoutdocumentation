@@ -113,10 +113,6 @@ function AppContent() {
                 <Route path="/qr" element={<ApiQrPage />} />
                 <Route path="/payattitude" element={<ApiPayattitudePage />} />
                 <Route path="/bnpl" element={<ApiBnplPage />} />
-                <Route path="/transfer" element={<ApiTransferPage />} />
-                <Route path="/webhooks" element={<ApiWebhooksPage />} />
-                <Route path="/customers" element={<ApiCustomersPage />} />
-                <Route path="/virtual-accounts" element={<ApiVirtualAccountsPage />} />
                 <Route path="/errors" element={<ApiErrorsPage />} />
                 <Route path="/pagination" element={<ApiPaginationPage />} />
                 

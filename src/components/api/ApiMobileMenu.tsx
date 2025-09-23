@@ -13,8 +13,7 @@ const navigationItems = [
   { id: 'pagination', label: 'Pagination', icon: Layers, path: '/pagination' },
   { id: 'errors', label: 'Errors', icon: AlertCircle, path: '/errors' },
   { id: 'transactions', label: 'Transactions', icon: CreditCard, path: '/transactions' },
-  { id: 'customers', label: 'Customers', icon: Users, path: '/customers' },
-  { id: 'virtual-accounts', label: 'Virtual Accounts', icon: Building, path: '/virtual-accounts' },
+  { id: 'transfer', label: 'Pay With Transfer', icon: Building, path: '/transfer' },
   { id: 'ussd', label: 'USSD', icon: Smartphone, path: '/ussd' },
   { id: 'payattitude', label: 'PAYATTITUDE', icon: Smartphone, path: '/payattitude' },
   { id: 'bnpl', label: 'BNPL', icon: CreditCard, path: '/bnpl' }
