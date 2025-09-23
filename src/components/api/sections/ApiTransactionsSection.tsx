@@ -1,7 +1,7 @@
 import React from 'react';
 import { Copy, Check, ExternalLink, CreditCard, Search } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
-import { API_CONFIG } from '../../../config/apiConfig';
+
 
 export const ApiTransactionsSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
@@ -193,24 +193,24 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
   "message": "Transaction not found"
 }`;
 
-  const querySuccessResponse = `{
-  "status": "success",
-  "data": {
-    "transactionRef": "1234567890",
-    "amount": 10000,
-    "currency": "NGN",
-    "status": "completed",
-    "createdAt": "2024-06-01T12:34:56Z",
-    "updatedAt": "2024-06-01T12:35:56Z",
-    "customer": {
-      "name": "John Doe",
-      "email": "john.doe@example.com"
-    },
-    "metadata": {
-      "orderId": "ORD-001"
-    }
-  }
-}`;
+//   const querySuccessResponse = `{
+//   "status": "success",
+//   "data": {
+//     "transactionRef": "1234567890",
+//     "amount": 10000,
+//     "currency": "NGN",
+//     "status": "completed",
+//     "createdAt": "2024-06-01T12:34:56Z",
+//     "updatedAt": "2024-06-01T12:35:56Z",
+//     "customer": {
+//       "name": "John Doe",
+//       "email": "john.doe@example.com"
+//     },
+//     "metadata": {
+//       "orderId": "ORD-001"
+//     }
+//   }
+// }`;
 
   const quickStartItems = [
     {
@@ -772,48 +772,48 @@ def query_transaction(transaction_ref, merchant_id, secret_key):
       </section>
 
       {/* Getting Started CTA */}
-      <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <span className="api-method get bg-blue-100 text-blue-800">GET</span>
-            <span className="api-url-path">/api/v1/transactions/referenceId/{"{{transactionRef}}"}</span>
-          </div>
-          <a 
-            href="https://documenter.getpostman.com/view/48285548/2sB3HnLLUZ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-gray-500 hover:text-gray-700 flex items-center"
-          >
-            <ExternalLink className="w-3 h-3 mr-1" />
-            View in Postman
-          </a>
-        </div>
-        <p className="text-blue-100 mb-6 leading-relaxed">
-          Use the Transactions API to create, query, and manage payments in your application. 
-          Retrieves the details of a specific transaction using its unique reference ID. This endpoint is typically used to check the status, metadata, and result of a payment or transaction processed through the FirstChekout Payment Gateway.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4">
-          <a
-            href="https://www.firstchekout.com/auth/signup"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-          >
-            Create free account
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </a>
-          <a
-            href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"
-          >
-            Test in Postman
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </a>
-        </div>
-      </div>
+      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
+      {/*  <div className="flex items-center justify-between">*/}
+      {/*    <div className="flex items-center space-x-3">*/}
+      {/*      <span className="api-method get bg-blue-100 text-blue-800">GET</span>*/}
+      {/*      <span className="api-url-path">/api/v1/transactions/referenceId/{"{{transactionRef}}"}</span>*/}
+      {/*    </div>*/}
+      {/*    <a */}
+      {/*      href="https://documenter.getpostman.com/view/48285548/2sB3HnLLUZ"*/}
+      {/*      target="_blank"*/}
+      {/*      rel="noopener noreferrer"*/}
+      {/*      className="text-xs text-gray-500 hover:text-gray-700 flex items-center"*/}
+      {/*    >*/}
+      {/*      <ExternalLink className="w-3 h-3 mr-1" />*/}
+      {/*      View in Postman*/}
+      {/*    </a>*/}
+      {/*  </div>*/}
+      {/*  <p className="text-blue-100 mb-6 leading-relaxed">*/}
+      {/*    Use the Transactions API to create, query, and manage payments in your application. */}
+      {/*    Retrieves the details of a specific transaction using its unique reference ID. This endpoint is typically used to check the status, metadata, and result of a payment or transaction processed through the FirstChekout Payment Gateway.*/}
+      {/*  </p>*/}
+      {/*  */}
+      {/*  <div className="flex flex-col sm:flex-row gap-4">*/}
+      {/*    <a*/}
+      {/*      href="https://www.firstchekout.com/auth/signup"*/}
+      {/*      target="_blank"*/}
+      {/*      rel="noopener noreferrer"*/}
+      {/*      className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
+      {/*    >*/}
+      {/*      Create free account*/}
+      {/*      <ExternalLink className="ml-2 h-4 w-4" />*/}
+      {/*    </a>*/}
+      {/*    <a*/}
+      {/*      href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
+      {/*      target="_blank"*/}
+      {/*      rel="noopener noreferrer"*/}
+      {/*      className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
+      {/*    >*/}
+      {/*      Test in Postman*/}
+      {/*      <ExternalLink className="ml-2 h-4 w-4" />*/}
+      {/*    </a>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 };

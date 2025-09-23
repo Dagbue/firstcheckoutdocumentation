@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers } from 'lucide-react';
+import { X, Home, Shield, AlertCircle, CreditCard, Users, Building, Smartphone, Layers } from 'lucide-react';
 
 interface ApiMobileMenuProps {
   isOpen: boolean;

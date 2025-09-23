@@ -90,12 +90,12 @@ export const ApiHeader: React.FC<ApiHeaderProps> = ({ onMenuToggle }) => {
                 >
                   API
                 </Link>
-                <Link
-                  to="/docs"
-                  className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"
-                >
-                  Docs
-                </Link>
+                {/*<Link*/}
+                {/*  to="/docs"*/}
+                {/*  className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-100 transition-colors"*/}
+                {/*>*/}
+                {/*  Docs*/}
+                {/*</Link>*/}
               </div>
             </div>
           </div>

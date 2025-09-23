@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Shield, FileText, AlertCircle, CreditCard, Users, Building, Smartphone, Layers, Webhook, Globe, QrCode } from 'lucide-react';
+import { Home, Shield, AlertCircle, CreditCard, Users, Building, Smartphone, Layers,
+  // Webhook,
+  QrCode } from 'lucide-react';
 
 const navigationItems = [
   { 
     id: 'introduction', 
     label: 'Introduction', 
     icon: Home, 
-    path: '/introduction'
+    path: '/'
   },
   { 
     id: 'authentication', 
@@ -34,94 +36,94 @@ const apiEndpoints = [
     id: 'transactions', 
     label: 'Transactions', 
     icon: CreditCard, 
-    path: '/transactions',
+    path: '/onlinedoc/transactions',
     children: [
-      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/transactions#initialize' },
-      { id: 'query-transaction', label: 'Query Transaction', path: '/transactions#query' }
+      { id: 'initialize-transaction', label: 'Initialize Transaction', path: '/onlinedoc/transactions#initialize' },
+      { id: 'query-transaction', label: 'Query Transaction', path: '/onlinedoc/transactions#query' }
     ]
   },
   { 
     id: 'ussd', 
     label: 'USSD', 
     icon: Smartphone, 
-    path: '/ussd',
+    path: '/onlinedoc/ussd',
     children: [
-      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/ussd#query' },
-      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' },
-      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/ussd#institutions' }
+      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/onlinedoc/ussd#query' },
+      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/onlinedoc/ussd#initiate' },
+      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/onlinedoc/ussd#institutions' }
     ]
   },
   { 
     id: 'card', 
     label: 'Card Payments', 
     icon: CreditCard, 
-    path: '/card',
+    path: '/onlinedoc/card',
     children: [
-      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
-      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/card#complete' }
+      { id: 'initiate-card', label: 'Initiate Card Payment', path: '/onlinedoc/card#initiate' },
+      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/onlinedoc/card#complete' }
     ]
   },
   { 
     id: 'qr', 
     label: 'QR Payments', 
     icon: QrCode, 
-    path: '/qr',
+    path: '/onlinedoc/qr',
     children: [
-      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/qr#initiate' }
+      { id: 'initiate-qr', label: 'Initiate QR Payment', path: '/onlinedoc/qr#initiate' }
     ]
   },
   { 
     id: 'payattitude', 
     label: 'PAYATTITUDE', 
     icon: Smartphone, 
-    path: '/payattitude',
+    path: '/onlinedoc/payattitude',
     children: [
-      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/payattitude#initiate' }
+      { id: 'initiate-payattitude', label: 'Initiate Pay With Phone Number', path: '/onlinedoc/payattitude#initiate' }
     ]
   },
   { 
     id: 'bnpl', 
     label: 'BNPL', 
     icon: CreditCard, 
-    path: '/bnpl',
+    path: '/onlinedoc/bnpl',
     children: [
-      { id: 'initiate-bnpl', label: 'Initiate', path: '/bnpl#initiate' },
-      { id: 'validate-otp', label: 'Validate OTP', path: '/bnpl#validate-otp' },
-      { id: 'validate', label: 'Validate', path: '/bnpl#validate' },
-      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/bnpl#validate-token' },
-      { id: 'update-offer', label: 'Update Offer', path: '/bnpl#update-offer' },
-      { id: 'book', label: 'Book', path: '/bnpl#book' }
+      { id: 'initiate-bnpl', label: 'Initiate', path: '/onlinedoc/bnpl#initiate' },
+      { id: 'validate-otp', label: 'Validate OTP', path: '/onlinedoc/bnpl#validate-otp' },
+      { id: 'validate', label: 'Validate', path: '/onlinedoc/bnpl#validate' },
+      { id: 'validate-token', label: 'Validate Token (Prod)', path: '/onlinedoc/bnpl#validate-token' },
+      { id: 'update-offer', label: 'Update Offer', path: '/onlinedoc/bnpl#update-offer' },
+      { id: 'book', label: 'Book', path: '/onlinedoc/bnpl#book' }
     ]
   },
   { 
     id: 'transfer', 
     label: 'Pay With Transfer', 
     icon: Building, 
-    path: '/transfer',
+    path: '/onlinedoc/transfer',
     children: [
-      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/transfer#initiate' },
-      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/transfer#confirm' }
+      { id: 'initiate-transfer', label: 'Initiate Pay with Transfer', path: '/onlinedoc/transfer#initiate' },
+      { id: 'confirm-transfer', label: 'Confirm Paywith Transfer Payment', path: '/onlinedoc/transfer#confirm' }
     ]
   },
   { 
     id: 'merchant', 
     label: 'Merchant', 
     icon: Users, 
-    path: '/merchant',
+    path: '/onlinedoc/merchant',
     children: [
-      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/merchant#enquiry' }
+      { id: 'merchant-name-enquiry', label: 'Merchant Name Enquiry', path: '/onlinedoc/merchant#enquiry' }
     ]
   },
-  { 
-    id: 'webhooks', 
-    label: 'Webhooks', 
-    icon: Webhook, 
-    path: '/webhooks',
-    children: [
-      { id: 'webhook-events', label: 'Webhook Events', path: '/webhooks#events' },
-      { id: 'webhook-verification', label: 'Signature Verification', path: '/webhooks#verification' }
-    ]
-  }
+  // {
+  //   id: 'webhooks',
+  //   label: 'Webhooks',
+  //   icon: Webhook,
+  //   path: '/onlinedoc/webhooks',
+  //   children: [
+  //     { id: 'webhook-events', label: 'Webhook Events', path: '/onlinedoc/webhooks#events' },
+  //     { id: 'webhook-verification', label: 'Signature Verification', path: '/onlinedoc/webhooks#verification' }
+  //   ]
+  // }
 ];
 
 export const ApiSidebar: React.FC = () => {
@@ -143,6 +145,8 @@ export const ApiSidebar: React.FC = () => {
   const isChildActive = (children: any[]) => {
     return children?.some(child => location.pathname + location.hash === child.path);
   };
+
+  console.log(location.pathname)
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 lg:fixed lg:inset-y-0 lg:top-14 lg:z-40">

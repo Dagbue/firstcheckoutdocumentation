@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 // Import docs components
@@ -37,9 +37,6 @@ import { ApiPaginationPage } from './pages/api/ApiPaginationPage';
 import { ApiUssdPage } from './pages/api/ApiUssdPage';
 import { ApiCardPage } from './pages/api/ApiCardPage';
 import { ApiTransferPage } from './pages/api/ApiTransferPage';
-import { ApiWebhooksPage } from './pages/api/ApiWebhooksPage';
-import { ApiCustomersPage } from './pages/api/ApiCustomersPage';
-import { ApiVirtualAccountsPage } from './pages/api/ApiVirtualAccountsPage';
 import { ApiQrPage } from './pages/api/ApiQrPage';
 import { ApiPayattitudePage } from './pages/api/ApiPayattitudePage';
 import { ApiBnplPage } from './pages/api/ApiBnplPage';
@@ -58,20 +55,21 @@ function ScrollToTop() {
 
 function AppContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  // const location = useLocation();
+  // const navigate = useNavigate();
   
   // Determine if we're in docs section based on URL
-  const isDocsSection = location.pathname.startsWith('/docs');
+  const isDocsSection = window.location.pathname.startsWith('/docs');
   const isApiSection = !isDocsSection; // API is the default/main context
 
   // Handle navigation for both sections
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsMobileMenuOpen(false);
-  };
+  // const handleNavigation = (path: string) => {
+  //   navigate(path);
+  //   setIsMobileMenuOpen(false);
+  // };
 
   return (
+      <Router basename="/onlinedoc">
     <div className="min-h-screen bg-white">
       <ScrollToTop />
       
@@ -91,13 +89,13 @@ function AppContent() {
           <ApiMobileMenu 
             isOpen={isMobileMenuOpen} 
             onClose={() => setIsMobileMenuOpen(false)}
-            onNavigate={handleNavigation}
+            // onNavigate={handleNavigation}
           />
         ) : (
           <DocsMobileMenu 
             isOpen={isMobileMenuOpen} 
             onClose={() => setIsMobileMenuOpen(false)}
-            onNavigate={handleNavigation}
+            // onNavigate={handleNavigation}
           />
         )}
         
@@ -141,6 +139,7 @@ function AppContent() {
         </main>
       </div>
     </div>
+      </Router>
   );
 }
 
