@@ -58,7 +58,7 @@ const apiEndpoints = [
     path: '/card',
     children: [
       { id: 'initiate-card', label: 'Initiate Card Payment', path: '/card#initiate' },
-      { id: 'verify-otp', label: 'Verify OTP', path: '/card#otp' }
+      { id: 'complete-card', label: 'Complete (Master/Verve) Card Payment', path: '/card#complete' }
     ]
   },
   { 
