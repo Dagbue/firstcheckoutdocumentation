@@ -1,48 +1,62 @@
 import React from 'react';
-import { Smartphone, Building, CheckCircle } from 'lucide-react';
+import { Smartphone, Building, Search, Copy, Check, ExternalLink } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiUssdSection: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = React.useState('curl');
+  const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
 
-  const getInstitutionsCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions' \\
---header 'Authorization: Bearer {access_token}'`,
+  const copyToClipboard = (code: string, id: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(id);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
+  // Query USSD Payment Endpoint
+  const queryUssdCode = {
+    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/ussd/transactions/{{transactionRef}}\' \\\n--header \'authToken: {{Access-Token}}\'',
     nodejs: `const axios = require('axios');
 
-async function getFinancialInstitutions(accessToken) {
-  const response = await axios.get('${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions', {
-    headers: {
-      'Authorization': \`Bearer \${accessToken}\`
+async function queryUssdPayment(transactionRef, accessToken) {
+  const response = await axios.get(
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/ussd/transactions/\${transactionRef}\`,
+    {
+      headers: {
+        'authToken': accessToken
+      }
     }
-  });
+  );
   
   return response.data;
 }`,
     php: `<?php
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer ' . $accessToken
-  ),
-));
-
-$response = curl_exec($curl);
-curl_close($curl);
-
-$data = json_decode($response, true);
+function queryUssdPayment($transactionRef, $accessToken) {
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/ussd/transactions/' . $transactionRef,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => array(
+        'authToken: ' . $accessToken
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
 ?>`,
     python: `import requests
+import os
 
-def get_financial_institutions(access_token):
-    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/institutions"
+def query_ussd_payment(transaction_ref, access_token):
+    """Query USSD payment transaction details"""
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/ussd/transactions/{transaction_ref}"
     
     headers = {
-        'Authorization': f'Bearer {access_token}'
+        'authToken': access_token
     }
     
     response = requests.get(url, headers=headers)
@@ -51,46 +65,42 @@ def get_financial_institutions(access_token):
     return response.json()`
   };
 
+  // Initiate USSD Payment
   const initiateUssdCode = {
-    curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate' \\
---header 'Content-Type: application/json' \\
---header 'Authorization: Bearer {access_token}' \\
---data-raw '{
-  "FinancialInstitutionId": "011",
-  "AccessCode": "TXN_ACCESS_CODE_123",
-  "PaymentReference": "FjWnMSUZajh1k224lXks39728874560476"
-}'`,
+    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/ussd/initiate\' \\\n--header \'AuthToken: {{Access-Token}}\' \\\n--data \'{\n    "TransactionReference": "{{transactionRef}}",\n    "FinancialInstitutionId": 5\n}\'',
     nodejs: `const axios = require('axios');
 
-async function initiateUssdPayment(accessToken, accessCode, paymentReference, bankId) {
-  const response = await axios.post('${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate', {
-    FinancialInstitutionId: bankId,
-    AccessCode: accessCode,
-    PaymentReference: paymentReference
-  }, {
-    headers: {
-      'Authorization': \`Bearer \${accessToken}\`,
-      'Content-Type': 'application/json'
+async function initiateUssdPayment(transactionRef, financialInstitutionId, accessToken) {
+  const response = await axios.post(
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/ussd/initiate\`,
+    {
+      TransactionReference: transactionRef,
+      FinancialInstitutionId: financialInstitutionId
+    },
+    {
+      headers: {
+        'AuthToken': accessToken,
+        'Content-Type': 'application/json'
+      }
     }
-  });
+  );
   
   return response.data;
 }`,
     php: `<?php
-function initiateUssdPayment($accessToken, $accessCode, $paymentReference, $bankId) {
+function initiateUssdPayment($transactionRef, $financialInstitutionId, $accessToken) {
     $curl = curl_init();
     
     curl_setopt_array($curl, array(
-      CURLOPT_URL => '${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate',
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/ussd/initiate',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => json_encode([
-        'FinancialInstitutionId' => $bankId,
-        'AccessCode' => $accessCode,
-        'PaymentReference' => $paymentReference
+        'TransactionReference' => $transactionRef,
+        'FinancialInstitutionId' => $financialInstitutionId
       ]),
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer ' . $accessToken,
+        'AuthToken: ' . $accessToken,
         'Content-Type: application/json'
       ),
     ));
@@ -102,18 +112,19 @@ function initiateUssdPayment($accessToken, $accessCode, $paymentReference, $bank
 }
 ?>`,
     python: `import requests
+import os
 
-def initiate_ussd_payment(access_token, access_code, payment_reference, bank_id):
-    url = "${API_CONFIG.gatewayBaseAddress}/api/v1/ussd/initiate"
+def initiate_ussd_payment(transaction_ref, financial_institution_id, access_token):
+    """Initiate USSD payment transaction"""
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/ussd/initiate"
     
     payload = {
-        "FinancialInstitutionId": bank_id,
-        "AccessCode": access_code,
-        "PaymentReference": payment_reference
+        "TransactionReference": transaction_ref,
+        "FinancialInstitutionId": financial_institution_id
     }
     
     headers = {
-        'Authorization': f'Bearer {access_token}',
+        'AuthToken': access_token,
         'Content-Type': 'application/json'
     }
     
@@ -123,272 +134,657 @@ def initiate_ussd_payment(access_token, access_code, payment_reference, bank_id)
     return response.json()`
   };
 
-  const institutionsResponse = `{
-  "status": true,
-  "message": "Financial institutions retrieved successfully",
-  "data": [
-    {
-      "id": "011",
-      "name": "First Bank of Nigeria",
-      "code": "011",
-      "ussdCode": "*894*000*{amount}#"
-    },
-    {
-      "id": "058",
-      "name": "Guaranty Trust Bank",
-      "code": "058", 
-      "ussdCode": "*737*000*{amount}#"
-    },
-    {
-      "id": "044",
-      "name": "Access Bank",
-      "code": "044",
-      "ussdCode": "*901*000*{amount}#"
-    }
-  ]
-}`;
+  // Fetch USSD Institution
+  const fetchInstitutionCode = {
+    curl: 'curl --location -g \'{{GatewayBaseAddress}}/api/v1/ussd/financial-institutions\'',
+    nodejs: `const axios = require('axios');
 
-  const ussdResponse = `{
-  "status": true,
-  "message": "USSD payment initiated successfully",
-  "data": {
-    "ussdCode": "*894*000*100#",
-    "bankName": "First Bank of Nigeria",
-    "amount": 100,
-    "paymentReference": "FjWnMSUZajh1k224lXks39728874560476",
-    "instructions": "Dial *894*000*100# on your phone to complete payment",
-    "expiryTime": "2024-01-15T11:00:00Z"
+async function fetchUssdInstitutions() {
+  const response = await axios.get(
+    \`\${process.env.GATEWAY_BASE_ADDRESS}/api/v1/ussd/financial-institutions\`
+  );
+  
+  return response.data;
+}`,
+    php: `<?php
+function fetchUssdInstitutions() {
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $_ENV['GATEWAY_BASE_ADDRESS'] . '/api/v1/ussd/financial-institutions',
+      CURLOPT_RETURNTRANSFER => true,
+    ));
+    
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
+    return json_decode($response, true);
+}
+?>`,
+    python: `import requests
+import os
+
+def fetch_ussd_institutions():
+    """Fetch available USSD financial institutions"""
+    url = f"{os.getenv('GATEWAY_BASE_ADDRESS')}/api/v1/ussd/financial-institutions"
+    
+    response = requests.get(url)
+    response.raise_for_status()
+    
+    return response.json()`
+  };
+
+  // Response examples from screenshots
+  const queryUssdSuccessResponse = `{
+  "transactionReference": "TX-C0F74D33AD8847CC85E6DD490644ABB4",
+  "status": "SUCCESS",
+  "amount": 5000,
+  "currency": "NGN",
+  "timestamp": "2024-06-01T12:34:56Z",
+  "payer": {
+    "msisdn": "+2348012345678",
+    "name": "John Doe"
+  },
+  "details": {
+    "channel": "USSD",
+    "description": "Payment for Order #12345"
   }
 }`;
 
+  const queryUssdErrorResponses = {
+    badRequest: '{ "error": "Invalid transaction reference." }',
+    unauthorized: '{ "error": "Unauthorized. Invalid or expired token." }',
+    notFound: '{ "error": "Transaction not found." }',
+    serverError: '{ "error": "Internal server error. Please try again later." }'
+  };
+
+  const initiateUssdResponse = `{
+  "data": {
+    "referenceCode": "3756",
+    "ussdCode": "*822*000*3756#",
+    "transactionReference": "TX-DF16A3BB2D4148C7A10438F90C4F2CC3",
+    "status": "PENDING",
+    "statusCode": "01",
+    "statusMessage": "PENDING",
+    "callbackUrl": null
+  },
+  "status": "OK"
+}`;
+
+  const quickStartItems = [
+    {
+      title: 'Query USSD Payment',
+      description: 'Retrieve details of a specific USSD payment transaction',
+      icon: Search,
+      color: 'blue',
+      link: '#query',
+      time: '1 minute'
+    },
+    {
+      title: 'Initiate USSD Payment',
+      description: 'Start a new USSD payment transaction',
+      icon: Smartphone,
+      color: 'emerald',
+      link: '#initiate',
+      time: '2 minutes'
+    },
+    {
+      title: 'Fetch USSD Institutions',
+      description: 'Get list of available financial institutions',
+      icon: Building,
+      color: 'purple',
+      link: '#institutions',
+      time: '30 seconds'
+    }
+  ];
+
   return (
-    <div className="max-w-5xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">USSD Payments</h1>
-        <p className="text-sm text-gray-600 leading-relaxed">
+    <div className="max-w-none">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">USSD</h1>
+        <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
           USSD (Unstructured Supplementary Service Data) allows customers to make payments using their mobile phones 
           without internet connectivity. This is particularly popular in Nigeria for mobile banking.
         </p>
       </div>
 
-      {/* Process Overview */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 className="text-sm font-semibold text-blue-900 mb-3">USSD Payment Process</h3>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-xs font-semibold text-blue-600">1</span>
+      {/* Authorization Info */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+        <div className="flex items-start space-x-4">
+          <div className="flex-shrink-0">
+            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Smartphone className="h-4 w-4 text-blue-600" />
             </div>
-            <h4 className="text-xs font-semibold text-blue-900 mb-1">Get Banks</h4>
-            <p className="text-xs text-blue-700">Fetch available financial institutions</p>
           </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-xs font-semibold text-blue-600">2</span>
-            </div>
-            <h4 className="text-xs font-semibold text-blue-900 mb-1">Initiate</h4>
-            <p className="text-xs text-blue-700">Generate USSD code for selected bank</p>
-          </div>
-          <div className="text-center">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-xs font-semibold text-blue-600">3</span>
-            </div>
-            <h4 className="text-xs font-semibold text-blue-900 mb-1">Complete</h4>
-            <p className="text-xs text-blue-700">Customer dials code to pay</p>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-blue-900 mb-2">AUTHORIZATION - Bearer Token</h3>
+            <p className="text-blue-800 leading-relaxed">
+              This folder is using Bearer Token from collection FirstChekout Payment Gateway
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Get Financial Institutions */}
-      <div className="mb-8 api-section">
-        <div className="flex items-center mb-4">
-          <div className="w-6 h-6 bg-emerald-100 rounded-lg flex items-center justify-center mr-3">
-            <Building className="h-3 w-3 text-emerald-600" />
-          </div>
-          <h2 className="text-lg font-semibold text-gray-900">Get Financial Institutions</h2>
-        </div>
-
-        <div className="flex items-center mb-4">
-          <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded font-medium api-method-badge">GET</span>
-          <span className="text-gray-600 font-mono text-xs api-url-path ml-2">/api/v1/ussd/institutions</span>
-        </div>
-        
-        <p className="text-xs text-gray-700 mb-4 leading-relaxed">
-          Retrieve the list of financial institutions that support USSD payments.
-        </p>
-
-        {/* Language Tabs */}
-        <div className="mb-4">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-4">
-              {Object.keys(getInstitutionsCode).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLanguage(lang)}
-                  className={`py-1.5 px-1 border-b-2 font-medium text-xs ${
-                    activeLanguage === lang
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Request</h4>
-            <CodeBlock language={activeLanguage} code={getInstitutionsCode[activeLanguage]} />
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Sample Response</h4>
-            <div className="bg-gray-50 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-gray-700">200 OK</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded status-badge">Success</span>
-              </div>
-              <CodeBlock language="json" code={institutionsResponse} />
-            </div>
-          </div>
+      {/* Quick Navigation */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+        <h3 className="text-sm font-semibold text-blue-900 mb-3">On this page</h3>
+        <div className="grid md:grid-cols-3 gap-2 text-xs">
+          <a href="#query" className="text-blue-600 hover:text-blue-700 block py-1">Query USSD Payment Endpoint</a>
+          <a href="#initiate" className="text-blue-600 hover:text-blue-700 block py-1">Initiate USSD Payment</a>
+          <a href="#institutions" className="text-blue-600 hover:text-blue-700 block py-1">Fetch USSD Institution</a>
         </div>
       </div>
 
-      {/* Initiate USSD Payment */}
-      <div className="mb-8 api-section">
-        <div className="flex items-center mb-4">
-          <div className="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-            <Smartphone className="h-3 w-3 text-blue-600" />
+      {/* Quick Start Cards */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Quick start</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {quickStartItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              className="group relative bg-white rounded-lg p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200"
+            >
+              <div className="flex items-start space-x-4">
+                <div className={`flex-shrink-0 w-12 h-12 bg-${item.color}-100 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200`}>
+                  <item.icon className={`h-5 w-5 text-${item.color}-600`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-bank-blue transition-colors">
+                      {item.title}
+                    </h3>
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                      {item.time}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Query USSD Payment Endpoint */}
+      <section id="query" className="mb-16">
+        <div className="flex items-center mb-6">
+          <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium mr-3">GET</span>
+          <h2 className="text-2xl font-semibold text-gray-900">Query USSD Payment Endpoint</h2>
+        </div>
+
+        <div className="mb-6">
+          <div className="bg-gray-100 rounded-lg p-3 font-mono text-sm text-gray-700">
+            {"{{GatewayBaseAddress}}"}/api/v1/ussd/transactions/{"{{transactionRef}}"}
           </div>
-          <h2 className="text-lg font-semibold text-gray-900">Initiate USSD Payment</h2>
         </div>
 
-        <div className="flex items-center mb-4">
-          <span className="px-2 py-1 bg-green-600 text-white text-xs rounded font-medium api-method-badge">POST</span>
-          <span className="text-gray-600 font-mono text-xs api-url-path ml-2">/api/v1/ussd/initiate</span>
-        </div>
-        
-        <p className="text-xs text-gray-700 mb-4 leading-relaxed">
-          Generate a USSD code for the selected financial institution. The customer will dial this code 
-          on their phone to complete the payment.
-        </p>
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
+          <p className="text-gray-700 mb-4 leading-relaxed">
+            This endpoint retrieves detailed information about a specific USSD payment transaction, identified by its unique reference. 
+            It is typically used by payment processors, merchants, or support teams to track the status, audit, or troubleshoot a 
+            USSD-based payment. Common scenarios include confirming payment completion, investigating failed transactions, or 
+            reconciling payment records.
+          </p>
 
-        {/* Language Tabs */}
-        <div className="mb-4">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-4">
-              {Object.keys(initiateUssdCode).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLanguage(lang)}
-                  className={`py-1.5 px-1 border-b-2 font-medium text-xs ${
-                    activeLanguage === lang
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
-                </button>
-              ))}
-            </nav>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-blue-900 mb-3">Business Context:</h4>
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• Enables real-time tracking of USSD payment transactions.</li>
+              <li>• Supports customer support workflows by providing transaction details for dispute resolution.</li>
+              <li>• Useful for backend reconciliation and reporting.</li>
+            </ul>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Request</h4>
-            <CodeBlock language={activeLanguage} code={initiateUssdCode[activeLanguage]} />
-            
-            <div className="mt-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Body Parameters</h4>
-              <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-200 rounded-lg api-parameter-table">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Required</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-3 py-2 text-xs font-medium text-gray-900">FinancialInstitutionId</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">string</td>
-                      <td className="px-3 py-2 text-xs text-green-600">Yes</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">Bank code (e.g., "011" for First Bank)</td>
-                    </tr>
-                    <tr>
-                      <td className="px-3 py-2 text-xs font-medium text-gray-900">AccessCode</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">string</td>
-                      <td className="px-3 py-2 text-xs text-green-600">Yes</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">Access code from transaction initiation</td>
-                    </tr>
-                    <tr>
-                      <td className="px-3 py-2 text-xs font-medium text-gray-900">PaymentReference</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">string</td>
-                      <td className="px-3 py-2 text-xs text-green-600">Yes</td>
-                      <td className="px-3 py-2 text-xs text-gray-500">Unique payment reference</td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Path Parameter</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="mb-4">
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">TransactionReference</h4>
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded">string</span>
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded">required</span>
+              </div>
+              <p className="text-gray-700 mb-3">The unique identifier for the USSD transaction to query.</p>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <span className="text-sm font-semibold text-gray-900">Data Type:</span>
+                <span className="text-sm text-gray-600 ml-2">String (typically a UUID or alphanumeric reference)</span>
+              </div>
+              <div>
+                <span className="text-sm font-semibold text-gray-900">Example:</span>
+                <code className="text-sm text-blue-600 ml-2 bg-blue-50 px-2 py-1 rounded">TX-C0F74D33AD8847CC85E6DD490644ABB4</code>
+              </div>
+              <div>
+                <span className="text-sm font-semibold text-gray-900">Validation:</span>
+                <span className="text-sm text-gray-600 ml-2">Must be a valid, existing transaction reference. Invalid or missing references will result in a 400 or 404 error.</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Sample Response</h4>
-            <div className="bg-gray-50 rounded-lg p-3 mb-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-gray-700">200 OK</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded status-badge">Success</span>
-              </div>
-              <CodeBlock language="json" code={ussdResponse} />
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage Notes</h3>
+          <div className="space-y-4">
+            <p className="text-gray-700">
+              Ensure the authToken header is present and valid; expired or missing tokens will cause a 401 error.
+            </p>
+            <p className="text-gray-700">
+              The TransactionReference must be correctly formatted and correspond to an existing transaction.
+            </p>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-amber-900 mb-2">Troubleshooting Tips:</h4>
+              <ul className="text-sm text-amber-800 space-y-1">
+                <li>• If you receive a 401 error, refresh your access token.</li>
+                <li>• For 404 errors, verify the transaction reference is correct and exists in the system.</li>
+                <li>• For 400 errors, check for typos or missing parameters.</li>
+              </ul>
             </div>
 
-            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
-              <h5 className="text-xs font-semibold text-emerald-900 mb-2">Customer Instructions</h5>
-              <ul className="text-xs text-emerald-800 space-y-1 leading-relaxed">
-                <li>• Provide the USSD code to the customer</li>
-                <li>• Customer dials the code on their mobile phone</li>
-                <li>• Payment is completed through mobile banking</li>
-                <li>• Transaction status updates automatically</li>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-red-900 mb-2">Common Pitfalls:</h4>
+              <ul className="text-sm text-red-800 space-y-1">
+                <li>• Using an expired or incorrect token.</li>
+                <li>• Omitting the required path parameter.</li>
+                <li>• Not updating environment variables before sending the request.</li>
               </ul>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Supported Banks */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Supported Banks</h3>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">First Bank (011)</div>
-            <div className="text-xs text-gray-500">*894*000*{'{amount}'}#</div>
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">authToken:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">GTBank (058)</div>
-            <div className="text-xs text-gray-500">*737*000*{'{amount}'}#</div>
+
+          <div>
+            <div className="language-tabs">
+              {Object.keys(queryUssdCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <div className="paystack-code-block">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Example Request</span>
+                <button
+                  onClick={() => copyToClipboard(queryUssdCode[activeLanguage], 'query-ussd')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'query-ussd' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <pre><code>{queryUssdCode[activeLanguage]}</code></pre>
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">Access Bank (044)</div>
-            <div className="text-xs text-gray-500">*901*000*{'{amount}'}#</div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Expected Responses</h3>
+          
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-2">200 OK</span>
+                <span className="text-gray-700">Transaction details successfully retrieved.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={queryUssdSuccessResponse} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">400 Bad Request</span>
+                <span className="text-gray-700">Invalid or missing parameters.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={queryUssdErrorResponses.badRequest} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">401 Unauthorized</span>
+                <span className="text-gray-700">Authentication failed or token missing/expired.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={queryUssdErrorResponses.unauthorized} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">404 Not Found</span>
+                <span className="text-gray-700">Transaction not found.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={queryUssdErrorResponses.notFound} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <span className="px-2 py-1 bg-red-100 text-red-800 text-sm rounded font-medium mr-2">500 Internal Server Error</span>
+                <span className="text-gray-700">Unexpected server error.</span>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Sample Response:</h5>
+                <CodeBlock language="json" code={queryUssdErrorResponses.serverError} />
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">Zenith Bank (057)</div>
-            <div className="text-xs text-gray-500">*966*000*{'{amount}'}#</div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Developer Details</h3>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-blue-900 mb-3">Environment Variables:</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• <code className="bg-blue-100 px-1 py-0.5 rounded">{"{{GatewayBaseAddress}}"}</code>: Base URL for the API gateway.</li>
+                <li>• <code className="bg-blue-100 px-1 py-0.5 rounded">{"{{Access-Token}}"}</code>: Stores the authentication token.</li>
+              </ul>
+            </div>
+
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-emerald-900 mb-3">Token Refresh:</h4>
+              <p className="text-sm text-emerald-800">
+                Use the AccessToken endpoint to obtain or refresh your token. Update the {"{{Access-Token}}"} variable as needed.
+              </p>
+            </div>
           </div>
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">UBA (033)</div>
-            <div className="text-xs text-gray-500">*919*000*{'{amount}'}#</div>
+
+          <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Related Endpoints:</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• AccessToken Endpoint V2: Obtain authentication tokens.</li>
+              <li>• Initiate QR Payment: Start a new payment transaction.</li>
+              <li>• Query Transaction Endpoint: Query other transaction types.</li>
+            </ul>
+            <p className="text-sm text-gray-600 mt-3">
+              For more details, refer to the FirstChekout Payment Gateway Collection.
+            </p>
           </div>
-          <div className="bg-white rounded p-2 border">
-            <div className="text-xs font-medium text-gray-900">Ecobank (050)</div>
-            <div className="text-xs text-gray-500">*326*000*{'{amount}'}#</div>
+        </div>
+      </section>
+
+      {/* Initiate USSD Payment */}
+      <section id="initiate" className="mb-16">
+        <div className="flex items-center mb-6">
+          <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded font-medium mr-3">POST</span>
+          <h2 className="text-2xl font-semibold text-gray-900">Initiate USSD Payment</h2>
+        </div>
+
+        <div className="mb-6">
+          <div className="bg-gray-100 rounded-lg p-3 font-mono text-sm text-gray-700">
+            {"{{GatewayBaseAddress}}"}/api/v1/ussd/initiate
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Summary</h3>
+          <p className="text-gray-700 mb-4 leading-relaxed">
+            This POST request initiates a USSD payment transaction through the payment gateway.
+          </p>
+          <p className="text-gray-700 mb-4 leading-relaxed">
+            <strong>URL:</strong> The request is sent to the endpoint "{"{{GatewayBaseAddress}}"}/api/v1/ussd/initiate" where 
+            "{"{{GatewayBaseAddress}}"}" is an environment variable representing the base address of the payment gateway API.
+          </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Headers</h3>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-gray-700 mb-3">
+              <strong>AuthToken:</strong> A required header for authentication, using the environment variable 
+              "{"{{Access-Token}}"}" to provide the access token.
+            </p>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">JSON Body Schema</h3>
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">TransactionReference</h4>
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded">string</span>
+                </div>
+                <p className="text-gray-700 mb-2">A unique identifier for the transaction.</p>
+                <p className="text-sm text-gray-600">
+                  <strong>Example value:</strong> <code className="bg-blue-50 px-2 py-1 rounded">"TX-F2E2FC1B8CE142B790C95AE57CD99466"</code>
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">FinancialInstitutionId</h4>
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded">integer</span>
+                </div>
+                <p className="text-gray-700 mb-2">The ID of the financial institution involved in the transaction.</p>
+                <p className="text-sm text-gray-600">
+                  <strong>Example value:</strong> <code className="bg-blue-50 px-2 py-1 rounded">5</code>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p className="text-sm text-blue-800">
+              This documentation helps users understand the purpose of the request, how to authenticate it, 
+              and the required body parameters for successful execution.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Headers</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">AuthToken:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 bg-gray-50 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Body (raw json)</h4>
+              <CodeBlock language="json" code='{\n    "TransactionReference": "{{transactionRef}}",\n    "FinancialInstitutionId": 5\n}' />
+            </div>
+          </div>
+
+          <div>
+            <div className="language-tabs">
+              {Object.keys(initiateUssdCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
+
+            <div className="paystack-code-block">
+              <div className="paystack-code-header">
+                <span className="text-sm font-medium">Example Request</span>
+                <button
+                  onClick={() => copyToClipboard(initiateUssdCode[activeLanguage], 'initiate-ussd')}
+                  className="copy-button"
+                >
+                  {copiedCode === 'initiate-ussd' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </button>
+              </div>
+              <div className="paystack-code-content">
+                <pre><code>{initiateUssdCode[activeLanguage]}</code></pre>
+              </div>
+            </div>
+
+            <div className="response-container mt-4">
+              <div className="response-header">
+                <span>Example Response</span>
+                <span className="status-200">200 OK</span>
+              </div>
+              <div className="response-body">
+                <CodeBlock language="json" code={initiateUssdResponse} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fetch USSD Institution */}
+      <section id="institutions" className="mb-16">
+        <div className="flex items-center mb-6">
+          <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded font-medium mr-3">GET</span>
+          <h2 className="text-2xl font-semibold text-gray-900">Fetch USSD Institution</h2>
+        </div>
+
+        <div className="mb-6">
+          <div className="bg-gray-100 rounded-lg p-3 font-mono text-sm text-gray-700">
+            {"{{GatewayBaseAddress}}"}/api/v1/ussd/financial-institutions
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Authorization</h3>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Bearer Token</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-700">Token:</span>
+                  <code className="bg-blue-100 px-2 py-1 rounded text-xs">{"{{Access-Token}}"}</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="language-tabs">
+              {Object.keys(fetchInstitutionCode).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                >
+                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          <div className="paystack-code-block">
+            <div className="paystack-code-header">
+              <span className="text-sm font-medium">Example Request</span>
+              <button
+                onClick={() => copyToClipboard(fetchInstitutionCode[activeLanguage], 'fetch-institution')}
+                className="copy-button"
+              >
+                {copiedCode === 'fetch-institution' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              </button>
+            </div>
+            <div className="paystack-code-content">
+              <pre><code>{fetchInstitutionCode[activeLanguage]}</code></pre>
+            </div>
+          </div>
+
+          <div className="response-container mt-4">
+            <div className="response-header">
+              <span>Example Response</span>
+              <span className="text-gray-500">No response body</span>
+            </div>
+            <div className="response-body">
+              <p className="text-sm text-gray-600">This request doesn't return any response body</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Getting Started CTA */}
+      <div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-bold mb-4">Ready to implement USSD payments?</h2>
+          <p className="text-blue-100 mb-6 leading-relaxed">
+            Start integrating USSD payment capabilities into your application. USSD payments are highly popular 
+            in Nigeria and provide excellent success rates for mobile banking transactions.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a
+              href="https://www.firstchekout.com/auth/signup"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"
+            >
+              Create free account
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+            <a
+              href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"
+            >
+              Test in Postman
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>

@@ -46,8 +46,9 @@ const apiEndpoints = [
     icon: Smartphone, 
     path: '/ussd',
     children: [
-      { id: 'get-institutions', label: 'Get Financial Institutions', path: '/ussd#institutions' },
-      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' }
+      { id: 'query-ussd', label: 'Query USSD Payment Endpoint', path: '/ussd#query' },
+      { id: 'initiate-ussd', label: 'Initiate USSD Payment', path: '/ussd#initiate' },
+      { id: 'fetch-institutions', label: 'Fetch USSD Institution', path: '/ussd#institutions' }
     ]
   },
   { 
