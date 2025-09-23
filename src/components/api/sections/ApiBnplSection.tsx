@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, Shield, Clock, Copy, Check, ExternalLink, DollarSign, User, CheckCircle } from 'lucide-react';
+import { CreditCard, Shield, Copy, Check, DollarSign, User, CheckCircle } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 
@@ -566,8 +566,8 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">BNPL (Buy Now Pay Later)</h1>
         <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
-          BNPL (Buy Now Pay Later) allows customers to purchase items immediately and pay for them in installments 
-          over time. This payment method provides flexibility for customers while ensuring merchants receive 
+          BNPL (Buy Now Pay Later) allows customers to purchase items immediately and pay for them in installments
+          over time. This payment method provides flexibility for customers while ensuring merchants receive
           immediate payment.
         </p>
       </div>
@@ -688,7 +688,7 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request is used to initiate a Buy Now Pay Later (BNPL) transaction via the payment gateway API. 
+            This POST request is used to initiate a Buy Now Pay Later (BNPL) transaction via the payment gateway API.
             It is typically called by client applications to start the BNPL process for a customer.
           </p>
         </div>
@@ -1018,7 +1018,7 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request validates a user's Buy Now Pay Later (BNPL) transaction before proceeding. 
+            This POST request validates a user's Buy Now Pay Later (BNPL) transaction before proceeding.
             It checks the provided transaction details for eligibility and correctness.
           </p>
         </div>
@@ -1222,7 +1222,7 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Purpose</h3>
           <p className="text-gray-700 mb-4 leading-relaxed">
-            This POST request validates a token for a Buy Now Pay Later (BNPL) transaction to ensure the token's 
+            This POST request validates a token for a Buy Now Pay Later (BNPL) transaction to ensure the token's
             authenticity and association with the given transaction and customer.
           </p>
         </div>
@@ -1826,7 +1826,7 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
       {/* BNPL Features */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">BNPL Features & Benefits</h3>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
             <h4 className="text-sm font-semibold text-emerald-900 mb-3">✅ Customer Benefits</h4>
@@ -1857,7 +1857,7 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
       {/* Implementation Best Practices */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Implementation Best Practices</h3>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
             <h4 className="text-sm font-semibold text-emerald-900 mb-3">✅ Recommended Practices</h4>
@@ -1885,37 +1885,6 @@ def book_bnpl(transaction_ref, account_number, amount, access_token):
         </div>
       </div>
 
-      {/* Getting Started CTA */}
-      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
-      {/*  <div className="max-w-3xl">*/}
-      {/*    <h2 className="text-2xl font-bold mb-4">Ready to implement BNPL payments?</h2>*/}
-      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
-      {/*      Start integrating Buy Now Pay Later capabilities into your application. BNPL provides customers */}
-      {/*      with flexible payment options while ensuring merchants receive immediate payment for their products and services.*/}
-      {/*    </p>*/}
-      {/*    */}
-      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
-      {/*      <a*/}
-      {/*        href="https://www.firstchekout.com/auth/signup"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Create free account*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*      <a*/}
-      {/*        href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Test in Postman*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Lock, Key, AlertTriangle, CheckCircle, XCircle, Globe, Smartphone, Monitor, Code2 } from 'lucide-react';
+import { Shield, Lock, Key, AlertTriangle, CheckCircle, XCircle,} from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const SecuritySection: React.FC = () => {
@@ -451,58 +451,6 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
                   <li>• Exceeding maximum parameter lengths</li>
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Platform-Specific Integration Guides</h3>
-            
-            <div className="grid gap-8">
-              {platformGuides.map((guide, index) => (
-                <div key={index} className={`bg-${guide.color}-50 border border-${guide.color}-200 rounded-lg p-6`}>
-                  <div className="flex items-center mb-4">
-                    <div className={`p-3 bg-${guide.color}-100 rounded-lg mr-4`}>
-                      <guide.icon className={`h-6 w-6 text-${guide.color}-600`} />
-                    </div>
-                    <div>
-                      <h4 className={`text-xl font-semibold text-${guide.color}-900`}>{guide.platform}</h4>
-                      <p className={`text-${guide.color}-700`}>{guide.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid lg:grid-cols-2 gap-6">
-                    <div>
-                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Supported Technologies</h5>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {guide.technologies.map((tech, idx) => (
-                          <span key={idx} className={`px-3 py-1 bg-${guide.color}-100 text-${guide.color}-800 text-sm rounded-full`}>
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Best Practices</h5>
-                      <ul className={`text-sm text-${guide.color}-800 space-y-1`}>
-                        {guide.bestPractices.map((practice, idx) => (
-                          <li key={idx} className="flex items-start">
-                            <CheckCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                            <span>{practice}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h5 className={`font-semibold text-${guide.color}-900 mb-3`}>Implementation Example</h5>
-                      <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                        <pre className="text-sm text-gray-100">
-                          <code>{guide.implementation}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
           <div>

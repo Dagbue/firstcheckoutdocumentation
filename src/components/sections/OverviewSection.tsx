@@ -132,29 +132,29 @@ graph TD
 
   return (
     <div className="docs-section">
-      <section id="overview" className="mb-12">
+      <section id="overview" className="mb-6">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-bank-blue via-bank-blue to-blue-800 rounded-2xl p-8 md:p-12 text-white mb-12 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>
-          <div className="relative z-10">
-            <div className="max-w-4xl">
-              <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 leading-tight">
-                FirstChekout Payment Gateway
-              </h1>
-              <p className="text-l md:text-l text-blue-100 mb-8 leading-relaxed max-w-3xl">
-                The official payment gateway by First Bank of Nigeria. Accept payments seamlessly via multiple 
-                payment methods including cards, USSD, bank transfers, and more. Built for Nigerian businesses 
-                with global standards.
-              </p>
-              <div className="flex flex-wrap gap-3 mb-8">
-                <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">PCI DSS Compliant</span>
-                <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Multi-Method Support</span>
-                <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Easy Integration</span>
-                <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Real-time Webhooks</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/*<div className="bg-gradient-to-br from-bank-blue via-bank-blue to-blue-800 rounded-2xl p-8 md:p-12 text-white mb-12 relative overflow-hidden">*/}
+        {/*  <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>*/}
+        {/*  <div className="relative z-10">*/}
+        {/*    <div className="max-w-4xl">*/}
+        {/*      <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 leading-tight">*/}
+        {/*        FirstChekout Payment Gateway*/}
+        {/*      </h1>*/}
+        {/*      <p className="text-l md:text-l text-blue-100 mb-8 leading-relaxed max-w-3xl">*/}
+        {/*        The official payment gateway by First Bank of Nigeria. Accept payments seamlessly via multiple */}
+        {/*        payment methods including cards, USSD, bank transfers, and more. Built for Nigerian businesses */}
+        {/*        with global standards.*/}
+        {/*      </p>*/}
+        {/*      <div className="flex flex-wrap gap-3 mb-8">*/}
+        {/*        <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">PCI DSS Compliant</span>*/}
+        {/*        <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Multi-Method Support</span>*/}
+        {/*        <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Easy Integration</span>*/}
+        {/*        <span className="bg-bank-gold bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">Real-time Webhooks</span>*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </section>
 
       {/* Quick Start Section */}
@@ -358,63 +358,63 @@ graph TD
             </div>
           </div>
 
-          <div className="text-center">
-            <a
-              href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"
-            >
-              <BookOpen className="mr-3 h-6 w-6" />
-              Explore API Documentation
-              <ArrowRight className="ml-3 h-6 w-6" />
-            </a>
-          </div>
+          {/*<div className="text-center">*/}
+          {/*  <a*/}
+          {/*    href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
+          {/*    target="_blank"*/}
+          {/*    rel="noopener noreferrer"*/}
+          {/*    className="inline-flex items-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"*/}
+          {/*  >*/}
+          {/*    <BookOpen className="mr-3 h-6 w-6" />*/}
+          {/*    Explore API Documentation*/}
+          {/*    <ArrowRight className="ml-3 h-6 w-6" />*/}
+          {/*  </a>*/}
+          {/*</div>*/}
         </div>
       </section>
 
       {/* Getting Started CTA */}
-      <section id="get-started" className="mb-12">
-        <div className="bg-gradient-to-r from-blue-50 via-gray-50 to-yellow-50 rounded-2xl p-8 lg:p-12 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of businesses already using FirstChekout to power their payment experiences. 
-            Start accepting payments in minutes with our simple integration process.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-            <Link
-              to="/docs/registration"
-              className="inline-flex items-center justify-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"
-            >
-              Create Account
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-lg"
-            >
-              <Code className="mr-2 h-5 w-5" />
-              View Integration Guide
-            </Link>
-          </div>
+      {/*<section id="get-started" className="mb-12">*/}
+      {/*  <div className="bg-gradient-to-r from-blue-50 via-gray-50 to-yellow-50 rounded-2xl p-8 lg:p-12 text-center">*/}
+      {/*    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>*/}
+      {/*    <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">*/}
+      {/*      Join thousands of businesses already using FirstChekout to power their payment experiences. */}
+      {/*      Start accepting payments in minutes with our simple integration process.*/}
+      {/*    </p>*/}
+      {/*    */}
+      {/*    <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">*/}
+      {/*      <Link*/}
+      {/*        to="/docs/registration"*/}
+      {/*        className="inline-flex items-center justify-center px-8 py-4 bg-bank-blue text-white rounded-lg hover:bg-bank-blue/90 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"*/}
+      {/*      >*/}
+      {/*        Create Account*/}
+      {/*        <ArrowRight className="ml-2 h-5 w-5" />*/}
+      {/*      </Link>*/}
+      {/*      <Link*/}
+      {/*        to="/"*/}
+      {/*        className="inline-flex items-center justify-center px-8 py-4 bg-white text-bank-blue border-2 border-bank-blue rounded-lg hover:bg-bank-blue hover:text-white transition-colors font-semibold text-lg"*/}
+      {/*      >*/}
+      {/*        <Code className="mr-2 h-5 w-5" />*/}
+      {/*        View Integration Guide*/}
+      {/*      </Link>*/}
+      {/*    </div>*/}
 
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-bank-blue mb-2">5 min</div>
-              <div className="text-gray-600">Average setup time</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-bank-gold mb-2">99.9%</div>
-              <div className="text-gray-600">System uptime</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-bank-blue mb-2">24/7</div>
-              <div className="text-gray-600">Expert support</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/*    <div className="grid md:grid-cols-3 gap-8 text-center">*/}
+      {/*      <div>*/}
+      {/*        <div className="text-3xl font-bold text-bank-blue mb-2">5 min</div>*/}
+      {/*        <div className="text-gray-600">Average setup time</div>*/}
+      {/*      </div>*/}
+      {/*      <div>*/}
+      {/*        <div className="text-3xl font-bold text-bank-gold mb-2">99.9%</div>*/}
+      {/*        <div className="text-gray-600">System uptime</div>*/}
+      {/*      </div>*/}
+      {/*      <div>*/}
+      {/*        <div className="text-3xl font-bold text-bank-blue mb-2">24/7</div>*/}
+      {/*        <div className="text-gray-600">Expert support</div>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
     </div>
   );
 };
