@@ -2365,6 +2365,326 @@ The system has detected that your merchant account is missing essential complian
         { title: 'Registration & Onboarding', path: '/registration' },
         { title: 'API Keys & Credentials', path: '/api-keys' }
       ]
+    },
+
+    // Invalid Data Error Cases
+    {
+      id: 'invalid-data-error',
+      question: 'Why am I getting "invalid_data" error when initializing payment?',
+      answer: `The "invalid_data" error occurs when the transaction payload contains incorrect data types, missing required fields, or improperly formatted values. This is commonly caused by environment variable type conversion issues.
+
+**Common Root Causes:**
+
+1. **Boolean vs String Type Mismatch**:
+   The \`live\` property in the Transaction interface is defined as a **boolean**, not a string. If you store this value in an environment variable (.env file), it will be read as a **string** by default, causing type validation to fail.
+
+2. **Incorrect Field Types**:
+   - Amount passed as string instead of number
+   - Boolean values passed as strings ("true" instead of true)
+   - Missing required fields in customer object
+   - Invalid callback or onClose function references
+
+**Self-Resolution Guide:**
+
+**Case 1: Environment Variable Type Conversion**
+
+If you're using environment variables for the \`live\` property:
+
+\`\`\`typescript
+// ❌ WRONG - .env variables are always strings
+const transaction = {
+  live: process.env.VITE_LIVE_MODE, // This will be "true" (string), not true (boolean)
+  ref: "TXN-123456",
+  amount: 10000,
+  // ... other properties
+};
+
+// ✅ CORRECT - Explicitly convert to boolean
+const transaction = {
+  live: process.env.VITE_LIVE_MODE === 'true', // Converts string to boolean
+  ref: "TXN-123456",
+  amount: 10000,
+  // ... other properties
+};
+\`\`\`
+
+**Case 2: Direct Boolean Assignment**
+
+For non-environment configurations:
+
+\`\`\`typescript
+// ✅ CORRECT - Use boolean literals directly
+const transaction = {
+  live: true,  // Boolean literal (not "true" string)
+  ref: "TXN-123456",
+  amount: 10000,
+  customer: {
+    name: "John Doe",
+    email: "john@example.com",
+    phone: "08012345678"
+  },
+  publicKey: "your-public-key",
+  callback: (data) => {
+    console.log("Payment successful", data);
+  },
+  onClose: () => {
+    console.log("Payment modal closed");
+  }
+};
+\`\`\`
+
+**Type-Safe Environment Variable Setup:**
+
+\`\`\`typescript
+// Create a typed configuration helper
+const getConfig = () => ({
+  live: process.env.VITE_LIVE_MODE === 'true',  // Convert to boolean
+  publicKey: process.env.VITE_PUBLIC_KEY || '',
+  // Add other config values
+});
+
+// Use in your transaction
+const config = getConfig();
+const transaction = {
+  live: config.live,  // Now properly typed as boolean
+  // ... rest of properties
+};
+\`\`\`
+
+**Transaction Interface Reference:**
+
+\`\`\`typescript
+export interface Transaction {
+  live?: boolean;              // ⚠️ BOOLEAN - not string!
+  ref: string;
+  settlementCode?: string;
+  amount: number;              // ⚠️ NUMBER - not string!
+  customer: Customer;
+  fees: Fee[];
+  meta?: {
+    [key: string]: any;
+  };
+  publicKey: string;
+  description?: string;
+  currency?: 'NGN';
+  callback: (data: any) => any;  // ⚠️ FUNCTION - not string!
+  onClose: () => void;           // ⚠️ FUNCTION - not string!
+  options?: ('CARD' | 'QR' | 'PAYATTITUDE' | 'WALLET' | 'ACCOUNT')[];
+}
+\`\`\`
+
+**Validation Checklist:**
+
+Before initializing payment, verify:
+- ✅ \`live\` is a boolean (true/false), not a string ("true"/"false")
+- ✅ \`amount\` is a number, not a string
+- ✅ \`ref\` is a unique string identifier
+- ✅ \`customer\` object has required fields (name, email, phone)
+- ✅ \`publicKey\` is a valid string from your dashboard
+- ✅ \`callback\` is a function, not undefined
+- ✅ \`onClose\` is a function, not undefined
+
+**Prevention Tips:**
+- Use TypeScript to catch type errors at compile time
+- Create typed configuration helpers for environment variables
+- Always convert environment variables to their expected types
+- Test with both sandbox (\`live: false\`) and production (\`live: true\`) modes
+- Use ESLint or similar tools to enforce type safety`,
+      category: 'integration',
+      tags: ['error', 'invalid-data', 'payload', 'boolean', 'environment-variables', 'typescript', 'type-conversion'],
+      severity: 'high',
+      codeExample: `// ❌ WRONG - Environment variable as string
+const transaction = {
+  live: process.env.VITE_LIVE_MODE, // "true" (string)
+  amount: "10000", // String instead of number
+  // ...
+};
+
+// ✅ CORRECT - Proper type conversion
+const transaction = {
+  live: process.env.VITE_LIVE_MODE === 'true', // true (boolean)
+  amount: 10000, // Number
+  ref: "TXN-" + Date.now(),
+  customer: {
+    name: "John Doe",
+    email: "john@example.com",
+    phone: "08012345678"
+  },
+  publicKey: process.env.VITE_PUBLIC_KEY,
+  callback: (data) => console.log(data),
+  onClose: () => console.log("Closed")
+};`,
+      codeLanguage: 'typescript',
+      relatedLinks: [
+        { title: 'NPM Package Integration', path: '/npm-package' },
+        { title: 'CDN Script Integration', path: '/cdn-script' },
+        { title: 'Testing & Debugging', path: '/testing' }
+      ]
+    },
+
+    // Request Failed from External Provider
+    {
+      id: 'request-failed-external-provider',
+      question: 'What does "Request failed from external provider" error mean?',
+      answer: `This error occurs when the payment request cannot be processed by the external payment provider (banks, card networks, or payment processors). It indicates an issue with the merchant account configuration or external provider connectivity.
+
+**What This Error Means:**
+
+The payment gateway successfully received your transaction request, but the external provider (bank or card processor) rejected or failed to process it. This is different from user-facing errors like insufficient funds or invalid card details.
+
+**Common Root Causes:**
+
+1. **Unable to Retrieve Merchant Details (Status 502)**:
+   - Merchant account is not fully configured
+   - Missing or invalid settlement information
+   - Account not yet activated by admin
+   - Network connectivity issues with provider systems
+
+2. **Provider-Specific Issues**:
+   - External provider system downtime
+   - Timeout communicating with bank
+   - Invalid merchant credentials on provider side
+   - Provider rate limiting or throttling
+
+**Self-Resolution Guide:**
+
+**Case 1: Merchant Details Not Found**
+
+This is the most common scenario, indicating your merchant account needs attention.
+
+**Step 1: Verify Account Status**
+- Login to [FirstChekout Merchant Portal](https://www.firstchekout.com/)
+- Navigate to Dashboard > Account Status
+- Check for any pending actions or warnings
+- Verify account is marked as "Active"
+
+**Step 2: Confirm Compliance Documents**
+- Go to Account Settings > KYC Documents
+- Ensure all required documents are uploaded and approved:
+  - ✅ Certificate of Incorporation (CAC)
+  - ✅ Government-Issued ID
+  - ✅ Utility Bill (not older than 3 months)
+  - ✅ Bank Statement (last 3 months)
+- If any documents are pending or rejected, resubmit immediately
+
+**Step 3: Check Settlement Configuration**
+- Navigate to Settings > Settlement Accounts
+- Verify your bank account details are correct:
+  - Account number
+  - Account name (must match business registration)
+  - Bank name
+  - Settlement percentage (if split payments enabled)
+- Update any incorrect information
+
+**Step 4: Contact Support (If Above Steps Don't Help)**
+
+If your account appears properly configured but the error persists:
+
+\`\`\`
+Contact: FirstChekout Support
+Email: support@firstchekout.com
+Phone: +234 (0) 1 234 5678
+Include:
+- Your merchant ID
+- Transaction reference number
+- Screenshot of error (if from developer console)
+- Time error occurred
+- Payment method attempted
+\`\`\`
+
+**Case 2: Provider System Issues**
+
+If the error is intermittent or affects multiple transactions:
+
+**Step 1: Check System Status**
+- Visit FirstChekout status page or social media channels
+- Look for any announced downtime or maintenance
+- Check if specific payment methods are affected
+
+**Step 2: Implement Retry Logic**
+
+\`\`\`typescript
+const initiatePaymentWithRetry = async (transaction, maxRetries = 3) => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await FirstChekout.initiatePayment(transaction);
+      return; // Success
+    } catch (error) {
+      if (error.message.includes('external provider') && attempt < maxRetries) {
+        // Wait before retrying (exponential backoff)
+        await new Promise(resolve =>
+          setTimeout(resolve, 1000 * Math.pow(2, attempt))
+        );
+        continue;
+      }
+      throw error; // Final failure
+    }
+  }
+};
+\`\`\`
+
+**Step 3: Try Alternative Payment Methods**
+
+If one payment method consistently fails, test alternatives:
+- If CARD fails → Try PAYATTITUDE or USSD
+- If QR fails → Try CARD or ACCOUNT transfer
+- If WALLET fails → Try CARD
+
+**Diagnostic Information:**
+
+When reporting this error, include:
+
+\`\`\`json
+{
+  "error_type": "Request failed from external provider",
+  "status_code": 502,
+  "transaction_ref": "TXN-123456",
+  "payment_method": "CARD",
+  "timestamp": "2025-10-09T10:30:00Z",
+  "merchant_id": "your-merchant-id",
+  "environment": "production" // or "sandbox"
+}
+\`\`\`
+
+**Prevention Tips:**
+
+1. **Complete Account Setup Early**:
+   - Submit all compliance documents during registration
+   - Verify settlement account details before going live
+   - Test in sandbox mode first
+
+2. **Monitor Account Health**:
+   - Regularly check dashboard for warnings
+   - Keep documents current and renew before expiry
+   - Respond promptly to admin requests
+
+3. **Implement Robust Error Handling**:
+   - Add retry logic for transient failures
+   - Provide clear error messages to users
+   - Log errors with full context for debugging
+   - Have fallback payment methods available
+
+4. **Stay Informed**:
+   - Subscribe to system status updates
+   - Join merchant community channels
+   - Follow maintenance schedules
+
+**Timeline for Resolution:**
+
+- **Account-related issues**: 24-48 hours after submitting missing information
+- **Provider system issues**: Typically resolved within hours (provider-dependent)
+- **Configuration errors**: Immediate after correction
+
+If error persists beyond 48 hours after account configuration, escalate to support with full diagnostic information.`,
+      category: 'integration',
+      tags: ['error', '502', 'external-provider', 'merchant-details', 'account-configuration', 'compliance'],
+      severity: 'critical',
+      relatedLinks: [
+        { title: 'Registration & Onboarding', path: '/registration' },
+        { title: 'API Keys & Credentials', path: '/api-keys' },
+        { title: 'Troubleshooting Guide', path: '/troubleshooting' },
+        { title: 'Support', path: '/support' }
+      ]
     }
   ];
 
