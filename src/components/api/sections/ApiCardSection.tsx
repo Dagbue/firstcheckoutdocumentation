@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, Shield, Lock, Copy, Check, ExternalLink } from 'lucide-react';
+import { CreditCard, Shield, Lock, Copy, Check } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 
@@ -689,37 +689,7 @@ def complete_card_payment(otp, transaction_ref):
         </div>
       </section>
 
-      {/* Getting Started CTA */}
-      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
-      {/*  <div className="max-w-3xl">*/}
-      {/*    <h2 className="text-2xl font-bold mb-4">Ready to implement card payments?</h2>*/}
-      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
-      {/*      Start integrating secure card payment capabilities into your application. Our card payment system */}
-      {/*      supports Verve, Mastercard, and Visa with 3D Secure authentication and OTP verification.*/}
-      {/*    </p>*/}
-      {/*    */}
-      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
-      {/*      <a*/}
-      {/*        href="https://www.firstchekout.com/auth/signup"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Create free account*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*      <a*/}
-      {/*        href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Test in Postman*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+
     </div>
   );
 };

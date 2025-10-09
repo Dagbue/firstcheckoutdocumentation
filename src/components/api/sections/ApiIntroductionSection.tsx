@@ -1,7 +1,7 @@
 import React from 'react';
-import { Code, Zap, Shield, Globe, CheckCircle, ArrowRight, ExternalLink, Copy, Check } from 'lucide-react';
+import { Code, Zap, Shield, Globe, ArrowRight, ExternalLink, Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { CodeBlock } from '../../CodeBlock';
+
 import { API_CONFIG } from '../../../config/apiConfig';
 
 export const ApiIntroductionSection: React.FC = () => {
@@ -536,35 +536,7 @@ export const ApiIntroductionSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Getting Started CTA */}
-      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
-      {/*  <div className="max-w-3xl">*/}
-      {/*    <h2 className="text-2xl font-bold mb-4">Ready to start building?</h2>*/}
-      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
-      {/*      Create your free FirstChekout account and get your API keys to start accepting payments */}
-      {/*      in minutes. Our comprehensive documentation and support team will help you every step of the way.*/}
-      {/*    </p>*/}
-      {/*    */}
-      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
-      {/*      <a*/}
-      {/*        href="https://www.firstchekout.com/auth/signup"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Create free account*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*      <Link*/}
-      {/*        to="/authentication"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        <Code className="mr-2 h-4 w-4" />*/}
-      {/*        View Authentication Guide*/}
-      {/*      </Link>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+
     </div>
   );
 };

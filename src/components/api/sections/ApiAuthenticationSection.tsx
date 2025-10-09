@@ -1,10 +1,12 @@
 import React from 'react';
-import { Shield, Key, AlertTriangle, Copy, Check, ExternalLink, Lock, Clock, Code } from 'lucide-react';
+import { Shield, AlertTriangle, Copy, Check, Lock, Clock, Code } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 import { API_CONFIG } from '../../../config/apiConfig';
 
+type Language = 'curl' | 'nodejs' | 'php' | 'python';
+
 export const ApiAuthenticationSection: React.FC = () => {
-  const [activeLanguage, setActiveLanguage] = React.useState('curl');
+  const [activeLanguage, setActiveLanguage] = React.useState<Language>('curl');
   const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
 
   const copyToClipboard = (code: string, id: string) => {
@@ -13,7 +15,7 @@ export const ApiAuthenticationSection: React.FC = () => {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const tokenGenerationCode = {
+  const tokenGenerationCode: Record<Language, string> = {
     curl: `curl --location '${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token' \\
 --header 'Content-Type: application/x-www-form-urlencoded' \\
 --data-urlencode 'client_Id={client_id}' \\
@@ -22,82 +24,82 @@ export const ApiAuthenticationSection: React.FC = () => {
     nodejs: `const axios = require('axios');
 
 async function getAccessToken() {
-  const response = await axios.post('${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token', 
-    new URLSearchParams({
-      'client_Id': process.env.FIRSTCHEKOUT_CLIENT_ID,
-      'client_Secret': process.env.FIRSTCHEKOUT_CLIENT_SECRET,
-      'grant_type': 'client_credentials'
-    }), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+  const response = await axios.post('${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token',
+      new URLSearchParams({
+        'client_Id': process.env.FIRSTCHEKOUT_CLIENT_ID,
+        'client_Secret': process.env.FIRSTCHEKOUT_CLIENT_SECRET,
+        'grant_type': 'client_credentials'
+      }), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }
-    }
   );
-  
+
   return response.data.access_token;
 }`,
     php: `<?php
-function getAccessToken() {
-    $curl = curl_init();
-    
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => '${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => http_build_query([
+    function getAccessToken() {
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+          CURLOPT_URL => '${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_POST => true,
+          CURLOPT_POSTFIELDS => http_build_query([
             'client_Id' => $_ENV['FIRSTCHEKOUT_CLIENT_ID'],
-            'client_Secret' => $_ENV['FIRSTCHEKOUT_CLIENT_SECRET'],
-            'grant_type' => 'client_credentials'
-        ]),
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/x-www-form-urlencoded'
-        ),
+          'client_Secret' => $_ENV['FIRSTCHEKOUT_CLIENT_SECRET'],
+          'grant_type' => 'client_credentials'
+    ]),
+      CURLOPT_HTTPHEADER => array(
+          'Content-Type: application/x-www-form-urlencoded'
+      ),
     ));
-    
-    $response = curl_exec($curl);
-    curl_close($curl);
-    
-    $data = json_decode($response, true);
-    return $data['access_token'];
-}
-?>`,
+
+      $response = curl_exec($curl);
+      curl_close($curl);
+
+      $data = json_decode($response, true);
+      return $data['access_token'];
+    }
+        ?>`,
     python: `import requests
 import os
-from urllib.parse import urlencode
+  from urllib.parse import urlencode
 
 def get_access_token():
-    """Generate OAuth access token"""
-    url = "${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token"
-    
-    data = {
-        'client_Id': os.getenv('FIRSTCHEKOUT_CLIENT_ID'),
-        'client_Secret': os.getenv('FIRSTCHEKOUT_CLIENT_SECRET'),
-        'grant_type': 'client_credentials'
-    }
-    
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    
-    response = requests.post(url, data=urlencode(data), headers=headers)
-    response.raise_for_status()
-    
-    return response.json()['access_token']`
+"""Generate OAuth access token"""
+url = "${API_CONFIG.identityServiceUrl}/api/v2/Authenticate/token"
+
+data = {
+  'client_Id': os.getenv('FIRSTCHEKOUT_CLIENT_ID'),
+  'client_Secret': os.getenv('FIRSTCHEKOUT_CLIENT_SECRET'),
+  'grant_type': 'client_credentials'
+}
+
+headers = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+response = requests.post(url, data=urlencode(data), headers=headers)
+response.raise_for_status()
+
+return response.json()['access_token']`
   };
 
-  const apiCallCode = {
+  const apiCallCode: Record<Language, string> = {
     curl: `curl --location '${API_CONFIG.gatewayBaseAddress}/api/v1/transactions/initiate' \\
 --header 'Authorization: Bearer {access_token}' \\
 --header 'Content-Type: application/json' \\
 --data-raw '{
-  "Amount": 10000,
-  "PayerEmail": "customer@example.com",
-  "PayerName": "John Doe",
-  "Purpose": "Product Purchase",
-  "PublicKey": "sb-pk-your_public_key_here",
-  "PaymentReference": "unique-ref-123456"
+"Amount": 10000,
+    "PayerEmail": "customer@example.com",
+    "PayerName": "John Doe",
+    "Purpose": "Product Purchase",
+    "PublicKey": "sb-pk-your_public_key_here",
+    "PaymentReference": "unique-ref-123456"
 }'`,
-    nodejs: `const axios = require('axios');
+nodejs: `const axios = require('axios');
 
 async function makeApiCall() {
   const token = await getAccessToken();
@@ -175,15 +177,15 @@ def initiate_transaction():
     response.raise_for_status()
     
     return response.json()`
-  };
+};
 
-  const tokenResponse = `{
+const tokenResponse = `{
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "token_type": "Bearer",
   "expires_in": 1800
 }`;
 
-  const apiResponse = `{
+const apiResponse = `{
   "status": true,
   "message": "Transaction initiated successfully",
   "data": {
@@ -193,7 +195,9 @@ def initiate_transaction():
   }
 }`;
 
-  return (
+const languages: Language[] = ['curl', 'nodejs', 'php', 'python'];
+
+return (
     <div className="max-w-none">
       {/* Header */}
       <div className="mb-8">
@@ -214,8 +218,8 @@ def initiate_transaction():
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-red-900 mb-2">Keep your keys secure</h3>
             <p className="text-red-800 leading-relaxed">
-              Your secret API keys carry many privileges, so be sure to keep them secure! 
-              Do not share your secret API keys in publicly accessible areas such as GitHub, 
+              Your secret API keys carry many privileges, so be sure to keep them secure!
+              Do not share your secret API keys in publicly accessible areas such as GitHub,
               client-side code, and so forth.
             </p>
           </div>
@@ -225,11 +229,11 @@ def initiate_transaction():
       {/* Authentication Basics */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Authentication Basics</h2>
-        
+
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              FirstChekout uses OAuth 2.0 client credentials flow for API authentication. You'll need to generate 
+              FirstChekout uses OAuth 2.0 client credentials flow for API authentication. You'll need to generate
               an access token using your Client ID and Client Secret before making API calls.
             </p>
 
@@ -267,7 +271,7 @@ def initiate_transaction():
                 <code className="text-sm text-blue-600 break-all">sb-pk_test_your_test_key</code>
                 <p className="text-xs text-gray-600 mt-1">Use for development and testing</p>
               </div>
-              
+
               <div className="bg-gray-50 rounded-lg p-4 border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-700">Live Keys</span>
@@ -284,11 +288,11 @@ def initiate_transaction():
       {/* OAuth Token Generation */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">OAuth Token Generation</h2>
-        
+
         <div className="grid lg:grid-cols-2 gap-8">
           <div>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              Generate an access token using your Client ID and Client Secret. This token will be used 
+              Generate an access token using your Client ID and Client Secret. This token will be used
               to authenticate all subsequent API requests.
             </p>
 
@@ -361,14 +365,14 @@ def initiate_transaction():
 
           <div>
             <div className="language-tabs">
-              {Object.keys(tokenGenerationCode).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLanguage(lang)}
-                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
-                >
-                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
-                </button>
+              {languages.map((lang) => (
+                  <button
+                      key={lang}
+                      onClick={() => setActiveLanguage(lang)}
+                      className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                  >
+                    {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                  </button>
               ))}
             </div>
 
@@ -376,8 +380,8 @@ def initiate_transaction():
               <div className="paystack-code-header">
                 <span className="text-sm font-medium">Generate Access Token</span>
                 <button
-                  onClick={() => copyToClipboard(tokenGenerationCode[activeLanguage], 'token-generation')}
-                  className="copy-button"
+                    onClick={() => copyToClipboard(tokenGenerationCode[activeLanguage], 'token-generation')}
+                    className="copy-button"
                 >
                   {copiedCode === 'token-generation' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 </button>
@@ -403,7 +407,7 @@ def initiate_transaction():
       {/* Using Access Tokens */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Using Access Tokens</h2>
-        
+
         <div className="grid lg:grid-cols-2 gap-8">
           <div>
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -411,7 +415,7 @@ def initiate_transaction():
             </p>
 
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Authorization Header</h3>
-            
+
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <div className="flex items-start space-x-4">
@@ -455,14 +459,14 @@ def initiate_transaction():
 
           <div>
             <div className="language-tabs">
-              {Object.keys(apiCallCode).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLanguage(lang)}
-                  className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
-                >
-                  {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
-                </button>
+              {languages.map((lang) => (
+                  <button
+                      key={lang}
+                      onClick={() => setActiveLanguage(lang)}
+                      className={`language-tab ${activeLanguage === lang ? 'active' : ''}`}
+                  >
+                    {lang === 'curl' ? 'cURL' : lang === 'nodejs' ? 'Node.js' : lang.toUpperCase()}
+                  </button>
               ))}
             </div>
 
@@ -470,8 +474,8 @@ def initiate_transaction():
               <div className="paystack-code-header">
                 <span className="text-sm font-medium">Making Authenticated API Calls</span>
                 <button
-                  onClick={() => copyToClipboard(apiCallCode[activeLanguage], 'api-call')}
-                  className="copy-button"
+                    onClick={() => copyToClipboard(apiCallCode[activeLanguage], 'api-call')}
+                    className="copy-button"
                 >
                   {copiedCode === 'api-call' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 </button>
@@ -497,34 +501,34 @@ def initiate_transaction():
       {/* Environment Configuration */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Environment Configuration</h2>
-        
+
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-200 rounded-lg">
             <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Environment</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Base URL</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Key Prefix</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Purpose</th>
-              </tr>
+            <tr>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Environment</th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Base URL</th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Key Prefix</th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Purpose</th>
+            </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded font-medium">Sandbox</span>
-                </td>
-                <td className="px-6 py-4 text-sm font-mono text-gray-600">{API_CONFIG.gatewayBaseAddress}</td>
-                <td className="px-6 py-4 text-sm font-mono text-gray-600">sb-pk_, sb-sk_</td>
-                <td className="px-6 py-4 text-sm text-gray-700">Development and testing</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs rounded font-medium">Live</span>
-                </td>
-                <td className="px-6 py-4 text-sm font-mono text-gray-600">https://payment-solution-gateway.azurewebsites.net</td>
-                <td className="px-6 py-4 text-sm font-mono text-gray-600">pk_, sk_</td>
-                <td className="px-6 py-4 text-sm text-gray-700">Production transactions</td>
-              </tr>
+            <tr>
+              <td className="px-6 py-4">
+                <span className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded font-medium">Sandbox</span>
+              </td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">{API_CONFIG.gatewayBaseAddress}</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">sb-pk_, sb-sk_</td>
+              <td className="px-6 py-4 text-sm text-gray-700">Development and testing</td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4">
+                <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs rounded font-medium">Live</span>
+              </td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">https://payment-solution-gateway.azurewebsites.net</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">pk_, sk_</td>
+              <td className="px-6 py-4 text-sm text-gray-700">Production transactions</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -533,7 +537,7 @@ def initiate_transaction():
       {/* Error Handling */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Authentication Errors</h2>
-        
+
         <div className="space-y-4">
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex items-center mb-2">
@@ -570,7 +574,7 @@ def initiate_transaction():
       {/* Best Practices */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Best Practices</h2>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
             <div className="flex items-center mb-3">
@@ -604,36 +608,6 @@ def initiate_transaction():
         </div>
       </div>
 
-      {/* Getting Started CTA */}
-      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
-      {/*  <div className="max-w-3xl">*/}
-      {/*    <h2 className="text-2xl font-bold mb-4">Ready to authenticate?</h2>*/}
-      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
-      {/*      Get your API credentials from the merchant dashboard and start making authenticated requests */}
-      {/*      to the FirstChekout API. Our comprehensive guides will help you implement secure authentication.*/}
-      {/*    </p>*/}
-      {/*    */}
-      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
-      {/*      <a*/}
-      {/*        href="https://www.firstchekout.com/"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        <Key className="mr-2 h-4 w-4" />*/}
-      {/*        Get API Keys*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*      <a*/}
-      {/*        href="/transactions"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        <Code className="mr-2 h-4 w-4" />*/}
-      {/*        Start Building*/}
-      {/*      </a>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
-  );
+);
 };

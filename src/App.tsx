@@ -1,9 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from './components/layout/ScrollToTop';
 import { ApiLayout } from './components/layout/ApiLayout';
 import { DocsLayout } from './components/layout/DocsLayout';
-import { AppRoutes } from './routes';
+
 
 // Import all docs page components
 import { OverviewPage } from './pages/OverviewPage';

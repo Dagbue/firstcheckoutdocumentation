@@ -1,5 +1,5 @@
 import React from 'react';
-import { Webhook, Copy, Check, ExternalLink, Shield } from 'lucide-react';
+import {  Copy, Check, Shield } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 
 export const ApiWebhooksSection: React.FC = () => {

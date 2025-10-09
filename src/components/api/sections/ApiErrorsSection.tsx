@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, XCircle, AlertTriangle, Copy, Check, ExternalLink, Shield, Code, Bug } from 'lucide-react';
+import { AlertCircle, XCircle, AlertTriangle, Copy, Check, Shield, Code, Bug } from 'lucide-react';
 import { CodeBlock } from '../../CodeBlock';
 
 export const ApiErrorsSection: React.FC = () => {
@@ -647,35 +647,7 @@ function handleAuthenticationError(errorResponse) {
         </div>
       </div>
 
-      {/* Getting Help */}
-      {/*<div className="bg-gradient-to-r from-bank-blue to-blue-700 rounded-xl p-8 text-white">*/}
-      {/*  <div className="max-w-3xl">*/}
-      {/*    <h2 className="text-2xl font-bold mb-4">Need help with errors?</h2>*/}
-      {/*    <p className="text-blue-100 mb-6 leading-relaxed">*/}
-      {/*      If you're experiencing persistent errors or need help implementing error handling, */}
-      {/*      our support team is here to help. Check our troubleshooting guide or contact support directly.*/}
-      {/*    </p>*/}
-      {/*    */}
-      {/*    <div className="flex flex-col sm:flex-row gap-4">*/}
-      {/*      <a*/}
-      {/*        href="/docs/troubleshooting"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-white text-bank-blue rounded-lg hover:bg-gray-100 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        <Bug className="mr-2 h-4 w-4" />*/}
-      {/*        Troubleshooting Guide*/}
-      {/*      </a>*/}
-      {/*      <a*/}
-      {/*        href="https://documenter.getpostman.com/view/30508792/2sB3BLi6vb"*/}
-      {/*        target="_blank"*/}
-      {/*        rel="noopener noreferrer"*/}
-      {/*        className="inline-flex items-center justify-center px-6 py-3 bg-bank-gold text-white rounded-lg hover:bg-bank-gold/90 transition-colors font-semibold"*/}
-      {/*      >*/}
-      {/*        Test in Postman*/}
-      {/*        <ExternalLink className="ml-2 h-4 w-4" />*/}
-      {/*      </a>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+
     </div>
   );
 };
