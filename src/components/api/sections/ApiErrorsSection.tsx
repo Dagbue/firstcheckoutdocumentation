@@ -115,60 +115,140 @@ function handleAuthenticationError(errorResponse) {
 
   const errorCodes = [
     {
+      code: 'INVALID_TRANSACTION',
+      status: 400,
+      description: 'Generic transaction error - often indicates missing transaction initialization',
+      type: 'Validation Error',
+      solution: 'ALWAYS call "Initiate Transaction" endpoint first before payment method endpoints. Use the transactionReference returned from initiation.',
+      common: true
+    },
+    {
+      code: 'MISSING_TRANSACTION_REFERENCE',
+      status: 400,
+      description: 'Transaction reference not provided in payment request',
+      type: 'Validation Error',
+      solution: 'Include the transactionReference from "Initiate Transaction" response in your payment method API call',
+      common: true
+    },
+    {
+      code: 'INVALID_AUTHDATA',
+      status: 400,
+      description: 'Encrypted card data (AuthData) is invalid or cannot be decrypted',
+      type: 'Encryption Error',
+      solution: 'Verify: 1) Encryption key is correct 2) merchantId matches 3) transactionReference matches 4) AES-GCM format is correct',
+      common: true
+    },
+    {
+      code: 'DECRYPTION_FAILED',
+      status: 400,
+      description: 'Server unable to decrypt the AuthData payload',
+      type: 'Encryption Error',
+      solution: 'Check AAD parameters (merchantId and transactionRef) match between encryption and API request. Use exact AesGcmService implementation from docs.',
+      common: true
+    },
+    {
+      code: 'AUTHENTICATION_TAG_MISMATCH',
+      status: 400,
+      description: 'AES-GCM authentication tag verification failed',
+      type: 'Encryption Error',
+      solution: 'Encrypted data may be corrupted or AAD doesn\'t match. Re-encrypt card data and verify no modifications during transmission.',
+      common: false
+    },
+    {
       code: 'INVALID_EMAIL',
       status: 400,
       description: 'The email address provided is not valid',
       type: 'Validation Error',
-      solution: 'Ensure the email follows the format: user@domain.com'
+      solution: 'Ensure the email follows the format: user@domain.com',
+      common: false
     },
     {
       code: 'INSUFFICIENT_FUNDS',
       status: 402,
       description: 'Customer account has insufficient funds for the transaction',
       type: 'Payment Error',
-      solution: 'Ask customer to check account balance or use different payment method'
+      solution: 'Ask customer to check account balance or use different payment method',
+      common: false
     },
     {
       code: 'UNAUTHORIZED',
       status: 401,
       description: 'Invalid or missing access token',
       type: 'Authentication Error',
-      solution: 'Generate a new access token using your client credentials'
+      solution: 'Generate a new access token using your client credentials. Tokens expire in 30 minutes.',
+      common: true
+    },
+    {
+      code: 'TOKEN_EXPIRED',
+      status: 401,
+      description: 'Access token has expired (30 minute lifetime)',
+      type: 'Authentication Error',
+      solution: 'Implement token caching and automatic refresh. Generate new token before making API calls.',
+      common: true
+    },
+    {
+      code: 'INVALID_CLIENT_CREDENTIALS',
+      status: 401,
+      description: 'Client ID or Client Secret is incorrect',
+      type: 'Authentication Error',
+      solution: 'Verify credentials from merchant dashboard. If regenerated, update environment variables immediately.',
+      common: true
     },
     {
       code: 'FORBIDDEN',
       status: 403,
       description: 'Valid token but insufficient permissions',
       type: 'Authorization Error',
-      solution: 'Check your account status and API key permissions'
+      solution: 'Check your account status and API key permissions. Ensure account is fully approved and live.',
+      common: false
     },
     {
       code: 'NOT_FOUND',
       status: 404,
       description: 'The requested resource was not found',
       type: 'Client Error',
-      solution: 'Verify the endpoint URL and resource identifier'
+      solution: 'Verify the endpoint URL is correct (use https://www.firstchekoutdev.com for sandbox)',
+      common: false
     },
     {
       code: 'DUPLICATE_REFERENCE',
       status: 409,
       description: 'Payment reference already exists',
       type: 'Validation Error',
-      solution: 'Use a unique payment reference for each transaction'
+      solution: 'Use a unique payment reference for each transaction. Format: TXN-{timestamp}-{random}',
+      common: true
     },
     {
       code: 'RATE_LIMITED',
       status: 429,
       description: 'Too many requests in a short period',
       type: 'Rate Limit Error',
-      solution: 'Implement exponential backoff and respect rate limits'
+      solution: 'Implement exponential backoff and respect rate limits',
+      common: false
     },
     {
       code: 'SERVER_ERROR',
       status: 500,
       description: 'An internal server error occurred',
       type: 'Server Error',
-      solution: 'Retry the request after a short delay. Contact support if persistent'
+      solution: 'Retry the request after a short delay. Contact support if persistent. Log full request/response for debugging.',
+      common: true
+    },
+    {
+      code: 'MERCHANT_ID_MISMATCH',
+      status: 400,
+      description: 'Merchant ID in request doesn\'t match encrypted AuthData',
+      type: 'Encryption Error',
+      solution: 'Ensure merchantId used in AES-GCM encryption matches the merchantId in your API request body',
+      common: true
+    },
+    {
+      code: 'TRANSACTION_REFERENCE_MISMATCH',
+      status: 400,
+      description: 'Transaction reference in request doesn\'t match encrypted AuthData',
+      type: 'Encryption Error',
+      solution: 'Use the same transactionReference from "Initiate Transaction" in both encryption and payment API call',
+      common: true
     }
   ];
 
@@ -427,9 +507,49 @@ function handleAuthenticationError(errorResponse) {
       </div>
 
       {/* Common Error Codes */}
+      {/* Common Error Codes - Priority Section */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Common Error Codes</h2>
-        
+        <div className="bg-red-50 border-2 border-red-300 rounded-lg p-6 mb-6">
+          <div className="flex items-center mb-4">
+            <AlertCircle className="h-7 w-7 text-red-600 mr-3" />
+            <h2 className="text-2xl font-bold text-red-900">Most Common Errors</h2>
+          </div>
+          <p className="text-red-800 mb-6">
+            These are the most frequently encountered errors based on developer feedback. Understanding these will solve 80% of integration issues.
+          </p>
+
+          <div className="space-y-4">
+            {errorCodes.filter(error => error.common).map((error, index) => (
+              <div key={index} className="bg-white rounded-lg p-5 border-2 border-red-200">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <code className="bg-red-100 text-red-900 px-3 py-1 rounded font-mono text-sm font-semibold">
+                      {error.code}
+                    </code>
+                    <span className={`px-2 py-1 text-xs rounded font-medium ${getStatusColor(error.status)}`}>
+                      {error.status}
+                    </span>
+                    <span className={`px-2 py-1 text-xs rounded font-medium ${getTypeColor(error.type)}`}>
+                      {error.type}
+                    </span>
+                  </div>
+                  <Bug className="h-5 w-5 text-red-500" />
+                </div>
+                <p className="text-gray-700 mb-3 font-medium">{error.description}</p>
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-3">
+                  <p className="text-sm text-blue-900">
+                    <strong className="font-semibold">Solution:</strong> {error.solution}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Complete Error Codes Reference</h2>
+
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-200 rounded-lg">
             <thead className="bg-gray-50">
