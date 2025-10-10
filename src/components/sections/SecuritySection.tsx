@@ -105,6 +105,213 @@ private bool IsBase64String(string input)
 public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);
   `;
 
+  const jsEncryptionExample = `// Note: Node.js requires the Web Crypto API (available in Node 15+)
+const { webcrypto } = require('crypto');
+const { writeFileSync, readFileSync } = require('fs');
+
+// Polyfill for browser crypto in Node.js
+global.crypto = webcrypto;
+
+class AesGcmService {
+    constructor() {
+        this.TAG_SIZE_BYTES = 16;
+        this.NONCE_SIZE = 12;
+    }
+
+    /**
+     * Encrypts card information using AES-GCM encryption
+     * @param {string} merchantAesKey - Base64-encoded AES encryption key from dashboard
+     * @param {string} merchantId - Your merchant identifier
+     * @param {string} tranRef - Unique transaction reference
+     * @param {string} pan - Card number (PAN)
+     * @param {string} expDate - Card expiry date (MM/YY)
+     * @param {string} cvv - Card CVV
+     * @param {string} pin - Card PIN
+     * @returns {Promise<string>} Base64-encoded encrypted card data
+     */
+    async encryptCardInfo(merchantAesKey, merchantId, tranRef, pan, expDate, cvv, pin) {
+        const aesKey = this.base64ToUint8Array(merchantAesKey);
+
+        const debitCard = {
+            Pan: pan,
+            ExpiryDate: expDate,
+            Cvv: cvv,
+            Pin: pin
+        };
+
+        // Remove null and empty values before encryption
+        const payload = JSON.stringify(debitCard, (key, value) => {
+            return value === null || value === "" ? undefined : value;
+        });
+
+        console.log("Payload to encrypt:", payload);
+        const encryptedResult = await this.encryptAsync(payload, aesKey, merchantId, tranRef);
+        const base64EncodedPayload = this.uint8ArrayToBase64(encryptedResult);
+        return base64EncodedPayload;
+    }
+
+    /**
+     * Encrypts plaintext using AES-GCM with additional authenticated data (AAD)
+     * @param {string} plaintext - Data to encrypt
+     * @param {Uint8Array} keyBytes - AES key bytes
+     * @param {string} merchantId - Merchant ID for AAD
+     * @param {string} transactionRef - Transaction reference for AAD
+     * @returns {Promise<Uint8Array>} Encrypted data in format [nonce || tag || ciphertext]
+     */
+    async encryptAsync(plaintext, keyBytes, merchantId, transactionRef) {
+        if (!plaintext || plaintext.trim() === '') {
+            throw new Error("Plaintext must not be null or empty.");
+        }
+
+        try {
+            const plaintextBytes = new TextEncoder().encode(plaintext);
+            const nonce = crypto.getRandomValues(new Uint8Array(this.NONCE_SIZE));
+            const versionBytes = new Uint8Array(0);
+            const combinedAad = this.composeAad(versionBytes, merchantId, transactionRef);
+
+            // Import the AES key for Web Crypto API
+            const cryptoKey = await crypto.subtle.importKey(
+                'raw',
+                keyBytes,
+                { name: 'AES-GCM' },
+                false,
+                ['encrypt']
+            );
+
+            // Perform AES-GCM encryption
+            const encryptedData = await crypto.subtle.encrypt(
+                {
+                    name: 'AES-GCM',
+                    iv: nonce,
+                    additionalData: combinedAad,
+                    tagLength: this.TAG_SIZE_BYTES * 8
+                },
+                cryptoKey,
+                plaintextBytes
+            );
+
+            const encryptedArray = new Uint8Array(encryptedData);
+            const ciphertextLength = encryptedArray.length - this.TAG_SIZE_BYTES;
+            const ciphertext = encryptedArray.slice(0, ciphertextLength);
+            const tag = encryptedArray.slice(ciphertextLength);
+
+            // Combine nonce, tag, and ciphertext: [nonce || tag || ciphertext]
+            const result = new Uint8Array(this.NONCE_SIZE + this.TAG_SIZE_BYTES + ciphertext.length);
+            result.set(nonce, 0);
+            result.set(tag, this.NONCE_SIZE);
+            result.set(ciphertext, this.NONCE_SIZE + this.TAG_SIZE_BYTES);
+
+            // Zero out sensitive data
+            this.zeroMemory(plaintextBytes);
+            return result;
+        } catch (ex) {
+            throw new Error(\`Encryption failed: \${ex.message}\`);
+        }
+    }
+
+    /**
+     * Composes Additional Authenticated Data (AAD) from version, merchant ID, and transaction ref
+     * @param {Uint8Array} versionBytes - Version bytes (optional)
+     * @param {string} merchantId - Merchant identifier
+     * @param {string} transactionRef - Transaction reference
+     * @returns {Uint8Array} Combined AAD bytes
+     */
+    composeAad(versionBytes, merchantId, transactionRef) {
+        const utf8 = new TextEncoder();
+
+        const merchantBytes = merchantId && merchantId.trim() ?
+            utf8.encode(merchantId) : new Uint8Array(0);
+        const transactionRefBytes = transactionRef && transactionRef.trim() ?
+            utf8.encode(transactionRef) : new Uint8Array(0);
+
+        const totalLength = versionBytes.length + merchantBytes.length + transactionRefBytes.length;
+
+        if (totalLength === 0) {
+            return new Uint8Array(0);
+        }
+
+        const combined = new Uint8Array(totalLength);
+        let offset = 0;
+
+        combined.set(versionBytes, offset);
+        offset += versionBytes.length;
+
+        combined.set(merchantBytes, offset);
+        offset += merchantBytes.length;
+
+        combined.set(transactionRefBytes, offset);
+        return combined;
+    }
+
+    /**
+     * Converts base64 string to Uint8Array
+     * @param {string} base64 - Base64-encoded string
+     * @returns {Uint8Array} Decoded bytes
+     */
+    base64ToUint8Array(base64) {
+        const binaryString = Buffer.from(base64, 'base64').toString('binary');
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    /**
+     * Converts Uint8Array to base64 string
+     * @param {Uint8Array} uint8Array - Bytes to encode
+     * @returns {string} Base64-encoded string
+     */
+    uint8ArrayToBase64(uint8Array) {
+        return Buffer.from(uint8Array).toString('base64');
+    }
+
+    /**
+     * Securely zeros out memory to prevent sensitive data leaks
+     * @param {Uint8Array} array - Array to zero out
+     */
+    zeroMemory(array) {
+        if (array instanceof Uint8Array) {
+            array.fill(0);
+        }
+    }
+}
+
+// Usage Example
+async function encryptCardForPayment() {
+    try {
+        const service = new AesGcmService();
+
+        // Get these values from your merchant dashboard
+        const merchantAesKey = process.env.FIRSTCHEKOUT_ENCRYPTION_KEY; // Base64-encoded 16-byte key
+        const merchantId = process.env.FIRSTCHEKOUT_MERCHANT_ID;
+        const tranRef = 'TXN-' + Date.now(); // Unique transaction reference
+
+        // Card details from user input (NEVER log these!)
+        const pan = '4111111111111111';
+        const expDate = '12/25';
+        const cvv = '123';
+        const pin = '1234';
+
+        console.log('Encrypting card data...');
+        const encryptedCardData = await service.encryptCardInfo(
+            merchantAesKey, merchantId, tranRef, pan, expDate, cvv, pin
+        );
+
+        console.log('Encryption successful!');
+        console.log('Encrypted AuthData:', encryptedCardData);
+
+        // Use the encrypted data in your API request
+        return encryptedCardData;
+    } catch (error) {
+        console.error('Encryption failed:', error);
+        throw error;
+    }
+}
+
+// Export for use in your application
+module.exports = { AesGcmService };`;
+
   const webhookVerification = `public async Task<WebhookResponse> AcceptWebhook(ChekoutWebhookData data, string ip)
 {
     var response = new WebhookResponse();
@@ -326,8 +533,16 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
             </div>
 
             <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES Encryption Implementation</h4>
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES Encryption Implementation (C#)</h4>
               <CodeBlock language="csharp" code={encryptionExample} />
+            </div>
+
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES-GCM Encryption Implementation (JavaScript/Node.js)</h4>
+              <p className="text-gray-600 mb-4">
+                For JavaScript/Node.js applications, use the Web Crypto API for AES-GCM encryption. This implementation is compatible with Node.js 15+ and modern browsers.
+              </p>
+              <CodeBlock language="javascript" code={jsEncryptionExample} />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
