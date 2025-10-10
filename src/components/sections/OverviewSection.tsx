@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Code, Users, CreditCard, Smartphone, QrCode, Building, CheckCircle, Zap, Shield, Globe } from 'lucide-react';
+import { ArrowRight, BookOpen, Code, Users, CreditCard, Smartphone, QrCode, Building, CheckCircle, Zap, Shield, Globe, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MermaidDiagramSudo } from '../MermaidDiagramSudo';
 import { MermaidDiagram } from '@lightenna/react-mermaid-diagram';
@@ -288,6 +288,202 @@ graph TD
                 <div className="text-blue-700">Start accepting payments</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* API Transaction Flow - CRITICAL */}
+      <section id="api-transaction-flow" className="mb-12">
+        <div className="bg-red-50 border-2 border-red-300 rounded-2xl p-8">
+          <div className="flex items-center mb-6">
+            <AlertTriangle className="h-8 w-8 text-red-600 mr-3" />
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-red-900">Critical: API Transaction Flow</h2>
+              <p className="text-red-700 mt-1">
+                You MUST follow this exact sequence - skipping steps will result in failed transactions
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Transaction Flow Diagram</h3>
+            <div className="mb-6">
+              <MermaidDiagram>
+                {`sequenceDiagram
+    participant Client as Your Application
+    participant Auth as Authentication API
+    participant Init as Transaction API
+    participant Payment as Payment Method API
+    participant Webhook as Your Webhook
+
+    Client->>Auth: 1. Generate OAuth Token
+    Auth-->>Client: Access Token (30 min expiry)
+
+    Client->>Init: 2. Initiate Transaction
+    Note over Init: POST /transactions/initiate
+    Init-->>Client: Transaction Reference
+
+    Client->>Payment: 3. Process Payment Method
+    Note over Payment: POST /card or /ussd or /transfer
+    Note over Payment: Use Transaction Reference from step 2
+    Payment-->>Client: Payment Status
+
+    Payment->>Webhook: 4. Webhook Notification
+    Note over Webhook: payment.success or payment.failed
+    Webhook-->>Payment: HTTP 200 OK`}
+              </MermaidDiagram>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Step-by-Step API Call Sequence</h3>
+
+            <div className="space-y-6">
+              {/* Step 1 */}
+              <div className="border-l-4 border-blue-500 pl-6 py-2">
+                <div className="flex items-center mb-2">
+                  <span className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-3 text-sm">1</span>
+                  <h4 className="text-lg font-bold text-gray-900">Generate OAuth Token</h4>
+                </div>
+                <p className="text-gray-600 mb-3">Authenticate with your Client ID and Client Secret to receive an access token.</p>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-sm font-mono text-gray-800 mb-2">
+                    POST https://payment-solution-identity.azurewebsites.net/api/v2/Authenticate/token
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Body: client_Id, client_Secret, grant_type=client_credentials
+                  </p>
+                  <p className="text-xs text-green-600 mt-2">
+                    Response: Access token valid for 30 minutes
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="border-l-4 border-orange-500 pl-6 py-2">
+                <div className="flex items-center mb-2">
+                  <span className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold mr-3 text-sm">2</span>
+                  <h4 className="text-lg font-bold text-gray-900">Initiate Transaction</h4>
+                </div>
+                <p className="text-gray-600 mb-3">
+                  <strong className="text-red-600">MANDATORY FIRST STEP:</strong> Create a transaction session before any payment method call.
+                </p>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-sm font-mono text-gray-800 mb-2">
+                    POST {'{'}gateway_url{'}'}/transactions/initiate
+                  </p>
+                  <p className="text-xs text-gray-600 mb-2">
+                    Headers: Authorization: Bearer {'{'}access_token{'}'}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Body: amount, currency, customerEmail, customerName, merchantId, callbackUrl
+                  </p>
+                  <p className="text-xs text-green-600 mt-2">
+                    Response: <strong>transactionReference</strong> (save this - required for step 3!)
+                  </p>
+                </div>
+                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                  <p className="text-xs text-yellow-800">
+                    <strong>⚠️ Common Mistake:</strong> Developers often skip this step and call card/USSD endpoints directly, resulting in "Invalid transaction" errors.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="border-l-4 border-purple-500 pl-6 py-2">
+                <div className="flex items-center mb-2">
+                  <span className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold mr-3 text-sm">3</span>
+                  <h4 className="text-lg font-bold text-gray-900">Process Payment Method</h4>
+                </div>
+                <p className="text-gray-600 mb-3">
+                  Call the specific payment method endpoint (Card, USSD, Transfer, QR) using the transaction reference from step 2.
+                </p>
+                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  <div>
+                    <p className="text-sm font-bold text-gray-700 mb-1">Card Payment:</p>
+                    <p className="text-sm font-mono text-gray-800">
+                      POST {'{'}gateway_url{'}'}/card/charge
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      Body: transactionReference (from step 2), encryptedCardData, merchantId
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-700 mb-1">USSD Payment:</p>
+                    <p className="text-sm font-mono text-gray-800">
+                      POST {'{'}gateway_url{'}'}/ussd/initiate
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      Body: transactionReference (from step 2), bankCode, phoneNumber
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-700 mb-1">Bank Transfer:</p>
+                    <p className="text-sm font-mono text-gray-800">
+                      POST {'{'}gateway_url{'}'}/transfer/initiate
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      Body: transactionReference (from step 2), accountNumber, bankCode
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="border-l-4 border-green-500 pl-6 py-2">
+                <div className="flex items-center mb-2">
+                  <span className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold mr-3 text-sm">4</span>
+                  <h4 className="text-lg font-bold text-gray-900">Receive Webhook Notification</h4>
+                </div>
+                <p className="text-gray-600 mb-3">
+                  FirstChekout sends a POST request to your webhook URL with payment status.
+                </p>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-sm font-mono text-gray-800 mb-2">
+                    POST {'{'}your_webhook_url{'}'}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Headers: X-Firstchekout-Signature (verify this!)
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Body: eventType (payment.success/payment.failed), data (transaction details)
+                  </p>
+                  <p className="text-xs text-green-600 mt-2">
+                    Your Response: HTTP 200 OK (acknowledge receipt)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-red-100 border border-red-400 rounded-xl p-6">
+            <h3 className="text-lg font-bold text-red-900 mb-3">🚨 Critical Rules - Read This!</h3>
+            <ul className="space-y-2 text-sm text-red-800">
+              <li className="flex items-start">
+                <span className="font-bold mr-2">1.</span>
+                <span><strong>ALWAYS</strong> call "Initiate Transaction" (Step 2) before any payment method endpoint (Step 3)</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold mr-2">2.</span>
+                <span>Use the <strong>transactionReference</strong> from Step 2 in ALL subsequent payment calls</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold mr-2">3.</span>
+                <span>NEVER skip steps or call payment endpoints directly without initiation</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold mr-2">4.</span>
+                <span>Tokens expire in 30 minutes - implement caching and refresh logic</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold mr-2">5.</span>
+                <span>Always verify webhook signatures to prevent fraud</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-bold mr-2">6.</span>
+                <span>Use unique transaction references for each payment (never reuse)</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>

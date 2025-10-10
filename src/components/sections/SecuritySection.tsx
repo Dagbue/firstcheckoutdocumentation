@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Lock, Key, AlertTriangle, CheckCircle, XCircle,} from 'lucide-react';
+import { Shield, Lock, Key, AlertTriangle, CheckCircle, XCircle, Building, Hash } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
 
 export const SecuritySection: React.FC = () => {
@@ -104,6 +104,213 @@ private bool IsBase64String(string input)
 }
 public record DebitCard(string Pan, string ExpiryDate, string Cvv, string Pin);
   `;
+
+  const jsEncryptionExample = `// Note: Node.js requires the Web Crypto API (available in Node 15+)
+const { webcrypto } = require('crypto');
+const { writeFileSync, readFileSync } = require('fs');
+
+// Polyfill for browser crypto in Node.js
+global.crypto = webcrypto;
+
+class AesGcmService {
+    constructor() {
+        this.TAG_SIZE_BYTES = 16;
+        this.NONCE_SIZE = 12;
+    }
+
+    /**
+     * Encrypts card information using AES-GCM encryption
+     * @param {string} merchantAesKey - Base64-encoded AES encryption key from dashboard
+     * @param {string} merchantId - Your merchant identifier
+     * @param {string} tranRef - Unique transaction reference
+     * @param {string} pan - Card number (PAN)
+     * @param {string} expDate - Card expiry date (MM/YY)
+     * @param {string} cvv - Card CVV
+     * @param {string} pin - Card PIN
+     * @returns {Promise<string>} Base64-encoded encrypted card data
+     */
+    async encryptCardInfo(merchantAesKey, merchantId, tranRef, pan, expDate, cvv, pin) {
+        const aesKey = this.base64ToUint8Array(merchantAesKey);
+
+        const debitCard = {
+            Pan: pan,
+            ExpiryDate: expDate,
+            Cvv: cvv,
+            Pin: pin
+        };
+
+        // Remove null and empty values before encryption
+        const payload = JSON.stringify(debitCard, (key, value) => {
+            return value === null || value === "" ? undefined : value;
+        });
+
+        console.log("Payload to encrypt:", payload);
+        const encryptedResult = await this.encryptAsync(payload, aesKey, merchantId, tranRef);
+        const base64EncodedPayload = this.uint8ArrayToBase64(encryptedResult);
+        return base64EncodedPayload;
+    }
+
+    /**
+     * Encrypts plaintext using AES-GCM with additional authenticated data (AAD)
+     * @param {string} plaintext - Data to encrypt
+     * @param {Uint8Array} keyBytes - AES key bytes
+     * @param {string} merchantId - Merchant ID for AAD
+     * @param {string} transactionRef - Transaction reference for AAD
+     * @returns {Promise<Uint8Array>} Encrypted data in format [nonce || tag || ciphertext]
+     */
+    async encryptAsync(plaintext, keyBytes, merchantId, transactionRef) {
+        if (!plaintext || plaintext.trim() === '') {
+            throw new Error("Plaintext must not be null or empty.");
+        }
+
+        try {
+            const plaintextBytes = new TextEncoder().encode(plaintext);
+            const nonce = crypto.getRandomValues(new Uint8Array(this.NONCE_SIZE));
+            const versionBytes = new Uint8Array(0);
+            const combinedAad = this.composeAad(versionBytes, merchantId, transactionRef);
+
+            // Import the AES key for Web Crypto API
+            const cryptoKey = await crypto.subtle.importKey(
+                'raw',
+                keyBytes,
+                { name: 'AES-GCM' },
+                false,
+                ['encrypt']
+            );
+
+            // Perform AES-GCM encryption
+            const encryptedData = await crypto.subtle.encrypt(
+                {
+                    name: 'AES-GCM',
+                    iv: nonce,
+                    additionalData: combinedAad,
+                    tagLength: this.TAG_SIZE_BYTES * 8
+                },
+                cryptoKey,
+                plaintextBytes
+            );
+
+            const encryptedArray = new Uint8Array(encryptedData);
+            const ciphertextLength = encryptedArray.length - this.TAG_SIZE_BYTES;
+            const ciphertext = encryptedArray.slice(0, ciphertextLength);
+            const tag = encryptedArray.slice(ciphertextLength);
+
+            // Combine nonce, tag, and ciphertext: [nonce || tag || ciphertext]
+            const result = new Uint8Array(this.NONCE_SIZE + this.TAG_SIZE_BYTES + ciphertext.length);
+            result.set(nonce, 0);
+            result.set(tag, this.NONCE_SIZE);
+            result.set(ciphertext, this.NONCE_SIZE + this.TAG_SIZE_BYTES);
+
+            // Zero out sensitive data
+            this.zeroMemory(plaintextBytes);
+            return result;
+        } catch (ex) {
+            throw new Error(\`Encryption failed: \${ex.message}\`);
+        }
+    }
+
+    /**
+     * Composes Additional Authenticated Data (AAD) from version, merchant ID, and transaction ref
+     * @param {Uint8Array} versionBytes - Version bytes (optional)
+     * @param {string} merchantId - Merchant identifier
+     * @param {string} transactionRef - Transaction reference
+     * @returns {Uint8Array} Combined AAD bytes
+     */
+    composeAad(versionBytes, merchantId, transactionRef) {
+        const utf8 = new TextEncoder();
+
+        const merchantBytes = merchantId && merchantId.trim() ?
+            utf8.encode(merchantId) : new Uint8Array(0);
+        const transactionRefBytes = transactionRef && transactionRef.trim() ?
+            utf8.encode(transactionRef) : new Uint8Array(0);
+
+        const totalLength = versionBytes.length + merchantBytes.length + transactionRefBytes.length;
+
+        if (totalLength === 0) {
+            return new Uint8Array(0);
+        }
+
+        const combined = new Uint8Array(totalLength);
+        let offset = 0;
+
+        combined.set(versionBytes, offset);
+        offset += versionBytes.length;
+
+        combined.set(merchantBytes, offset);
+        offset += merchantBytes.length;
+
+        combined.set(transactionRefBytes, offset);
+        return combined;
+    }
+
+    /**
+     * Converts base64 string to Uint8Array
+     * @param {string} base64 - Base64-encoded string
+     * @returns {Uint8Array} Decoded bytes
+     */
+    base64ToUint8Array(base64) {
+        const binaryString = Buffer.from(base64, 'base64').toString('binary');
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    /**
+     * Converts Uint8Array to base64 string
+     * @param {Uint8Array} uint8Array - Bytes to encode
+     * @returns {string} Base64-encoded string
+     */
+    uint8ArrayToBase64(uint8Array) {
+        return Buffer.from(uint8Array).toString('base64');
+    }
+
+    /**
+     * Securely zeros out memory to prevent sensitive data leaks
+     * @param {Uint8Array} array - Array to zero out
+     */
+    zeroMemory(array) {
+        if (array instanceof Uint8Array) {
+            array.fill(0);
+        }
+    }
+}
+
+// Usage Example
+async function encryptCardForPayment() {
+    try {
+        const service = new AesGcmService();
+
+        // Get these values from your merchant dashboard
+        const merchantAesKey = process.env.FIRSTCHEKOUT_ENCRYPTION_KEY; // Base64-encoded 16-byte key
+        const merchantId = process.env.FIRSTCHEKOUT_MERCHANT_ID;
+        const tranRef = 'TXN-' + Date.now(); // Unique transaction reference
+
+        // Card details from user input (NEVER log these!)
+        const pan = '4111111111111111';
+        const expDate = '12/25';
+        const cvv = '123';
+        const pin = '1234';
+
+        console.log('Encrypting card data...');
+        const encryptedCardData = await service.encryptCardInfo(
+            merchantAesKey, merchantId, tranRef, pan, expDate, cvv, pin
+        );
+
+        console.log('Encryption successful!');
+        console.log('Encrypted AuthData:', encryptedCardData);
+
+        // Use the encrypted data in your API request
+        return encryptedCardData;
+    } catch (error) {
+        console.error('Encryption failed:', error);
+        throw error;
+    }
+}
+
+// Export for use in your application
+module.exports = { AesGcmService };`;
 
   const webhookVerification = `public async Task<WebhookResponse> AcceptWebhook(ChekoutWebhookData data, string ip)
 {
@@ -326,8 +533,157 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
             </div>
 
             <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES Encryption Implementation</h4>
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES Encryption Implementation (C#)</h4>
               <CodeBlock language="csharp" code={encryptionExample} />
+            </div>
+
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">AES-GCM Encryption Implementation (JavaScript/Node.js)</h4>
+              <p className="text-gray-600 mb-4">
+                For JavaScript/Node.js applications, use the Web Crypto API for AES-GCM encryption. This implementation is compatible with Node.js 15+ and modern browsers.
+              </p>
+              <CodeBlock language="javascript" code={jsEncryptionExample} />
+
+              {/* Detailed AES-GCM Explanation */}
+              <div className="mt-6 p-6 bg-blue-50 border border-blue-300 rounded-lg">
+                <div className="flex items-start mb-4">
+                  <AlertTriangle className="h-6 w-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h5 className="text-lg font-bold text-blue-900 mb-2">Understanding AES-GCM Parameters</h5>
+                    <p className="text-blue-800 text-sm">
+                      The AES-GCM encryption process requires specific parameters to work correctly. Understanding these is crucial for successful implementation.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Merchant AES Key */}
+                  <div className="bg-white rounded-lg p-4">
+                    <h6 className="font-bold text-gray-900 mb-2 flex items-center">
+                      <Key className="h-4 w-4 mr-2 text-blue-600" />
+                      1. Merchant AES Key
+                    </h6>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Source:</strong> Retrieved from your merchant dashboard under "Encryption Key"
+                    </p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Format:</strong> Base64-encoded 16-byte (128-bit) AES key
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      This key is <strong>unique to your merchant account</strong> and is generated during account creation. It cannot be regenerated, so store it securely.
+                    </p>
+                    <code className="block mt-2 text-xs bg-gray-100 text-gray-800 p-2 rounded">
+                      Example: "Ab3dEf9gH1jK2lM4nO5pQ6rS7tU8vW9xY=="
+                    </code>
+                  </div>
+
+                  {/* Merchant ID */}
+                  <div className="bg-white rounded-lg p-4">
+                    <h6 className="font-bold text-gray-900 mb-2 flex items-center">
+                      <Building className="h-4 w-4 mr-2 text-blue-600" />
+                      2. Merchant ID
+                    </h6>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Source:</strong> Found in your merchant dashboard under "Merchant Information"
+                    </p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Format:</strong> 10-digit numeric identifier
+                    </p>
+                    <p className="text-sm text-gray-600 mb-2">
+                      The merchant ID is used as part of the <strong>Additional Authenticated Data (AAD)</strong> in the AES-GCM encryption process. This ensures that the encrypted data can only be decrypted by the correct merchant.
+                    </p>
+                    <code className="block mt-2 text-xs bg-gray-100 text-gray-800 p-2 rounded">
+                      Example: "1234567890"
+                    </code>
+                    <div className="mt-2 p-2 bg-yellow-50 border border-yellow-300 rounded">
+                      <p className="text-xs text-yellow-800">
+                        <strong>⚠️ Critical:</strong> The merchant ID used in encryption MUST match the merchant ID in your API request. Mismatch will result in decryption failures on the server.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Transaction Reference */}
+                  <div className="bg-white rounded-lg p-4">
+                    <h6 className="font-bold text-gray-900 mb-2 flex items-center">
+                      <Hash className="h-4 w-4 mr-2 text-blue-600" />
+                      3. Transaction Reference
+                    </h6>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Source:</strong> Generated by you or returned from "Initiate Transaction" API call
+                    </p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Format:</strong> Unique alphanumeric string (10-100 characters)
+                    </p>
+                    <p className="text-sm text-gray-600 mb-2">
+                      The transaction reference is also part of the <strong>AAD</strong> and binds the encrypted card data to a specific transaction. This prevents replay attacks where encrypted data is used for unauthorized transactions.
+                    </p>
+                    <code className="block mt-2 text-xs bg-gray-100 text-gray-800 p-2 rounded">
+                      Example: "TXN-1641234567890-ABC123"
+                    </code>
+                    <div className="mt-2 p-2 bg-yellow-50 border border-yellow-300 rounded">
+                      <p className="text-xs text-yellow-800">
+                        <strong>⚠️ Critical:</strong> The transaction reference used in encryption MUST be the same one you use in the card payment API request. Always use the reference returned from "Initiate Transaction" endpoint.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* AAD Relationship */}
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border border-blue-300">
+                    <h6 className="font-bold text-gray-900 mb-3">🔐 How AAD (Additional Authenticated Data) Works</h6>
+                    <p className="text-sm text-gray-700 mb-3">
+                      AES-GCM combines the <strong>merchantId</strong> and <strong>transactionReference</strong> as AAD. This data is authenticated but not encrypted, meaning:
+                    </p>
+                    <ul className="text-sm text-gray-700 space-y-2 ml-4">
+                      <li className="flex items-start">
+                        <span className="mr-2">1.</span>
+                        <span>The encrypted card data can ONLY be decrypted with the correct merchantId and transactionReference</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2">2.</span>
+                        <span>Even if someone intercepts the encrypted data, they cannot use it for a different transaction or merchant</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2">3.</span>
+                        <span>The FirstChekout server verifies that the AAD matches before attempting decryption</span>
+                      </li>
+                    </ul>
+                    <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                      <p className="text-xs font-mono text-gray-800">
+                        AAD = merchantId + "|" + transactionReference<br/>
+                        Example: "1234567890|TXN-1641234567890-ABC123"
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Common Errors */}
+                  <div className="bg-red-50 rounded-lg p-4 border border-red-300">
+                    <h6 className="font-bold text-red-900 mb-3">❌ Common Encryption Errors & Solutions</h6>
+                    <div className="space-y-3 text-sm">
+                      <div>
+                        <p className="font-semibold text-red-800">Error: "Decryption failed" or "Invalid AuthData"</p>
+                        <p className="text-red-700">
+                          <strong>Cause:</strong> Mismatch between encryption parameters and API request<br/>
+                          <strong>Solution:</strong> Verify that merchantId and transactionReference in encryption match exactly with your API request payload
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-red-800">Error: "Invalid encryption key"</p>
+                        <p className="text-red-700">
+                          <strong>Cause:</strong> Encryption key is not properly base64-decoded or is incorrect<br/>
+                          <strong>Solution:</strong> Ensure you base64-decode the encryption key from dashboard before using it
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-red-800">Error: "Authentication tag mismatch"</p>
+                        <p className="text-red-700">
+                          <strong>Cause:</strong> Encrypted data was tampered with or AAD doesn't match<br/>
+                          <strong>Solution:</strong> Re-encrypt the card data and ensure no modifications occur during transmission
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">

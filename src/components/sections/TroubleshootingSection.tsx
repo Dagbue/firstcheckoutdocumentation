@@ -209,14 +209,216 @@ export const TroubleshootingSection: React.FC = () => {
     }
   ];
 
+  const criticalIssues = [
+    {
+      title: "Client Secret Generation Failure",
+      severity: "critical",
+      description: "Unable to generate or regenerate Client Secret from the merchant dashboard",
+      symptoms: [
+        "Generate Secret button times out",
+        "Blank response when clicking regenerate",
+        "Dashboard becomes unresponsive",
+        "No new secret displayed after generation attempt"
+      ],
+      solutions: [
+        "Clear browser cache and cookies, then try again",
+        "Try using a different browser (Chrome, Firefox, Safari)",
+        "Disable browser extensions temporarily and retry",
+        "Contact FirstChekout support immediately with your Merchant ID",
+        "Request manual Client Secret reset from support team"
+      ],
+      workaround: "This is a known blocking issue. Contact support@firstchekout.com with your Merchant ID for immediate assistance."
+    },
+    {
+      title: "Inconsistent Sandbox URLs",
+      severity: "high",
+      description: "Multiple base URLs causing confusion about which environment to use",
+      symptoms: [
+        "Some endpoints use firstchekoutdev.com",
+        "Others use payment-solution-gateway.azurewebsites.net",
+        "Inconsistent response structures",
+        "Different authorization requirements"
+      ],
+      solutions: [
+        "Use the URLs specified in the Testing & Debugging section",
+        "Always reference the environment configuration table",
+        "Stick to one set of URLs throughout your integration",
+        "Document which URLs work for your specific endpoints",
+        "Report URL inconsistencies to the support team"
+      ],
+      workaround: "Refer to the official endpoint reference in the API documentation for authoritative base URLs."
+    },
+    {
+      title: "Transaction Flow Confusion",
+      severity: "high",
+      description: "Unclear that 'Initiate Transaction' must be called before specific payment methods",
+      symptoms: [
+        "Direct calls to Card/USSD endpoints fail",
+        "Missing transaction reference errors",
+        "Invalid transaction state errors",
+        "Authorization failures on payment endpoints"
+      ],
+      solutions: [
+        "ALWAYS call 'Initiate Transaction' endpoint first",
+        "Use the transaction reference returned from initiation",
+        "Follow the correct flow: Initiate → Card/USSD/Account → Complete",
+        "Review the Integration Flow Diagram in the Overview section",
+        "Never skip the initiation step, even for testing"
+      ],
+      workaround: "See the 'Complete Transaction Flow' section for the correct API call sequence."
+    },
+    {
+      title: "AES-GCM Encryption Rejection",
+      severity: "high",
+      description: "Custom AES-GCM implementation being rejected despite following specifications",
+      symptoms: [
+        "Encrypted AuthData payload rejected",
+        "Decryption errors on server side",
+        "Invalid encryption format errors",
+        "Authentication failures with encrypted data"
+      ],
+      solutions: [
+        "Use the exact JavaScript/Node.js implementation provided in Security section",
+        "Ensure correct format: [nonce || tag || ciphertext]",
+        "Verify AAD (Additional Authenticated Data) includes merchantId and transactionRef",
+        "Confirm encryption key is base64-decoded before use",
+        "Test with the provided working example first",
+        "Validate encrypted output format matches specification"
+      ],
+      workaround: "Copy the complete AesGcmService class from the Security documentation and use it without modifications."
+    },
+    {
+      title: "Intermittent Token Generation Failures",
+      severity: "medium",
+      description: "Authentication endpoint fails or returns invalid tokens with correct credentials",
+      symptoms: [
+        "Token endpoint returns 500 errors intermittently",
+        "Valid credentials rejected randomly",
+        "Tokens expire immediately after generation",
+        "Invalid or malformed JWT tokens returned"
+      ],
+      solutions: [
+        "Implement automatic retry logic with exponential backoff",
+        "Cache valid tokens and reuse until expiry (30 minutes)",
+        "Validate token structure before use (jwt.io)",
+        "Monitor token expiration and refresh proactively",
+        "Log token generation failures with timestamps for support"
+      ],
+      workaround: "Implement token caching and retry logic. Report persistent failures to support with request/response logs."
+    },
+    {
+      title: "Generic Error Messages",
+      severity: "medium",
+      description: "API returns vague errors without specific details for debugging",
+      symptoms: [
+        "Errors like 'Invalid transaction' with no details",
+        "400 Bad Request with minimal information",
+        "No error codes or reference IDs",
+        "Missing field information in errors"
+      ],
+      solutions: [
+        "Log full request and response payloads (excluding sensitive data)",
+        "Check request payload against exact API specification",
+        "Validate all required fields are present and correctly formatted",
+        "Test with Postman/Insomnia to isolate issues",
+        "Contact support with complete request/response logs"
+      ],
+      workaround: "Use process of elimination by testing each field individually. Reference the exact API specifications in this documentation."
+    },
+    {
+      title: "No Sandbox Transaction Logs",
+      severity: "medium",
+      description: "Unable to view transaction logs or traces in developer dashboard",
+      symptoms: [
+        "No transaction history visible",
+        "Cannot trace failed requests",
+        "No visibility into server-side validation",
+        "Unclear if requests reach the gateway"
+      ],
+      solutions: [
+        "Implement detailed client-side logging",
+        "Use browser Network tab to capture all requests",
+        "Request access to enhanced logging from support",
+        "Use unique transaction references to track payments",
+        "Monitor webhook notifications for transaction status"
+      ],
+      workaround: "Request temporary access to sandbox logs from support for critical debugging sessions."
+    }
+  ];
+
   return (
     <section id="troubleshooting" className="mb-16">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Troubleshooting & FAQs</h2>
         <p className="text-l text-gray-600 mb-4">
-          Comprehensive troubleshooting guide to help you quickly identify and resolve common integration issues. 
+          Comprehensive troubleshooting guide to help you quickly identify and resolve common integration issues.
           Use the diagnostic tools and step-by-step solutions to get your payment system working smoothly.
         </p>
+
+        {/* Critical Issues Section */}
+        <div className="mb-8 p-6 bg-red-50 border-2 border-red-300 rounded-lg">
+          <div className="flex items-center mb-4">
+            <AlertCircle className="h-7 w-7 text-red-600 mr-3" />
+            <h3 className="text-2xl font-bold text-red-900">Known Critical Issues</h3>
+          </div>
+          <p className="text-red-800 mb-6">
+            Based on developer feedback, the following issues have been identified and documented.
+            If you encounter any of these problems, follow the solutions and workarounds provided.
+          </p>
+
+          <div className="space-y-6">
+            {criticalIssues.map((issue, index) => (
+              <div key={index} className="bg-white rounded-lg border-2 border-red-200 p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <h4 className="text-lg font-bold text-gray-900">{issue.title}</h4>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    issue.severity === 'critical' ? 'bg-red-600 text-white' :
+                    issue.severity === 'high' ? 'bg-orange-500 text-white' :
+                    'bg-yellow-500 text-white'
+                  }`}>
+                    {issue.severity.toUpperCase()}
+                  </span>
+                </div>
+
+                <p className="text-gray-700 mb-4">{issue.description}</p>
+
+                <div className="mb-4">
+                  <h5 className="font-semibold text-gray-900 mb-2">Symptoms:</h5>
+                  <ul className="space-y-1">
+                    {issue.symptoms.map((symptom, idx) => (
+                      <li key={idx} className="flex items-start text-sm text-gray-600">
+                        <span className="text-red-500 mr-2">•</span>
+                        <span>{symptom}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mb-4">
+                  <h5 className="font-semibold text-gray-900 mb-2">Solutions:</h5>
+                  <ol className="space-y-2">
+                    {issue.solutions.map((solution, idx) => (
+                      <li key={idx} className="flex items-start text-sm text-gray-700">
+                        <span className="flex-shrink-0 w-5 h-5 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-semibold mr-2 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <span>{solution}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4">
+                  <h5 className="font-semibold text-yellow-900 mb-1 flex items-center">
+                    <AlertCircle className="h-4 w-4 mr-2" />
+                    Workaround:
+                  </h5>
+                  <p className="text-yellow-800 text-sm">{issue.workaround}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">

@@ -52,12 +52,120 @@ app.post('/webhook/firstchekout', (req, res) => {
   res.status(200).send('OK');
 });`,
     php: `<?php
+/**
+ * Comprehensive PHP Webhook Handler with Signature Verification
+ * Compatible with WordPress/WooCommerce environments
+ *
+ * This implementation handles proper payload formatting for HMAC-SHA512 verification,
+ * accounting for numeric values, decimal precision, and special field handling.
+ */
+
+private function prepare_and_validate_webhook_payload() {
+    $logger = wc_get_logger(); // Use your preferred logging method
+
+    // Verify request method and headers
+    if ((strtoupper(sanitize_text_field(isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '')) != 'POST') ||
+        !array_key_exists('HTTP_X_FIRSTCHEKOUT_SIGNATURE', $_SERVER)) {
+        return false;
+    }
+
+    // Get the raw input
+    $raw_json = file_get_contents('php://input');
+    $logger->info('Raw JSON: ' . $raw_json, array('source' => 'wc-firstchekout-payment-gateway'));
+
+    // Parse the JSON
+    $data = json_decode($raw_json, true);
+    if (!$data) {
+        $logger->error('Invalid JSON payload', array('source' => 'wc-firstchekout-payment-gateway'));
+        return false;
+    }
+
+    // Extract the raw value of Surcharge directly from the JSON string to preserve its exact format
+    preg_match('/"Surcharge":([^,}]+)/', $raw_json, $surchargeMatches);
+    $rawSurcharge = isset($surchargeMatches[1]) ? $surchargeMatches[1] : null;
+
+    // Create a new array with all properties from the original data
+    $formatted_data = $data;
+
+    // Format Amount to 2 decimal places
+    if (isset($data['Amount'])) {
+        $formatted_data['Amount'] = number_format((float)$data['Amount'], 2, '.', '');
+    }
+
+    // Build the JSON manually to ensure proper formatting for signature verification
+    $json_parts = [];
+    foreach ($formatted_data as $key => $value) {
+        if ($key === 'Amount') {
+            // Numeric values without quotes
+            $json_parts[] = '"' . $key . '":' . $value;
+        } elseif ($key === 'Surcharge' && $rawSurcharge !== null) {
+            // Use the raw surcharge value exactly as it appeared in the original JSON
+            $json_parts[] = '"' . $key . '":' . trim($rawSurcharge);
+        } elseif ($key === 'ItemQuantity') {
+            // ItemQuantity as a number without quotes
+            $json_parts[] = '"' . $key . '":' . $value;
+        } else {
+            // String values with quotes (escape internal quotes)
+            $json_parts[] = '"' . $key . '":"' . str_replace('"', '\\"', $value) . '"';
+        }
+    }
+
+    // Combine into final JSON
+    $formatted_json = '{' . implode(',', $json_parts) . '}';
+
+    // Calculate HMAC-SHA512 signature
+    $calculated_signature = hash_hmac('sha512', $formatted_json, $this->secret_key);
+    $received_signature = $_SERVER['HTTP_X_FIRSTCHEKOUT_SIGNATURE'];
+
+    // Check if signatures match (timing-safe comparison)
+    if (hash_equals($calculated_signature, $received_signature)) {
+        $logger->info('Signature verification successful',
+            array('source' => 'wc-firstchekout-payment-gateway'));
+        return $data; // Return the original data for processing
+    } else {
+        $logger->error('HMAC verification failed',
+            array('source' => 'wc-firstchekout-payment-gateway'));
+        $logger->error('Expected: ' . $calculated_signature);
+        $logger->error('Received: ' . $received_signature);
+        return false;
+    }
+}
+
+// Usage Example (WordPress/WooCommerce)
+public function handle_webhook_request() {
+    $validated_data = $this->prepare_and_validate_webhook_payload();
+
+    if ($validated_data === false) {
+        http_response_code(400);
+        exit('Invalid signature or payload');
+    }
+
+    // Process the validated webhook data
+    $event_type = $validated_data['eventType'] ?? 'unknown';
+    $payment_data = $validated_data['data'] ?? [];
+
+    switch ($event_type) {
+        case 'payment.success':
+            $this->handle_successful_payment($payment_data);
+            break;
+        case 'payment.failed':
+            $this->handle_failed_payment($payment_data);
+            break;
+        default:
+            error_log('Unknown event type: ' . $event_type);
+    }
+
+    http_response_code(200);
+    echo 'OK';
+    exit;
+}
+
+// Simple PHP Implementation (Non-WordPress)
 function verifyWebhookSignature($payload, $signature, $secret) {
-    $expectedSignature = hash_hmac('sha256', $payload, $secret);
+    $expectedSignature = hash_hmac('sha512', $payload, $secret);
     return hash_equals($signature, $expectedSignature);
 }
 
-// Webhook handler
 $payload = file_get_contents('php://input');
 $signature = $_SERVER['HTTP_X_FIRSTCHEKOUT_SIGNATURE'] ?? '';
 
@@ -68,18 +176,6 @@ if (!verifyWebhookSignature($payload, $signature, $_ENV['WEBHOOK_SECRET'])) {
 
 $data = json_decode($payload, true);
 $eventType = $data['eventType'];
-$paymentData = $data['data'];
-
-switch ($eventType) {
-    case 'payment.success':
-        handleSuccessfulPayment($paymentData);
-        break;
-    case 'payment.failed':
-        handleFailedPayment($paymentData);
-        break;
-    default:
-        error_log('Unknown event type: ' . $eventType);
-}
 
 http_response_code(200);
 echo 'OK';
@@ -248,7 +344,7 @@ def handle_webhook():
                 </li>
                 <li className="flex">
                   <span className="flex-shrink-0 w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold mr-2">2</span>
-                  <span>Compute HMAC-SHA256 of the raw payload using your webhook secret</span>
+                  <span>Compute HMAC signature of the raw payload using your webhook secret (SHA512 for PHP, SHA256 for Node.js/Python)</span>
                 </li>
                 <li className="flex">
                   <span className="flex-shrink-0 w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-semibold mr-2">3</span>

@@ -139,6 +139,57 @@ export const TestingSection: React.FC = () => {
           robust sandbox environment and debugging tools to ensure your integration works perfectly.
         </p>
 
+        {/* Critical Sandbox URL Notice */}
+        <div className="mb-8 p-6 bg-blue-50 border-2 border-blue-400 rounded-lg">
+          <div className="flex items-start">
+            <AlertCircle className="h-7 w-7 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-blue-900 mb-3">Authoritative Sandbox URL</h3>
+              <p className="text-blue-800 mb-4">
+                <strong>Important:</strong> Due to inconsistencies in documentation, use the following as the official sandbox base URL:
+              </p>
+              <div className="bg-white rounded-lg p-4 mb-4">
+                <p className="text-sm font-semibold text-gray-700 mb-2">✅ Correct Sandbox URL:</p>
+                <code className="bg-blue-100 text-blue-900 px-3 py-2 rounded text-sm font-mono block">
+                  https://www.firstchekoutdev.com
+                </code>
+              </div>
+              <div className="bg-red-50 border border-red-300 rounded-lg p-4 mb-4">
+                <p className="text-sm font-semibold text-red-700 mb-2">❌ Avoid These URLs (May cause issues):</p>
+                <code className="bg-red-100 text-red-900 px-3 py-2 rounded text-xs font-mono block mb-2">
+                  https://payment-solution-gateway.azurewebsites.net
+                </code>
+                <p className="text-xs text-red-700 mt-1">
+                  While this URL appears in some documentation, it may have inconsistent behavior and response structures.
+                </p>
+              </div>
+              <div className="bg-blue-100 border border-blue-300 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-blue-900 mb-2">Environment Configuration:</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start">
+                    <span className="font-mono text-blue-800 mr-2">•</span>
+                    <span className="text-blue-800">
+                      <strong>Sandbox Gateway:</strong> https://www.firstchekoutdev.com
+                    </span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="font-mono text-blue-800 mr-2">•</span>
+                    <span className="text-blue-800">
+                      <strong>Authentication:</strong> https://payment-solution-identity.azurewebsites.net
+                    </span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="font-mono text-blue-800 mr-2">•</span>
+                    <span className="text-blue-800">
+                      <strong>Production Gateway:</strong> https://www.firstchekout.com
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
             <TestTube className="h-8 w-8 text-blue-600 mx-auto mb-2" />
