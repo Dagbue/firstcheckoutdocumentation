@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Key, Shield, Zap, AlertTriangle, Lock, Database, Settings, Monitor } from 'lucide-react';
 import { CodeBlock } from '../CodeBlock';
-import { apiKeyDashImage } from "../../assets";
+import {apiKeyDashImage, credential_1, credential_2, credential_3, credential_4, credential_5} from "../../assets";
 
 
 
@@ -219,127 +219,189 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
           </div>
 
           {/* Client Secret Generation Guide */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+          <div className=" rounded-lg p-6 mb-6">
             <div className="flex items-center mb-4">
-              <Shield className="h-6 w-6 text-blue-600 mr-3" />
-              <h4 className="text-lg font-semibold text-blue-900">How to Generate Client Secret</h4>
+              <h4 className="text-xl font-semibold text-gray-900">How to Generate Client Secret and Encryption Key </h4>
             </div>
-            <p className="text-blue-800 mb-4">
-              The Client Secret is a critical credential used for OAuth token generation. Follow these steps to generate
+            <p className="text-gray-600 mb-4">
+              The Client Secret and Encryption Key is a critical credential used for OAuth token generation. Follow
+              these steps to generate
               or regenerate your Client Secret from the merchant dashboard.
             </p>
 
-            {/* Placeholder for Client Secret Generation Screenshot */}
-            <div className="bg-white rounded-lg border-2 border-dashed border-blue-300 p-8 mb-4 text-center">
-              <div className="flex flex-col items-center justify-center space-y-3">
-                <Key className="h-12 w-12 text-blue-400" />
-                <p className="text-blue-600 font-medium">Screenshot: Client Secret Generation</p>
-                <p className="text-sm text-gray-500 max-w-md">
-                  This section will show the step-by-step process of generating a new Client Secret from the
-                  merchant portal, including the "Generate Secret" button location and confirmation steps.
-                </p>
-              </div>
-            </div>
 
-            <div className="bg-blue-100 p-4 rounded-lg">
-              <h5 className="font-semibold text-blue-900 mb-2">Generation Steps:</h5>
-              <ol className="text-sm text-blue-800 space-y-2">
+            <div className=" p-4 rounded-lg">
+              <h5 className="font-semibold text-blue-900 mb-3">Generation Steps:</h5>
+              <ol className="text-sm text-blue-800 space-y-3.5">
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">1</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">1</span>
                   <span>Log into your FirstChekout merchant dashboard at www.firstchekout.com</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">2</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">2</span>
                   <span>Navigate to the "API Keys and Webhooks" section in the main menu</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">3</span>
-                  <span>Locate the OAuth Credentials section (Client ID & Client Secret)</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">3</span>
+                  <span>Click on the Client Credential Button on your screen</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">4</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">4</span>
                   <span>Click the "Generate New Secret" or "Regenerate Secret" button</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">5</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">5</span>
                   <span>Confirm the action (note: old secret will be invalidated immediately)</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">6</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">6</span>
                   <span>Copy the new Client Secret immediately (it will only be shown once)</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">7</span>
+                  <span
+                      className="flex-shrink-0 w-6 h-6 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">7</span>
                   <span>Store the secret securely in your environment variables</span>
                 </li>
               </ol>
             </div>
-          </div>
 
-          {/* Encryption Key Access Guide */}
-          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6">
-            <div className="flex items-center mb-4">
-              <Lock className="h-6 w-6 text-emerald-600 mr-3" />
-              <h4 className="text-lg font-semibold text-emerald-900">How to Access Encryption Key</h4>
-            </div>
-            <p className="text-emerald-800 mb-4">
-              The Encryption Key is used for AES-GCM encryption of sensitive card data. This key is automatically
-              generated when your merchant account is approved.
+            <p className="text-gray-600 mb-4 pt-2">
+              See figures Below :
             </p>
 
-            {/* Placeholder for Encryption Key Screenshot */}
-            <div className="bg-white rounded-lg border-2 border-dashed border-emerald-300 p-8 mb-4 text-center">
-              <div className="flex flex-col items-center justify-center space-y-3">
-                <Lock className="h-12 w-12 text-emerald-400" />
-                <p className="text-emerald-600 font-medium">Screenshot: Encryption Key Location</p>
-                <p className="text-sm text-gray-500 max-w-md">
-                  This section will show the exact location of the Encryption Key in the merchant portal,
-                  including how to reveal and copy the key securely.
-                </p>
-              </div>
+            <div className="mb-6">
+              <img
+                  src={credential_1}
+                  alt="FirstChekout Merchant Dashboard - API Keys Overview"
+                  className="w-full rounded-lg shadow-lg border border-gray-200"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Figure 1:
+              </p>
             </div>
 
-            <div className="bg-emerald-100 p-4 rounded-lg">
-              <h5 className="font-semibold text-emerald-900 mb-2">Access Steps:</h5>
-              <ol className="text-sm text-emerald-800 space-y-2">
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">1</span>
-                  <span>Access the "API Keys and Webhooks" section in your dashboard</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">2</span>
-                  <span>Locate the "Encryption Key" field (typically shown as masked dots)</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">3</span>
-                  <span>Click the "Show" or "Reveal" icon to display the encryption key</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">4</span>
-                  <span>Click the "Copy" button to copy the key to your clipboard</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">5</span>
-                  <span>Store the encryption key securely in your environment configuration</span>
-                </li>
-              </ol>
+            <div className="mb-6">
+              <img
+                  src={credential_2}
+                  alt="FirstChekout Merchant Dashboard - API Keys Overview"
+                  className="w-full rounded-lg shadow-lg border border-gray-200"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Figure 2:
+              </p>
             </div>
 
-            <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mt-4">
-              <div className="flex items-start">
-                <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="font-semibold text-yellow-900 mb-1">Important Notes:</h5>
-                  <ul className="text-sm text-yellow-800 space-y-1">
-                    <li>• The Encryption Key is a base64-encoded 16-byte (128-bit) AES key</li>
-                    <li>• This key cannot be regenerated - it's created during account setup</li>
-                    <li>• Store it securely as you'll need it for all card payment encryptions</li>
-                    <li>• Contact support if you lose access to your encryption key</li>
-                  </ul>
-                </div>
-              </div>
+            <div className="mb-6">
+              <img
+                  src={credential_3}
+                  alt="FirstChekout Merchant Dashboard - API Keys Overview"
+                  className="w-full rounded-lg shadow-lg border border-gray-200"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Figure 3:
+              </p>
             </div>
+
+            <div className="mb-6">
+              <img
+                  src={credential_4}
+                  alt="FirstChekout Merchant Dashboard - API Keys Overview"
+                  className="w-full rounded-lg shadow-lg border border-gray-200"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Figure 4:
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <img
+                  src={credential_5}
+                  alt="FirstChekout Merchant Dashboard - API Keys Overview"
+                  className="w-full rounded-lg shadow-lg border border-gray-200"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Figure 5:
+              </p>
+            </div>
+
           </div>
+
+
+          {/* Encryption Key Access Guide */}
+          {/*<div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mb-6">*/}
+          {/*  <div className="flex items-center mb-4">*/}
+          {/*    <Lock className="h-6 w-6 text-emerald-600 mr-3"/>*/}
+          {/*    <h4 className="text-lg font-semibold text-emerald-900">How to Access Encryption Key</h4>*/}
+          {/*  </div>*/}
+          {/*  <p className="text-emerald-800 mb-4">*/}
+          {/*    The Encryption Key is used for AES-GCM encryption of sensitive card data. This key is automatically*/}
+          {/*    generated when your merchant account is approved.*/}
+          {/*  </p>*/}
+
+          {/*  /!* Placeholder for Encryption Key Screenshot *!/*/}
+          {/*  <div className="bg-white rounded-lg border-2 border-dashed border-emerald-300 p-8 mb-4 text-center">*/}
+          {/*    <div className="flex flex-col items-center justify-center space-y-3">*/}
+          {/*      <Lock className="h-12 w-12 text-emerald-400"/>*/}
+          {/*      <p className="text-emerald-600 font-medium">Screenshot: Encryption Key Location</p>*/}
+          {/*      <p className="text-sm text-gray-500 max-w-md">*/}
+          {/*        This section will show the exact location of the Encryption Key in the merchant portal,*/}
+          {/*        including how to reveal and copy the key securely.*/}
+          {/*      </p>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+
+          {/*  <div className="bg-emerald-100 p-4 rounded-lg">*/}
+          {/*    <h5 className="font-semibold text-emerald-900 mb-2">Access Steps:</h5>*/}
+          {/*    <ol className="text-sm text-emerald-800 space-y-2">*/}
+          {/*      <li className="flex items-start">*/}
+          {/*        <span*/}
+          {/*            className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">1</span>*/}
+          {/*        <span>Access the "API Keys and Webhooks" section in your dashboard</span>*/}
+          {/*      </li>*/}
+          {/*      <li className="flex items-start">*/}
+          {/*        <span*/}
+          {/*            className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">2</span>*/}
+          {/*        <span>Locate the "Encryption Key" field (typically shown as masked dots)</span>*/}
+          {/*      </li>*/}
+          {/*      <li className="flex items-start">*/}
+          {/*        <span*/}
+          {/*            className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">3</span>*/}
+          {/*        <span>Click the "Show" or "Reveal" icon to display the encryption key</span>*/}
+          {/*      </li>*/}
+          {/*      <li className="flex items-start">*/}
+          {/*        <span*/}
+          {/*            className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">4</span>*/}
+          {/*        <span>Click the "Copy" button to copy the key to your clipboard</span>*/}
+          {/*      </li>*/}
+          {/*      <li className="flex items-start">*/}
+          {/*        <span*/}
+          {/*            className="flex-shrink-0 w-6 h-6 bg-emerald-200 text-emerald-800 rounded-full flex items-center justify-center text-xs font-semibold mr-3">5</span>*/}
+          {/*        <span>Store the encryption key securely in your environment configuration</span>*/}
+          {/*      </li>*/}
+          {/*    </ol>*/}
+          {/*  </div>*/}
+
+          {/*  <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mt-4">*/}
+          {/*    <div className="flex items-start">*/}
+          {/*      <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5"/>*/}
+          {/*      <div>*/}
+          {/*        <h5 className="font-semibold text-yellow-900 mb-1">Important Notes:</h5>*/}
+          {/*        <ul className="text-sm text-yellow-800 space-y-1">*/}
+          {/*          <li>• The Encryption Key is a base64-encoded 16-byte (128-bit) AES key</li>*/}
+          {/*          <li>• This key cannot be regenerated - it's created during account setup</li>*/}
+          {/*          <li>• Store it securely as you'll need it for all card payment encryptions</li>*/}
+          {/*          <li>• Contact support if you lose access to your encryption key</li>*/}
+          {/*        </ul>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
 
           {/*<div className="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">*/}
@@ -460,7 +522,7 @@ DATABASE_ENCRYPTION_KEY=separate_key_for_database_encryption`;
           <h3 className="text-xl font-semibold text-gray-900 mb-6">Step-by-Step Key Management Process</h3>
           <div className="space-y-6">
             {keyManagementSteps.map((step) => (
-              <div key={step.step} className="relative">
+                <div key={step.step} className="relative">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold text-sm ${

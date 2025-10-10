@@ -12,6 +12,11 @@ import hybrid1 from "./hybrid1.png"
 import hybrid2 from "./hybrid2.png"
 import staticLink from "./static.png"
 import complianceError from "./WhatsApp Image 2025-09-15 at 09.38.45.jpeg"
+import credential_1 from "./credential-1.png"
+import credential_2 from "./credential-2.png"
+import credential_3 from "./credential-3.png"
+import credential_4 from "./credential-4.png"
+import credential_5 from "./credential-5.png"
 
 
 export {
@@ -28,5 +33,10 @@ export {
   hybrid1,
   hybrid2,
   staticLink,
-  complianceError
+  complianceError,
+  credential_1,
+  credential_2,
+  credential_3,
+  credential_4,
+  credential_5,
 };
